@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="referrer" content="no-referrer" />
+    <title>Dev 日记本 | Dev Contents</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#FF6B9B',
+                        secondary: '#7B61FF',
+                        accent: '#FFC857',
+                        dark: '#2A2A48',
+                        light: '#F9F5FF',
+                    },
+                    fontFamily: { nunito: ['Nunito', 'sans-serif'] },
+                },
+            },
+        };
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .animate-float { animation: float 6s ease-in-out infinite; }
+            .card-hover { transition: all .3s ease; }
+            .card-hover:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(123,97,255,.15); }
+        }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+    </style>
+</head>
+
+<body class="font-nunito bg-light text-dark min-h-screen">
+<div class="container mx-auto px-4 py-12">
+
+    <header class="text-center mb-16">
+        <h1 class="text-[clamp(1.6rem,4vw,3rem)] font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary mb-4">Dev 日记本</h1>
+
+        <section class="bg-white rounded-2xl p-6 shadow-lg card-hover text-gray-700 leading-relaxed">
+            <h2 class="text-2xl font-bold mb-4 text-primary">欢迎来到 Dev 日记本</h2>
+            <p>
+                这是我的开发日记页面，记录了项目开发中的心得、技术分享和各种实践经验。
+                在这里，你可以看到我最新的技术尝试和学习成果。页面将持续更新，欢迎保持关注！
+            </p>
+        </section>
+
+        <a href="index.html" class="inline-flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-primary to-secondary text-white rounded-full font-bold hover:opacity-90 transition-all shadow-md mx-auto mt-12">
+            <i class="fa fa-home"></i>
+            <span>返回主页</span>
+        </a>
+        <div class="w-24 h-1 bg-accent mx-auto rounded-full mt-6"></div>
+    </header>
+
+    <main class="max-w-5xl mx-auto">
+        <!-- 开发内容的主要区域，暂留空，后续添加 -->
+    </main>
+
+    <footer class="mt-20 text-center text-gray-500 text-sm">
+        <p>柠萌のDev日记本 | 每一份热爱都值得传递</p>
+    </footer>
+</div>
+</body>
+</html>
