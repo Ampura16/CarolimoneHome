@@ -1,0 +1,228 @@
+
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    <title>详情 | My Profile</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: { primary: '#FF6B9B',
+                        secondary: '#7B61FF',
+                        accent: '#FFC857',
+                        dark: '#2A2A48',
+                        light: '#F9F5FF' },
+                    fontFamily: { nunito: ['Nunito', 'sans-serif'] },
+                },
+            },
+        };
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .animate-float { animation: float 6s ease-in-out infinite; }
+            .card-hover { transition: all .3s ease; }
+            .card-hover:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(123,97,255,.15); }
+        }
+        @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+    </style>
+</head>
+
+<body class="font-nunito bg-light text-dark min-h-screen">
+
+<div class="fixed top-6 right-6 z-50 flex gap-2">
+    <button id="zhBtn" class="lang-btn px-4 py-2 rounded-full bg-primary text-white shadow-md hover:opacity-90 transition-all" data-lang="zh">中文</button>
+    <button id="enBtn" class="lang-btn px-4 py-2 rounded-full bg-white text-primary shadow-md hover:bg-gray-100 transition-all" data-lang="en">English</button>
+</div>
+
+<div class="container mx-auto px-4 py-12 relative z-10">
+    <header class="text-center mb-16">
+        <h1 class="text-[clamp(1.6rem,4vw,3rem)] font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary mb-4" data-i18n="pageTitle">个人资料</h1>
+        <div class="w-24 h-1 bg-accent mx-auto rounded-full"></div>
+    </header>
+
+    <main class="max-w-5xl mx-auto">
+        <!-- 1. 基础资料 (Avatar & Basic Info) -->
+        <section class="flex flex-col md:flex-row gap-8 mb-16 items-center">
+            <div class="relative shrink-0">
+                <div class="w-48 h-48 md:w-60 md:h-60 rounded-full overflow-hidden border-4 border-white shadow-xl animate-float">
+                    <img id="mainAvatar" alt="个人头像" class="w-full h-full object-cover bg-white">
+                </div>
+                <div class="absolute -bottom-3 -right-3 bg-accent w-10 h-10 rounded-full flex items-center justify-center shadow-lg animate-pulse-slow">
+                    <i class="fa fa-star text-white text-lg"></i>
+                </div>
+            </div>
+
+            <div class="text-center md:text-left">
+                <h2 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold mb-3">是柠萌呐</h2>
+                <p class="text-xl text-secondary mb-6" data-i18n="occupation">前端开发工程师 | 二次元爱好者</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
+                    <div class="flex items-center gap-3"><i class="fa fa-birthday-cake text-primary text-xl w-8 text-center"></i><span data-i18n="birthday">你猜</span></div>
+                    <div class="flex items-center gap-3"><i class="fa fa-map-marker text-primary text-xl w-8 text-center"></i><span data-i18n="location">哈尔滨市</span></div>
+                    <div class="flex items-center gap-3"><i class="fa fa-graduation-cap text-primary text-xl w-8 text-center"></i><span data-i18n="education">小学生</span></div>
+                    <div class="flex items-center gap-3"><i class="fa fa-envelope text-primary text-xl w-8 text-center"></i><span class="text-sm">1849879526@qq.com</span></div>
+                </div>
+
+                <div class="flex justify-center md:justify-start gap-4">
+                    <a href="https://x.com/Carolimone233" class="w-10 h-10 rounded-full bg-[#1DA1F2]/10 flex items-center justify-center text-[#1DA1F2] hover:bg-[#1DA1F2] hover:text-white transition-all"><i class="fa fa-twitter"></i></a>
+                    <a href="https://github.com/Ampura16" class="w-10 h-10 rounded-full bg-[#333]/10 flex items-center justify-center text-[#333] hover:bg-[#333] hover:text-white transition-all"><i class="fa fa-github"></i></a>
+                    <a href="#" class="w-10 h-10 rounded-full bg-[#0088cc]/10 flex items-center justify-center text-[#0088cc] hover:bg-[#0088cc] hover:text-white transition-all"><i class="fa fa-telegram"></i></a>
+                    <a href="https://space.bilibili.com/1917724537" class="w-10 h-10 rounded-full bg-[#FB7299]/10 flex items-center justify-center hover:bg-[#FB7299] transition-all p-2.5">
+                        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/bilibili.svg" class="w-full h-full">
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. 关于我 (Moved Here: Above Skills) -->
+        <section class="mb-20">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-full bg-secondary/20 flex items-center justify-center text-secondary">
+                    <i class="fa fa-user"></i>
+                </div>
+                <h2 class="text-2xl font-bold" data-i18n="aboutMe">关于我</h2>
+            </div>
+            <div class="bg-white rounded-2xl p-6 shadow-lg card-hover space-y-4 text-gray-700 leading-relaxed">
+                <p data-i18n="aboutPara1">大家好，我是柠萌。正如我的名字一样，我希望像光一样，自由地穿梭在不同的次元与领域之间。</p>
+                <p data-i18n="aboutPara2">我一直在探索与表达最真实的自我，就像二次元世界里那些打破常规、勇敢做自己的角色一样。</p>
+                <p data-i18n="aboutPara3">我的生活离不开番剧与音乐——那些动人的故事和旋律总能给我带来力量与灵感。</p>
+                <p data-i18n="aboutPara4">我相信每个人都能创造属于自己的精彩世界，而我正走在这条路上，期待与同样有趣的灵魂相遇。</p>
+            </div>
+        </section>
+
+        <section class="mb-20">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center text-accent">
+                    <i class="fa fa-coffee"></i>
+                </div>
+                <h2 class="text-2xl font-bold" data-i18n="myCafe">我的咖啡厅</h2>
+            </div>
+            <div class="bg-white rounded-2xl p-6 shadow-lg card-hover">
+                <div class="flex flex-col md:flex-row items-center gap-6 mb-4">
+                    <div class="w-32 h-32 rounded-full overflow-hidden border-4 border-white shadow-lg shrink-0">
+                        <img id="avatar" alt="咖啡厅Logo" class="w-full h-full object-cover" />
+                    </div>
+                    <div>
+                        <h3 class="text-xl font-bold text-primary mb-2" data-i18n="cafeName">柠萌の小窝</h3>
+                        <p class="text-gray-600 mb-4" data-i18n="cafeTagline">owob</p>
+                        <a href="https://met6.top" class="inline-flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-primary to-secondary text-white rounded-full font-bold hover:opacity-90 transition-all shadow-md">
+                            <i class="fa fa-arrow-right"></i>
+                            <span data-i18n="visitMeTWeb">串门一下:p</span>
+                        </a>
+                    </div>
+                </div>
+                <p class="text-gray-700" data-i18n="cafeDescription">一些友链和相关网址</p>
+            </div>
+        </section>
+
+        <!-- 3. 技能与兴趣模块 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-20">
+            <!-- 我的技能 -->
+            <section>
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary"><i class="fa fa-code"></i></div>
+                    <h2 class="text-2xl font-bold" data-i18n="mySkills">我的技能</h2>
+                </div>
+                <div class="bg-white rounded-2xl p-6 shadow-lg card-hover space-y-5">
+                    <div class="skill-item">
+                        <div class="flex justify-between mb-1 text-sm font-bold"><span>Java</span><span>70%</span></div>
+                        <div class="w-full h-3 bg-gray-100 rounded-full overflow-hidden"><div class="h-full bg-gradient-to-r from-primary to-secondary rounded-full" style="width:70%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="flex justify-between mb-1 text-sm font-bold"><span>Bukkit / PaperSpigot</span><span>65%</span></div>
+                        <div class="w-full h-3 bg-gray-100 rounded-full overflow-hidden"><div class="h-full bg-gradient-to-r from-primary to-secondary rounded-full" style="width:65%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="flex justify-between mb-1 text-sm font-bold"><span>FL Studio</span><span>15%</span></div>
+                        <div class="w-full h-3 bg-gray-100 rounded-full overflow-hidden"><div class="h-full bg-gradient-to-r from-primary to-secondary rounded-full" style="width:15%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="flex justify-between mb-1 text-sm font-bold"><span>JavaScript</span><span>10%</span></div>
+                        <div class="w-full h-3 bg-gray-100 rounded-full overflow-hidden"><div class="h-full bg-gradient-to-r from-primary to-secondary rounded-full" style="width:10%"></div></div>
+                    </div>
+                    <div class="skill-item">
+                        <div class="flex justify-between mb-1 text-sm font-bold"><span data-i18n="skillSecret">某神秘领域</span><span>7%</span></div>
+                        <div class="w-full h-3 bg-gray-100 rounded-full overflow-hidden"><div class="h-full bg-gradient-to-r from-primary to-secondary rounded-full" style="width:7%"></div></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 兴趣爱好 -->
+            <section>
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center text-accent"><i class="fa fa-heart"></i></div>
+                    <h2 class="text-2xl font-bold" data-i18n="hobbies">兴趣爱好</h2>
+                </div>
+                <div class="bg-white rounded-2xl p-6 shadow-lg card-hover grid grid-cols-2 gap-4">
+                    <div class="flex flex-col items-center p-3 bg-light rounded-xl"><i class="fa fa-coffee text-primary mb-2"></i><span class="text-sm font-bold" data-i18n="hobby1">下午茶</span></div>
+                    <div class="flex flex-col items-center p-3 bg-light rounded-xl"><i class="fa fa-plane text-secondary mb-2"></i><span class="text-sm font-bold" data-i18n="hobby2">旅游</span></div>
+                    <div class="flex flex-col items-center p-3 bg-light rounded-xl"><i class="fa fa-gamepad text-accent mb-2"></i><span class="text-sm font-bold" data-i18n="hobby3">游戏</span></div>
+                    <div class="flex flex-col items-center p-3 bg-light rounded-xl"><i class="fa fa-music text-primary mb-2"></i><span class="text-sm font-bold" data-i18n="hobby4">音乐</span></div>
+                    <div class="flex flex-col items-center p-3 bg-light rounded-xl"><i class="fa fa-book text-secondary mb-2"></i><span class="text-sm font-bold" data-i18n="hobby5">漫画</span></div>
+                    <div class="flex flex-col items-center p-3 bg-light rounded-xl"><i class="fa fa-paw text-accent mb-2"></i><span class="text-sm font-bold" data-i18n="hobby6">宠物</span></div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer class="mt-20 text-center text-gray-500 text-sm">
+        <p data-i18n="footerRights">柠萌の神秘空间 | 每一份热爱都值得传递</p>
+    </footer>
+</div>
+
+<script>
+    const T = {
+        zh: {
+            pageTitle: '个人资料', occupation: '前端开发工程师 | 二次元爱好者', birthday: '你猜', location: '哈尔滨市', education: '小学生',
+            aboutMe: '关于我', aboutPara1: '大家好，我是柠萌。正如我的名字一样，我希望像光一样，自由地穿梭在不同的次元与领域之间。',
+            aboutPara2: '我一直在探索与表达最真实的自我。', aboutPara3: '我的生活离不开番剧与音乐，那些旋律总能给我带来力量。',
+            aboutPara4: '我相信每个人都能创造属于自己的精彩世界。',
+            mySkills: '我的技能', skillSecret: '某神秘领域', hobbies: '兴趣爱好',
+            hobby1: '下午茶', hobby2: '旅游', hobby3: '游戏', hobby4: '音乐', hobby5: '漫画', hobby6: '宠物',
+            footerRights: '柠萌の神秘空间 | 每一份热爱都值得传递',
+        },
+        en: {
+            pageTitle: 'Personal Profile', occupation: 'Frontend Developer | Anime Fan', birthday: 'Guess :)', location: 'Harbin', education: 'Student',
+            aboutMe: 'About Me', aboutPara1: "Hi, I'm CaroLimone. I want to travel freely between dimensions.",
+            aboutPara2: "I've been exploring and expressing my true self.", aboutPara3: "Anime and music always give me strength and inspiration.",
+            aboutPara4: "I believe everyone can create their own wonderful world.",
+            mySkills: 'My Skills', skillSecret: 'Secret Field', hobbies: 'Hobbies',
+            hobby1: 'Tea Break', hobby2: 'Travel', hobby3: 'Gaming', hobby4: 'Music', hobby5: 'Manga', hobby6: 'Pets',
+            footerRights: "CaroLimone's Space | Share the Love",
+        },
+    };
+
+    function setLanguage(lang) {
+        const dict = T[lang];
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const v = dict[el.dataset.i18n];
+            if (v) el.textContent = v;
+        });
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            const active = btn.dataset.lang === lang;
+            btn.className = `lang-btn px-4 py-2 rounded-full shadow-md transition-all \${active ? 'bg-primary text-white' : 'bg-white text-primary hover:bg-gray-100'}\`;
+            });
+        }
+
+        function getQQAvatar(qq, size = 640) {
+            return \`https://q2.qlogo.cn/headimg_dl?dst_uin=\${qq}&spec=\${size}\`;
+        }
+
+        // 默认头像逻辑
+        document.getElementById('mainAvatar').src = getQQAvatar('1849879526');
+        document.querySelectorAll('.lang-btn').forEach(btn => btn.addEventListener('click', () => setLanguage(btn.dataset.lang)));
+    </script>
+</body>
+</html>
+`;
+
+export default {
+async fetch(request, env, ctx) {
+return new Response(HTML, { headers: RESPONSE_HEADERS });
+},
+};
