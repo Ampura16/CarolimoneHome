@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="referrer" content="no-referrer" />
+    <title>第一讲 Vanilla、Bukkit、Spigot和Paper | BukkitDiary</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#FF6B9B',
+                        secondary: '#7B61FF',
+                        accent: '#FFC857',
+                        dark: '#2A2A48',
+                        light: '#F9F5FF',
+                    },
+                    fontFamily: { nunito: ['Nunito', 'sans-serif'] },
+                },
+            },
+        };
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .animate-float { animation: float 6s ease-in-out infinite; }
+            .card-hover { transition: all .3s ease; }
+            .card-hover:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(123,97,255,.15); }
+        }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+    </style>
+</head>
+
+<body class="font-nunito bg-light text-dark min-h-screen">
+<div class="container mx-auto px-4 py-12">
+
+    <header class="text-center mb-16">
+        <h1 class="text-[clamp(1.6rem,4vw,3rem)] font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary mb-4">第一讲 Vanilla、Bukkit、Spigot和Paper</h1>
+        <div class="w-24 h-1 bg-accent mx-auto rounded-full"></div>
+    </header>
+
+    <main class="max-w-5xl mx-auto space-y-8">
+        <section class="bg-white rounded-2xl p-6 shadow-lg card-hover text-gray-700 leading-relaxed">
+            <p class="mb-4 indent-8">Minecraft是怎么产生和发展的？服务器是什么运作逻辑？为什么一开始的开源社区和开发团队无法提供一套从始至终的完整的服务？这要从Mojang和他们的版权争议纠纷开始。</p>
+            <p class="mb-4 indent-8">Mojang开发了Minecraft游戏本体(Vanilla)并且提供官方服务器技术支持，但是只有最纯净的原版游戏玩法。官方服务器自Minecraft 1.2.5开始与客户端源码相分离，从此开始衍生出各种插件服务器核心，例如最早的CraftBukkit团队。他们以修改游戏源码并且添加BukkitAPI插件支持功能，拓展游戏玩法的独特游戏迅速获得广大服主和玩家的欢迎。但是他们被Mojang以分发破解游戏软件为由，以DMCA千年版权法案为依据提起著作权侵权诉讼。CraftBukkit败诉了并且停止了项目的开发。</p>
+            <p class="mb-4 indent-8">Spigot团队意识到了这个问题，他们选择了对游戏源码进行反编译，获取其中通用的部分并且发展更加成熟的BukkitAPI，并且针对侵权风险特别设计不分发游戏源码，而是通过cache和remapping的方法进行混淆与反混淆，在此基础上获取源码并进行API操作，成功避免了分发游戏源文件的法律风险，并且这成为了现在各主流服务器核心开发团队的主要做法（例如PaperMC）。</p>
+            <p class="mb-4 indent-8">随着Mojang不断更新游戏核心玩法，NMS更加复杂(NMS是指 net.minecraft.server.*服务器底层核心实现类，这不在本套教程的主要研究范围之内)，Spigot虽然没有停止前进，但是也逐渐难以适应版本更新的复杂挑战，PaperMC弥补了此项不足，他们通过更加先进的开发思路和用户支持，更多易用的API方法等独特优势，逐渐成为自Mojang去扁平化修改之后的主流插件服务器核心（当然如果你坚持使用Spigot那也是没有原则性问题的，但是对于一些插件开发遇到的特定问题可能实现难度较大或者不使用NMS无法实现）。所以Paper核心也是本插件开发教程主要使用的服务器核心。</p>
+            <p class="mb-4 indent-8">虽然Minecraft游戏本体、插件、模组等内容几乎全是由Java语言开发，但是实际上涉足其中并不需要我们对于Java语言本身有专业了解，并且org.bukkit.*包将会贯穿插件开发的始终，我们在后续除了特别需要，统一称其为Bukkit。如果在之后的文章中你发现你看不懂一些东西，推荐移步我们的Java教程~ 本教程默认大家具有一定的Java开发基础并且不反对大家使用AI解决一些基础问题。但是独立思考的能力和创新的思维是人类面对新时代AI潮流挑战的独特优势。我们应该以人工思考为主要方式，并且支持使用AI处理大量重复性或者辅助性工作。顺便大家应该也不希望未来真正负责大型项目的时候只能求助AI在屎山上堆屎山吧(?</p>
+        </section>
+
+        <section class="bg-accent/10 border-l-4 border-accent p-6 rounded-r-2xl">
+            <div class="flex items-start gap-3">
+                <i class="fa fa-lightbulb-o text-accent text-xl mt-1"></i>
+                <div>
+                    <h3 class="font-bold text-accent mb-2">Tips</h3>
+                    <p class="text-sm text-gray-700 indent-8">有关NMS，Minecraft游戏核心和服务器核心源码的混淆与反混淆，基于Protocollib或TabooLib的数据包操作，Kotlin语言实现等问题因笔者能力有限不在本教程讨论范围之内：（</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="text-center">
+            <p class="text-lg text-gray-600">那么正式教程稍后便会呈送大家，一会见哦:D</p>
+        </section>
+    </main>
+
+    <div class="text-center mt-16">
+        <a href="../dev_contents.html" class="inline-flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-primary to-secondary text-white rounded-full font-bold hover:opacity-90 transition-all shadow-md">
+            <i class="fa fa-home"></i>
+            <span>返回日记本目录</span>
+        </a>
+    </div>
+
+    <footer class="mt-20 text-center text-gray-500 text-sm">
+        <p>柠萌のBukkit日记本 | 每一份热爱都值得传递</p></br>
+        <p data-i18n="designRights">本网站外观设计权利归@Kiss_light233所有。</p>
+    </footer>
+</div>
+</body>
+</html>

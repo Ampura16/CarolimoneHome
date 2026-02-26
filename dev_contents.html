@@ -43,24 +43,83 @@
         <section class="bg-white rounded-2xl p-6 shadow-lg card-hover text-gray-700 leading-relaxed">
             <h2 class="text-2xl font-bold mb-4 text-primary">欢迎来到 Dev 日记本</h2>
             <p>
-                这是我的开发日记页面，记录了项目开发中的心得、技术分享和各种实践经验。
-                在这里，你可以看到我最新的技术尝试和学习成果。页面将持续更新，欢迎保持关注！
+                这是我的日记本~，记录了项目开发中的心得、技术分享和各种实践经验。<br>
+                在这里可以看到我最新的技术尝试和学习成果 ~<br>
             </p>
         </section>
-
-        <a href="index.html" class="inline-flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-primary to-secondary text-white rounded-full font-bold hover:opacity-90 transition-all shadow-md mx-auto mt-12">
-            <i class="fa fa-home"></i>
-            <span>返回主页</span>
-        </a>
         <div class="w-24 h-1 bg-accent mx-auto rounded-full mt-6"></div>
     </header>
 
     <main class="max-w-5xl mx-auto">
-        <!-- 开发内容的主要区域，暂留空，后续添加 -->
+        <!-- Bukkit 插件开发教程 -->
+        <section class="mb-20">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary">
+                    <i class="fa fa-cube"></i>
+                </div>
+                <h2 class="text-2xl font-bold">Bukkit 插件开发日记</h2>
+            </div>
+            <div class="bg-white rounded-2xl p-6 shadow-lg card-hover space-y-4">
+                <article class="border-l-4 border-primary pl-4">
+                    <h3 class="text-xl font-bold text-primary mb-2">
+                        <a href="BukkitDiary/00_开始之前.html" class="hover:underline">第零讲 开始之前</a>
+                    </h3>
+                    <p class="text-gray-600 mb-2">日记前言，介绍开发环境准备与学习路线，包含法律信息与版权说明。</p>
+                    <div class="flex items-center gap-4 text-sm text-gray-500">
+                        <span><i class="fa fa-calendar"></i> 2026-02-26</span>
+                        <span><i class="fa fa-tags"></i> 教程, 前言</span>
+                    </div>
+                </article>
+                <article class="border-l-4 border-secondary pl-4">
+                    <h3 class="text-xl font-bold text-secondary mb-2">
+                        <a href="BukkitDiary/01_Bukkit和Spigot.html" class="hover:underline">第一讲 Vanilla、Bukkit、Spigot和Paper</a>
+                    </h3>
+                    <p class="text-gray-600 mb-2">讲解 Minecraft 服务器核心发展历史，从 Vanilla 到 CraftBukkit、Spigot 再到 Paper 的演进。</p>
+                    <div class="flex items-center gap-4 text-sm text-gray-500">
+                        <span><i class="fa fa-calendar"></i> 2026-02-26</span>
+                        <span><i class="fa fa-tags"></i> Bukkit, Spigot, Paper</span>
+                    </div>
+                </article>
+                <article class="border-l-4 border-accent pl-4">
+                    <h3 class="text-xl font-bold text-accent mb-2">
+                        <a href="BukkitDiary/02_游戏事件与监听器.html" class="hover:underline">第二讲 Event And Listener 游戏事件与监听器</a>
+                    </h3>
+                    <p class="text-gray-600 mb-2">深入 Bukkit 事件系统，讲解事件监听器、自定义事件与事件优先级，包含完整代码示例。</p>
+                    <div class="flex items-center gap-4 text-sm text-gray-500">
+                        <span><i class="fa fa-calendar"></i> 2026-02-26</span>
+                        <span><i class="fa fa-tags"></i> 事件系统, 监听器, 代码示例</span>
+                    </div>
+                </article>
+                <article class="border-l-4 border-secondary pl-4">
+                    <h3 class="text-xl font-bold text-accent mb-2">
+                        <a href="#" onclick="alert('更多日记内容正在写作中...'); return false;" class="hover:underline">更多日记内容正在写作中..</a>
+                    </h3>
+                    <p class="text-gray-600 mb-2">www</p>
+                    <div class="flex items-center gap-4 text-sm text-gray-500">
+                        <span><i class="fa fa-calendar"></i> 敬请期待</span>
+                        <span><i class="fa fa-tags"></i> 待定</span>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="mb-20">
+            <!-- 项目记录 -->
+            <!-- 添加更多模块 -->
+        </section>
     </main>
 
+    <div class="text-center">
+        <a href="index.html" class="inline-flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-primary to-secondary text-white rounded-full font-bold hover:opacity-90 transition-all shadow-md mt-12">
+            <i class="fa fa-home"></i>
+            <span>返回主页</span>
+        </a>
+    </div>
+
     <footer class="mt-20 text-center text-gray-500 text-sm">
-        <p>柠萌のDev日记本 | 每一份热爱都值得传递</p>
+        <p data-i18n="designRights">柠萌のDev日记本 | 每一份热爱都值得传递</p>
+        <p><br></p>
+        <p data-i18n="designRights">本网站外观设计权利归@Kiss_light233所有。</p>
     </footer>
 </div>
 </body>

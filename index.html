@@ -58,8 +58,8 @@
             </div>
 
             <div class="text-center md:text-left">
-                <h2 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold mb-3">是柠萌呐</h2>
-                <p class="text-xl text-secondary mb-6" data-i18n="occupation">前端开发工程师 | 二次元爱好者</p>
+                <h2 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold mb-3" data-i18n="myName">是柠萌呐</h2>
+                <p class="text-xl text-secondary mb-6" data-i18n="occupation">IT 爱好者 | 二次元爱好者</p>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
                     <div class="flex items-center gap-3"><i class="fa fa-birthday-cake text-primary text-xl w-8 text-center"></i><span data-i18n="birthday">你猜</span></div>
@@ -112,15 +112,15 @@
                         <p class="text-gray-600 mb-4" data-i18n="cafeTagline">owob</p>
                         <a href="https://met6.top" class="inline-flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-primary to-secondary text-white rounded-full font-bold hover:opacity-90 transition-all shadow-md">
                             <i class="fa fa-arrow-right"></i>
-                            <span data-i18n="visitMeTWeb">串门一下:p</span>
+                            <span data-i18n="visitMeTWeb">串门一下 :p</span>
                         </a>
                         <a href="dev_contents.html" class="inline-flex items-center gap-2 px-5 py-2 bg-secondary text-white rounded-full font-bold hover:opacity-90 transition-all shadow-md ml-4">
                             <i class="fa fa-file-code-o"></i>
-                            <span>我的dev日记本</span>
+                            <span data-i18n="visitDevDiary">我的 Dev 日记本</span>
                         </a>
                     </div>
                 </div>
-                <p class="text-gray-700" data-i18n="cafeDescription">一些友链和相关网址</p>
+                <p class="text-gray-700" data-i18n="fUrlNotice">一些友链和相关网址</p>
             </div>
         </section>
 
@@ -176,28 +176,46 @@
 
     <footer class="mt-20 text-center text-gray-500 text-sm">
         <p data-i18n="footerRights">柠萌の神秘空间 | 每一份热爱都值得传递</p>
+        <p><br></p>
+        <p data-i18n="footerWebRights">本网站外观设计权利归@Kiss_light233所有。</p>
     </footer>
 </div>
 
 <script>
     const T = {
         zh: {
-            pageTitle: '个人资料', occupation: '前端开发工程师 | 二次元爱好者', birthday: '你猜', location: '哈尔滨市', education: '小学生',
+            myName: '是柠萌呐',
+            pageTitle: '个人资料', occupation: 'Java 爱好者 | 二次元爱好者', birthday: '你猜', location: '哈尔滨市', education: '小学生',
             aboutMe: '关于我', aboutPara1: '大家好，我是柠萌。正如我的名字一样，我希望像光一样，自由地穿梭在不同的次元与领域之间。',
+            myCafe: '我的咖啡厅',
+            cafeName: '柠萌の小窝',
             aboutPara2: '我一直在探索与表达最真实的自我。', aboutPara3: '我的生活离不开番剧与音乐，那些旋律总能给我带来力量。',
             aboutPara4: '我相信每个人都能创造属于自己的精彩世界。',
             mySkills: '我的技能', skillSecret: '某神秘领域', hobbies: '兴趣爱好',
+            fUrlNotice: '一些友链和相关网址',
+            visitMeTWeb: '去MET家串门 :p',
+            visitDevDiary: '我的 Dev 日记本',
+            cafeTagline: 'owob',
             hobby1: '下午茶', hobby2: '旅游', hobby3: '游戏', hobby4: '音乐', hobby5: '漫画', hobby6: '宠物',
             footerRights: '柠萌の神秘空间 | 每一份热爱都值得传递',
+            footerWebRights: '本网站外观设计权利归@Kiss_light233所有.'
         },
         en: {
-            pageTitle: 'Personal Profile', occupation: 'Frontend Developer | Anime Fan', birthday: 'Guess :)', location: 'Harbin', education: 'Student',
+            myName: 'Ampura16',
+            pageTitle: 'Personal Profile', occupation: 'Java Developer | Anime Fan', birthday: 'Guess :)', location: 'Harbin', education: 'Student',
             aboutMe: 'About Me', aboutPara1: "Hi, I'm CaroLimone. I want to travel freely between dimensions.",
+            myCafe: 'My Cafe',
+            cafeName: 'CaroLimone\'s Home',
+            fUrlNotice: 'Some friend links and related websites',
+            visitMeTWeb: 'Visit MeT-Home :p',
+            visitDevDiary: 'Visit My Dev Diary',
+            cafeTagline: 'owob',
             aboutPara2: "I've been exploring and expressing my true self.", aboutPara3: "Anime and music always give me strength and inspiration.",
             aboutPara4: "I believe everyone can create their own wonderful world.",
             mySkills: 'My Skills', skillSecret: 'Secret Field', hobbies: 'Hobbies',
             hobby1: 'Tea Break', hobby2: 'Travel', hobby3: 'Gaming', hobby4: 'Music', hobby5: 'Manga', hobby6: 'Pets',
             footerRights: "CaroLimone's Space | Share the Love",
+            footerWebRights: 'All visual design rights of this website are owned by @Kiss_light233.'
         },
     };
 
@@ -207,19 +225,18 @@
             const v = dict[el.dataset.i18n];
             if (v) el.textContent = v;
         });
+
         document.querySelectorAll('.lang-btn').forEach(btn => {
             const active = btn.dataset.lang === lang;
-            btn.className = `lang-btn px-4 py-2 rounded-full shadow-md transition-all \${active ? 'bg-primary text-white' : 'bg-white text-primary hover:bg-gray-100'}\`;
-            });
-        }
+            btn.className = `lang-btn px-4 py-2 rounded-full shadow-md transition-all ${active ? 'bg-primary text-white' : 'bg-white text-primary hover:bg-gray-100'}`;
+        });
+    }
 
-        function getQQAvatar(qq, size = 640) {
-            return \`https://q2.qlogo.cn/headimg_dl?dst_uin=\${qq}&spec=\${size}\`;
-        }
+    document.getElementById('mainAvatar').src = 'resources/qq_head_icon.jpg';
+    document.getElementById('avatar').src = 'resources/github_head_icon.jpg';
 
-        // 默认头像逻辑
-        document.getElementById('mainAvatar').src = getQQAvatar('1849879526');
-        document.querySelectorAll('.lang-btn').forEach(btn => btn.addEventListener('click', () => setLanguage(btn.dataset.lang)));
-    </script>
+    // 绑定语言切换按钮事件
+    document.querySelectorAll('.lang-btn').forEach(btn => btn.addEventListener('click', () => setLanguage(btn.dataset.lang)));
+</script>
 </body>
 </html>
