@@ -1,4 +1,4 @@
-
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
@@ -12,11 +12,13 @@
         tailwind.config = {
             theme: {
                 extend: {
-                    colors: { primary: '#FF6B9B',
+                    colors: {
+                        primary: '#FF6B9B',
                         secondary: '#7B61FF',
                         accent: '#FFC857',
                         dark: '#2A2A48',
-                        light: '#F9F5FF' },
+                        light: '#F9F5FF'
+                    },
                     fontFamily: { nunito: ['Nunito', 'sans-serif'] },
                 },
             },
@@ -26,68 +28,109 @@
         @layer utilities {
             .animate-float { animation: float 6s ease-in-out infinite; }
             .card-hover { transition: all .3s ease; }
-            .card-hover:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(123,97,255,.15); }
+            .card-hover:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(123,97,255,.12); }
+            .hobby-card { transition: all .25s ease; }
+            .hobby-card:hover { transform: scale(1.06); background: linear-gradient(135deg, #fff0f6, #f0edff); }
+            .skill-bar { width: 0; transition: width 1.2s cubic-bezier(.4,0,.2,1); }
         }
         @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
     </style>
 </head>
 
-<body class="font-nunito bg-light text-dark min-h-screen">
+<body class="font-nunito bg-light text-dark min-h-screen overflow-x-hidden">
 
-<div class="fixed top-6 right-6 z-50 flex gap-2">
-    <button id="zhBtn" class="lang-btn px-4 py-2 rounded-full bg-primary text-white shadow-md hover:opacity-90 transition-all" data-lang="zh">中文</button>
-    <button id="enBtn" class="lang-btn px-4 py-2 rounded-full bg-white text-primary shadow-md hover:bg-gray-100 transition-all" data-lang="en">English</button>
+<!-- 背景装饰 -->
+<div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+    <div class="absolute -top-32 -left-32 w-96 h-96 bg-primary/10 rounded-full blur-3xl"></div>
+    <div class="absolute top-1/3 -right-32 w-80 h-80 bg-secondary/10 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-0 left-1/3 w-72 h-72 bg-accent/10 rounded-full blur-3xl"></div>
 </div>
 
-<div class="container mx-auto px-4 py-12 relative z-10">
+<!-- 语言切换 -->
+<div class="fixed top-5 right-5 z-50 flex gap-2">
+    <button class="lang-btn px-4 py-1.5 rounded-full bg-primary text-white text-sm font-bold shadow-md hover:opacity-90 transition-all" data-lang="zh">中文</button>
+    <button class="lang-btn px-4 py-1.5 rounded-full bg-white text-primary text-sm font-bold shadow-md hover:bg-gray-50 transition-all" data-lang="en">EN</button>
+</div>
+
+<div class="container mx-auto px-4 py-14 relative z-10">
+
+    <!-- Header -->
     <header class="text-center mb-16">
         <h1 class="text-[clamp(1.6rem,4vw,3rem)] font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary mb-4" data-i18n="pageTitle">个人资料</h1>
-        <div class="w-24 h-1 bg-accent mx-auto rounded-full"></div>
+        <div class="w-20 h-1.5 bg-gradient-to-r from-primary to-accent mx-auto rounded-full"></div>
     </header>
 
     <main class="max-w-5xl mx-auto">
-        <!-- 1. 基础资料 (Avatar & Basic Info) -->
-        <section class="flex flex-col md:flex-row gap-8 mb-16 items-center">
+
+        <!-- 基础资料 -->
+        <section class="flex flex-col md:flex-row gap-10 mb-20 items-center">
+            <!-- 头像 -->
             <div class="relative shrink-0">
-                <div class="w-48 h-48 md:w-60 md:h-60 rounded-full overflow-hidden border-4 border-white shadow-xl animate-float">
+                <!-- 光晕环 -->
+                <div class="absolute inset-0 rounded-full bg-gradient-to-br from-primary/30 to-secondary/30 blur-xl scale-110"></div>
+                <div class="relative w-48 h-48 md:w-56 md:h-56 rounded-full overflow-hidden border-4 border-white shadow-2xl animate-float">
                     <img id="mainAvatar" alt="个人头像" class="w-full h-full object-cover bg-white">
                 </div>
-                <div class="absolute -bottom-3 -right-3 bg-accent w-10 h-10 rounded-full flex items-center justify-center shadow-lg animate-pulse-slow">
-                    <i class="fa fa-star text-white text-lg"></i>
+                <div class="absolute -bottom-2 -right-2 bg-accent w-10 h-10 rounded-full flex items-center justify-center shadow-lg">
+                    <i class="fa fa-star text-white"></i>
                 </div>
             </div>
 
-            <div class="text-center md:text-left">
-                <h2 class="text-[clamp(1.8rem,4vw,2.5rem)] font-bold mb-3" data-i18n="myName">是柠萌呐</h2>
-                <p class="text-xl text-secondary mb-6" data-i18n="occupation">IT 爱好者 | 二次元爱好者</p>
+            <!-- 信息 -->
+            <div class="text-center md:text-left flex-1">
+                <h2 class="text-[clamp(1.8rem,4vw,2.5rem)] font-extrabold mb-2" data-i18n="myName">是柠萌呐</h2>
+                <p class="text-lg text-secondary font-semibold mb-6" data-i18n="occupation">IT 爱好者 | 二次元爱好者</p>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-                    <div class="flex items-center gap-3"><i class="fa fa-birthday-cake text-primary text-xl w-8 text-center"></i><span data-i18n="birthday">你猜</span></div>
-                    <div class="flex items-center gap-3"><i class="fa fa-map-marker text-primary text-xl w-8 text-center"></i><span data-i18n="location">哈尔滨市</span></div>
-                    <div class="flex items-center gap-3"><i class="fa fa-graduation-cap text-primary text-xl w-8 text-center"></i><span data-i18n="education">小学生</span></div>
-                    <div class="flex items-center gap-3"><i class="fa fa-envelope text-primary text-xl w-8 text-center"></i><span class="text-sm">1849879526@qq.com</span></div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-8">
+                    <div class="flex items-center gap-3 bg-white/70 rounded-xl px-4 py-2.5 shadow-sm">
+                        <i class="fa fa-birthday-cake text-primary w-5 text-center"></i>
+                        <span class="text-sm font-semibold" data-i18n="birthday">你猜</span>
+                    </div>
+                    <div class="flex items-center gap-3 bg-white/70 rounded-xl px-4 py-2.5 shadow-sm">
+                        <i class="fa fa-map-marker text-primary w-5 text-center"></i>
+                        <span class="text-sm font-semibold" data-i18n="location">哈尔滨市</span>
+                    </div>
+                    <div class="flex items-center gap-3 bg-white/70 rounded-xl px-4 py-2.5 shadow-sm">
+                        <i class="fa fa-graduation-cap text-primary w-5 text-center"></i>
+                        <span class="text-sm font-semibold" data-i18n="education">小学生</span>
+                    </div>
+                    <div class="flex items-center gap-3 bg-white/70 rounded-xl px-4 py-2.5 shadow-sm">
+                        <i class="fa fa-envelope text-primary w-5 text-center"></i>
+                        <span class="text-sm font-semibold">1849879526@qq.com</span>
+                    </div>
                 </div>
 
-                <div class="flex justify-center md:justify-start gap-4">
-                    <a href="https://x.com/Carolimone233" class="w-10 h-10 rounded-full bg-[#1DA1F2]/10 flex items-center justify-center text-[#1DA1F2] hover:bg-[#1DA1F2] hover:text-white transition-all"><i class="fa fa-twitter"></i></a>
-                    <a href="https://github.com/Ampura16" class="w-10 h-10 rounded-full bg-[#333]/10 flex items-center justify-center text-[#333] hover:bg-[#333] hover:text-white transition-all"><i class="fa fa-github"></i></a>
-                    <a href="#" class="w-10 h-10 rounded-full bg-[#0088cc]/10 flex items-center justify-center text-[#0088cc] hover:bg-[#0088cc] hover:text-white transition-all"><i class="fa fa-telegram"></i></a>
-                    <a href="https://space.bilibili.com/1917724537" class="w-10 h-10 rounded-full bg-[#FB7299]/10 flex items-center justify-center hover:bg-[#FB7299] transition-all p-2.5">
-                        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/bilibili.svg" class="w-full h-full">
+                <!-- 社交图标 -->
+                <div class="flex justify-center md:justify-start gap-3">
+                    <a href="https://x.com/Carolimone233" title="Twitter"
+                       class="w-10 h-10 rounded-full bg-[#1DA1F2]/10 flex items-center justify-center text-[#1DA1F2] hover:bg-[#1DA1F2] hover:text-white transition-all shadow-sm hover:shadow-md hover:-translate-y-1">
+                        <i class="fa fa-twitter"></i>
+                    </a>
+                    <a href="https://github.com/Ampura16" title="GitHub"
+                       class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center text-gray-700 hover:bg-gray-800 hover:text-white transition-all shadow-sm hover:shadow-md hover:-translate-y-1">
+                        <i class="fa fa-github"></i>
+                    </a>
+                    <a href="#" title="Telegram"
+                       class="w-10 h-10 rounded-full bg-[#0088cc]/10 flex items-center justify-center text-[#0088cc] hover:bg-[#0088cc] hover:text-white transition-all shadow-sm hover:shadow-md hover:-translate-y-1">
+                        <i class="fa fa-telegram"></i>
+                    </a>
+                    <a href="https://space.bilibili.com/1917724537" title="Bilibili"
+                       class="w-10 h-10 rounded-full bg-[#FB7299]/10 flex items-center justify-center hover:bg-[#FB7299] transition-all shadow-sm hover:shadow-md hover:-translate-y-1 p-2.5">
+                        <img src="https://cdn.jsdelivr.net/npm/simple-icons@v9/icons/bilibili.svg" class="w-full h-full" alt="bilibili">
                     </a>
                 </div>
             </div>
         </section>
 
-        <!-- 2. 关于我 (Moved Here: Above Skills) -->
-        <section class="mb-20">
+        <!-- 关于我 -->
+        <section class="mb-16">
             <div class="flex items-center gap-3 mb-6">
-                <div class="w-10 h-10 rounded-full bg-secondary/20 flex items-center justify-center text-secondary">
+                <div class="w-10 h-10 rounded-full bg-secondary/15 flex items-center justify-center text-secondary shadow-sm">
                     <i class="fa fa-user"></i>
                 </div>
                 <h2 class="text-2xl font-bold" data-i18n="aboutMe">关于我</h2>
             </div>
-            <div class="bg-white rounded-2xl p-6 shadow-lg card-hover space-y-4 text-gray-700 leading-relaxed">
+            <div class="bg-white rounded-2xl p-7 shadow-lg card-hover space-y-3 text-gray-600 leading-relaxed border border-gray-50">
                 <p data-i18n="aboutPara1">大家好，我是柠萌。正如我的名字一样，我希望像光一样，自由地穿梭在不同的次元与领域之间。</p>
                 <p data-i18n="aboutPara2">我一直在探索与表达最真实的自我，就像二次元世界里那些打破常规、勇敢做自己的角色一样。</p>
                 <p data-i18n="aboutPara3">我的生活离不开番剧与音乐——那些动人的故事和旋律总能给我带来力量与灵感。</p>
@@ -95,147 +138,196 @@
             </div>
         </section>
 
-        <section class="mb-20">
+        <!-- 我的咖啡厅 -->
+        <section class="mb-16">
             <div class="flex items-center gap-3 mb-6">
-                <div class="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center text-accent">
+                <div class="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center text-amber-500 shadow-sm">
                     <i class="fa fa-coffee"></i>
                 </div>
                 <h2 class="text-2xl font-bold" data-i18n="myCafe">我的咖啡厅</h2>
             </div>
-            <div class="bg-white rounded-2xl p-6 shadow-lg card-hover">
-                <div class="flex flex-col md:flex-row items-center gap-6 mb-4">
-                    <div class="w-32 h-32 rounded-full overflow-hidden border-4 border-white shadow-lg shrink-0">
-                        <img id="avatar" alt="咖啡厅Logo" class="w-full h-full object-cover" />
+            <div class="bg-white rounded-2xl p-7 shadow-lg card-hover border border-gray-50">
+                <div class="flex flex-col sm:flex-row items-center gap-6 mb-5">
+                    <div class="w-28 h-28 rounded-2xl overflow-hidden border-4 border-white shadow-lg shrink-0">
+                        <img id="avatar" alt="咖啡厅Logo" class="w-full h-full object-cover">
                     </div>
-                    <div>
-                        <h3 class="text-xl font-bold text-primary mb-2" data-i18n="cafeName">柠萌の小窝</h3>
-                        <p class="text-gray-600 mb-4" data-i18n="cafeTagline">owob</p>
-                        <a href="https://met6.top" class="inline-flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-primary to-secondary text-white rounded-full font-bold hover:opacity-90 transition-all shadow-md">
-                            <i class="fa fa-arrow-right"></i>
-                            <span data-i18n="visitMeTWeb">串门一下 :p</span>
-                        </a>
-                        <a href="dev_contents.html" class="inline-flex items-center gap-2 px-5 py-2 bg-secondary text-white rounded-full font-bold hover:opacity-90 transition-all shadow-md ml-4">
-                            <i class="fa fa-file-code-o"></i>
-                            <span data-i18n="visitDevDiary">我的 Dev 日记本</span>
-                        </a>
+                    <div class="text-center sm:text-left">
+                        <h3 class="text-xl font-extrabold text-primary mb-1" data-i18n="cafeName">柠萌の小窝</h3>
+                        <p class="text-gray-400 text-sm mb-4" data-i18n="cafeTagline">owob</p>
+                        <div class="flex flex-wrap gap-3 justify-center sm:justify-start">
+                            <a href="https://met6.top"
+                               class="inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-primary to-secondary text-white rounded-full text-sm font-bold hover:opacity-90 transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5">
+                                <i class="fa fa-home"></i>
+                                <span data-i18n="visitMeTWeb">串门一下 :p</span>
+                            </a>
+                            <a href="dev_contents.html"
+                               class="inline-flex items-center gap-2 px-4 py-2 bg-secondary/10 text-secondary rounded-full text-sm font-bold hover:bg-secondary hover:text-white transition-all shadow-sm hover:-translate-y-0.5">
+                                <i class="fa fa-file-code-o"></i>
+                                <span data-i18n="visitDevDiary">Dev 日记本</span>
+                            </a>
+                            <a href="https://goto.pixelmap.cc/tutorials/XZhongjie_worldpainter-tutorial"
+                               class="inline-flex items-center gap-2 px-4 py-2 bg-accent/15 text-amber-600 rounded-full text-sm font-bold hover:bg-accent hover:text-white transition-all shadow-sm hover:-translate-y-0.5">
+                                <i class="fa fa-map"></i>
+                                <span data-i18n="wpTutorial">WorldPainter 教程</span>
+                            </a>
+                        </div>
                     </div>
                 </div>
-                <p class="text-gray-700" data-i18n="fUrlNotice">一些友链和相关网址</p>
+                <p class="text-gray-400 text-sm border-t border-gray-100 pt-4" data-i18n="fUrlNotice">一些友链和相关网址</p>
             </div>
         </section>
 
-        <!-- 3. 技能与兴趣模块 -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 mb-20">
-            <!-- 我的技能 -->
+        <!-- 技能 & 兴趣 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
+
+            <!-- 技能 -->
             <section>
                 <div class="flex items-center gap-3 mb-6">
-                    <div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary"><i class="fa fa-code"></i></div>
+                    <div class="w-10 h-10 rounded-full bg-primary/15 flex items-center justify-center text-primary shadow-sm">
+                        <i class="fa fa-code"></i>
+                    </div>
                     <h2 class="text-2xl font-bold" data-i18n="mySkills">我的技能</h2>
                 </div>
-                <div class="bg-white rounded-2xl p-6 shadow-lg card-hover space-y-5">
+                <div class="bg-white rounded-2xl p-7 shadow-lg card-hover space-y-5 border border-gray-50">
                     <div class="skill-item">
-                        <div class="flex justify-between mb-1 text-sm font-bold"><span>Java</span><span>70%</span></div>
-                        <div class="w-full h-3 bg-gray-100 rounded-full overflow-hidden"><div class="h-full bg-gradient-to-r from-primary to-secondary rounded-full" style="width:70%"></div></div>
+                        <div class="flex justify-between mb-1.5 text-sm font-bold"><span>Java</span><span class="text-primary">70%</span></div>
+                        <div class="w-full h-2.5 bg-gray-100 rounded-full overflow-hidden">
+                            <div class="skill-bar h-full bg-gradient-to-r from-primary to-secondary rounded-full" data-width="70%"></div>
+                        </div>
                     </div>
                     <div class="skill-item">
-                        <div class="flex justify-between mb-1 text-sm font-bold"><span>Bukkit / PaperSpigot</span><span>65%</span></div>
-                        <div class="w-full h-3 bg-gray-100 rounded-full overflow-hidden"><div class="h-full bg-gradient-to-r from-primary to-secondary rounded-full" style="width:65%"></div></div>
+                        <div class="flex justify-between mb-1.5 text-sm font-bold"><span>Bukkit / PaperSpigot</span><span class="text-primary">65%</span></div>
+                        <div class="w-full h-2.5 bg-gray-100 rounded-full overflow-hidden">
+                            <div class="skill-bar h-full bg-gradient-to-r from-primary to-secondary rounded-full" data-width="65%"></div>
+                        </div>
                     </div>
                     <div class="skill-item">
-                        <div class="flex justify-between mb-1 text-sm font-bold"><span>FL Studio</span><span>15%</span></div>
-                        <div class="w-full h-3 bg-gray-100 rounded-full overflow-hidden"><div class="h-full bg-gradient-to-r from-primary to-secondary rounded-full" style="width:15%"></div></div>
+                        <div class="flex justify-between mb-1.5 text-sm font-bold"><span>FL Studio</span><span class="text-primary">15%</span></div>
+                        <div class="w-full h-2.5 bg-gray-100 rounded-full overflow-hidden">
+                            <div class="skill-bar h-full bg-gradient-to-r from-primary to-secondary rounded-full" data-width="15%"></div>
+                        </div>
                     </div>
                     <div class="skill-item">
-                        <div class="flex justify-between mb-1 text-sm font-bold"><span>JavaScript</span><span>10%</span></div>
-                        <div class="w-full h-3 bg-gray-100 rounded-full overflow-hidden"><div class="h-full bg-gradient-to-r from-primary to-secondary rounded-full" style="width:10%"></div></div>
+                        <div class="flex justify-between mb-1.5 text-sm font-bold"><span>JavaScript</span><span class="text-primary">10%</span></div>
+                        <div class="w-full h-2.5 bg-gray-100 rounded-full overflow-hidden">
+                            <div class="skill-bar h-full bg-gradient-to-r from-primary to-secondary rounded-full" data-width="10%"></div>
+                        </div>
                     </div>
                     <div class="skill-item">
-                        <div class="flex justify-between mb-1 text-sm font-bold"><span data-i18n="skillSecret">某神秘领域</span><span>7%</span></div>
-                        <div class="w-full h-3 bg-gray-100 rounded-full overflow-hidden"><div class="h-full bg-gradient-to-r from-primary to-secondary rounded-full" style="width:7%"></div></div>
+                        <div class="flex justify-between mb-1.5 text-sm font-bold"><span data-i18n="skillSecret">某神秘领域</span><span class="text-primary">7%</span></div>
+                        <div class="w-full h-2.5 bg-gray-100 rounded-full overflow-hidden">
+                            <div class="skill-bar h-full bg-gradient-to-r from-primary to-secondary rounded-full" data-width="7%"></div>
+                        </div>
                     </div>
                 </div>
             </section>
 
-            <!-- 兴趣爱好 -->
+            <!-- 兴趣 -->
             <section>
                 <div class="flex items-center gap-3 mb-6">
-                    <div class="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center text-accent"><i class="fa fa-heart"></i></div>
+                    <div class="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center text-amber-500 shadow-sm">
+                        <i class="fa fa-heart"></i>
+                    </div>
                     <h2 class="text-2xl font-bold" data-i18n="hobbies">兴趣爱好</h2>
                 </div>
-                <div class="bg-white rounded-2xl p-6 shadow-lg card-hover grid grid-cols-2 gap-4">
-                    <div class="flex flex-col items-center p-3 bg-light rounded-xl"><i class="fa fa-coffee text-primary mb-2"></i><span class="text-sm font-bold" data-i18n="hobby1">下午茶</span></div>
-                    <div class="flex flex-col items-center p-3 bg-light rounded-xl"><i class="fa fa-plane text-secondary mb-2"></i><span class="text-sm font-bold" data-i18n="hobby2">旅游</span></div>
-                    <div class="flex flex-col items-center p-3 bg-light rounded-xl"><i class="fa fa-gamepad text-accent mb-2"></i><span class="text-sm font-bold" data-i18n="hobby3">游戏</span></div>
-                    <div class="flex flex-col items-center p-3 bg-light rounded-xl"><i class="fa fa-music text-primary mb-2"></i><span class="text-sm font-bold" data-i18n="hobby4">音乐</span></div>
-                    <div class="flex flex-col items-center p-3 bg-light rounded-xl"><i class="fa fa-book text-secondary mb-2"></i><span class="text-sm font-bold" data-i18n="hobby5">漫画</span></div>
-                    <div class="flex flex-col items-center p-3 bg-light rounded-xl"><i class="fa fa-paw text-accent mb-2"></i><span class="text-sm font-bold" data-i18n="hobby6">宠物</span></div>
+                <div class="bg-white rounded-2xl p-7 shadow-lg card-hover grid grid-cols-3 gap-3 border border-gray-50">
+                    <div class="hobby-card flex flex-col items-center p-3 bg-light rounded-xl cursor-default">
+                        <i class="fa fa-coffee text-primary text-xl mb-2"></i>
+                        <span class="text-xs font-bold" data-i18n="hobby1">下午茶</span>
+                    </div>
+                    <div class="hobby-card flex flex-col items-center p-3 bg-light rounded-xl cursor-default">
+                        <i class="fa fa-plane text-secondary text-xl mb-2"></i>
+                        <span class="text-xs font-bold" data-i18n="hobby2">旅游</span>
+                    </div>
+                    <div class="hobby-card flex flex-col items-center p-3 bg-light rounded-xl cursor-default">
+                        <i class="fa fa-gamepad text-amber-400 text-xl mb-2"></i>
+                        <span class="text-xs font-bold" data-i18n="hobby3">游戏</span>
+                    </div>
+                    <div class="hobby-card flex flex-col items-center p-3 bg-light rounded-xl cursor-default">
+                        <i class="fa fa-music text-primary text-xl mb-2"></i>
+                        <span class="text-xs font-bold" data-i18n="hobby4">音乐</span>
+                    </div>
+                    <div class="hobby-card flex flex-col items-center p-3 bg-light rounded-xl cursor-default">
+                        <i class="fa fa-book text-secondary text-xl mb-2"></i>
+                        <span class="text-xs font-bold" data-i18n="hobby5">漫画</span>
+                    </div>
+                    <div class="hobby-card flex flex-col items-center p-3 bg-light rounded-xl cursor-default">
+                        <i class="fa fa-paw text-amber-400 text-xl mb-2"></i>
+                        <span class="text-xs font-bold" data-i18n="hobby6">宠物</span>
+                    </div>
                 </div>
             </section>
         </div>
     </main>
 
-    <footer class="mt-20 text-center text-gray-500 text-sm">
+    <footer class="mt-10 text-center text-gray-400 text-sm space-y-1">
         <p data-i18n="footerRights">柠萌の神秘空间 | 每一份热爱都值得传递</p>
-        <p><br></p>
-        <p data-i18n="footerWebRights">本网站外观设计权利归@Kiss_light233所有。</p>
+        <p data-i18n="footerWebRights">本网站外观设计权利归 @Kiss_light233 所有。</p>
     </footer>
 </div>
 
 <script>
     const T = {
         zh: {
-            myName: '是柠萌呐',
-            pageTitle: '个人资料', occupation: 'Java 爱好者 | 二次元爱好者', birthday: '你猜', location: '哈尔滨市', education: '小学生',
-            aboutMe: '关于我', aboutPara1: '大家好，我是柠萌。正如我的名字一样，我希望像光一样，自由地穿梭在不同的次元与领域之间。',
-            myCafe: '我的咖啡厅',
-            cafeName: '柠萌の小窝',
-            aboutPara2: '我一直在探索与表达最真实的自我。', aboutPara3: '我的生活离不开番剧与音乐，那些旋律总能给我带来力量。',
-            aboutPara4: '我相信每个人都能创造属于自己的精彩世界。',
+            myName: '是柠萌呐', pageTitle: '个人资料', occupation: 'IT 爱好者 | 二次元爱好者',
+            birthday: '你猜', location: '哈尔滨市', education: '小学生',
+            aboutMe: '关于我',
+            aboutPara1: '大家好，我是柠萌。正如我的名字一样，我希望像光一样，自由地穿梭在不同的次元与领域之间。',
+            aboutPara2: '我一直在探索与表达最真实的自我，就像二次元世界里那些打破常规、勇敢做自己的角色一样。',
+            aboutPara3: '我的生活离不开番剧与音乐——那些动人的故事和旋律总能给我带来力量与灵感。',
+            aboutPara4: '我相信每个人都能创造属于自己的精彩世界，而我正走在这条路上，期待与同样有趣的灵魂相遇。',
+            myCafe: '我的咖啡厅', cafeName: '柠萌の小窝', cafeTagline: 'owob',
+            fUrlNotice: '一些友链和相关网址', visitMeTWeb: '串门一下 :p', visitDevDiary: 'Dev 日记本', wpTutorial: 'WorldPainter 教程',
             mySkills: '我的技能', skillSecret: '某神秘领域', hobbies: '兴趣爱好',
-            fUrlNotice: '一些友链和相关网址',
-            visitMeTWeb: '去MET家串门 :p',
-            visitDevDiary: '我的 Dev 日记本',
-            cafeTagline: 'owob',
             hobby1: '下午茶', hobby2: '旅游', hobby3: '游戏', hobby4: '音乐', hobby5: '漫画', hobby6: '宠物',
             footerRights: '柠萌の神秘空间 | 每一份热爱都值得传递',
-            footerWebRights: '本网站外观设计权利归@Kiss_light233所有.'
+            footerWebRights: '本网站外观设计权利归 @Kiss_light233 所有。'
         },
         en: {
-            myName: 'Ampura16',
-            pageTitle: 'Personal Profile', occupation: 'Java Developer | Anime Fan', birthday: 'Guess :)', location: 'Harbin', education: 'Student',
-            aboutMe: 'About Me', aboutPara1: "Hi, I'm CaroLimone. I want to travel freely between dimensions.",
-            myCafe: 'My Cafe',
-            cafeName: 'CaroLimone\'s Home',
-            fUrlNotice: 'Some friend links and related websites',
-            visitMeTWeb: 'Visit MeT-Home :p',
-            visitDevDiary: 'Visit My Dev Diary',
-            cafeTagline: 'owob',
-            aboutPara2: "I've been exploring and expressing my true self.", aboutPara3: "Anime and music always give me strength and inspiration.",
-            aboutPara4: "I believe everyone can create their own wonderful world.",
+            myName: 'Ampura16', pageTitle: 'Personal Profile', occupation: 'Java Dev | Anime Fan',
+            birthday: 'Guess :)', location: 'Harbin', education: 'Student',
+            aboutMe: 'About Me',
+            aboutPara1: "Hi, I'm CaroLimone. I want to travel freely between dimensions, just like light.",
+            aboutPara2: "I've been exploring and expressing my truest self, like those bold anime characters who break the mold.",
+            aboutPara3: "Anime and music are a big part of my life — those stories and melodies always give me strength.",
+            aboutPara4: "I believe everyone can create their own wonderful world. I'm on that path, looking forward to meeting interesting souls.",
+            myCafe: 'My Cafe', cafeName: "CaroLimone's Home", cafeTagline: 'owob',
+            fUrlNotice: 'Some friend links and related websites', visitMeTWeb: 'Visit MeT-Home :p', visitDevDiary: 'Dev Diary', wpTutorial: 'WorldPainter Tutorial',
             mySkills: 'My Skills', skillSecret: 'Secret Field', hobbies: 'Hobbies',
             hobby1: 'Tea Break', hobby2: 'Travel', hobby3: 'Gaming', hobby4: 'Music', hobby5: 'Manga', hobby6: 'Pets',
             footerRights: "CaroLimone's Space | Share the Love",
             footerWebRights: 'All visual design rights of this website are owned by @Kiss_light233.'
-        },
+        }
     };
 
     function setLanguage(lang) {
-        const dict = T[lang];
         document.querySelectorAll('[data-i18n]').forEach(el => {
-            const v = dict[el.dataset.i18n];
+            const v = T[lang][el.dataset.i18n];
             if (v) el.textContent = v;
         });
-
         document.querySelectorAll('.lang-btn').forEach(btn => {
             const active = btn.dataset.lang === lang;
-            btn.className = `lang-btn px-4 py-2 rounded-full shadow-md transition-all ${active ? 'bg-primary text-white' : 'bg-white text-primary hover:bg-gray-100'}`;
+            btn.className = `lang-btn px-4 py-1.5 rounded-full text-sm font-bold shadow-md transition-all ${active ? 'bg-primary text-white' : 'bg-white text-primary hover:bg-gray-50'}`;
         });
     }
+
+    // 技能条入场动画（IntersectionObserver）
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.querySelectorAll('.skill-bar').forEach(bar => {
+                    bar.style.width = bar.dataset.width;
+                });
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.3 });
+
+    document.querySelectorAll('.skill-item').forEach(el => observer.observe(el));
 
     document.getElementById('mainAvatar').src = 'resources/qq_head_icon.jpg';
     document.getElementById('avatar').src = 'resources/github_head_icon.jpg';
 
-    // 绑定语言切换按钮事件
     document.querySelectorAll('.lang-btn').forEach(btn => btn.addEventListener('click', () => setLanguage(btn.dataset.lang)));
 </script>
 </body>
