@@ -4,10 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="referrer" content="no-referrer" />
-    <title>第二讲 Event And Listener 游戏事件与监听器 | BukkitDiary</title>
+    <title>第二讲 Event And Listener | BukkitDiary</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
     <script>
         tailwind.config = {
             theme: {
@@ -19,283 +19,382 @@
                         dark: '#2A2A48',
                         light: '#F9F5FF',
                     },
-                    fontFamily: { nunito: ['Nunito', 'sans-serif'] },
+                    fontFamily: {
+                        nunito: ['Nunito', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
                 },
             },
         };
     </script>
     <style type="text/tailwindcss">
         @layer utilities {
-            .animate-float { animation: float 6s ease-in-out infinite; }
             .card-hover { transition: all .3s ease; }
-            .card-hover:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(123,97,255,.15); }
-            .code-block {
-                @apply bg-gray-900 text-gray-100 rounded-lg overflow-hidden;
-            }
-            .code-header {
-                @apply flex items-center justify-between px-4 py-2 bg-gray-800 text-xs text-gray-400;
-            }
+            .card-hover:hover { transform: translateY(-4px); box-shadow: 0 20px 40px rgba(123,97,255,.12); }
+            .code-block { @apply bg-[#1e1e2e] rounded-xl overflow-hidden shadow-lg; }
+            .code-header { @apply flex items-center justify-between px-4 py-2.5 bg-[#181825] text-xs; }
             .code-body {
-                @apply p-4 overflow-x-auto text-sm font-mono leading-relaxed;
+                @apply p-5 overflow-x-auto text-sm leading-7;
+                font-family: 'JetBrains Mono', monospace;
+                color: #cdd6f4;  /* 默认文本色：亮白，包名/普通标识符都用这个 */
                 counter-reset: line;
             }
             .code-body .line {
                 counter-increment: line;
-                padding-left: 2.5rem;
+                padding-left: 3rem;
                 position: relative;
+                display: block;
             }
             .code-body .line::before {
                 content: counter(line);
                 position: absolute;
                 left: 0;
-                width: 2rem;
+                width: 2.2rem;
                 text-align: right;
-                color: #6b7280;
+                color: #45475a;
                 user-select: none;
+                font-size: 0.75rem;
             }
-            .copy-btn {
-                @apply px-2 py-1 rounded bg-primary/10 hover:bg-primary/20 text-primary transition-all;
-            }
+            .copy-btn { @apply px-2.5 py-1 rounded-md bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition-all text-xs; }
+            .kw  { color: #ff79c6; }   /* 关键字 粉红，醒目 */
+            .cls { color: #50fa7b; }   /* 类名 亮绿，与背景对比强 */
+            .fn  { color: #ffb86c; }   /* 方法名 亮橙，清晰可辨 */
+            .str { color: #f1fa8c; }   /* 字符串 亮黄 */
+            .cmt { color: #6272a4; font-style: italic; } /* 注释 蓝灰 */
+            .ann { color: #ff5555; }   /* 注解 亮红 */
+            .num { color: #bd93f9; }   /* 数字/bool 紫色 */
         }
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
     </style>
 </head>
 
-<body class="font-nunito bg-light text-dark min-h-screen">
-<div class="container mx-auto px-4 py-12">
+<body class="font-nunito bg-light text-dark min-h-screen overflow-x-hidden">
 
-    <header class="text-center mb-16">
-        <h1 class="text-[clamp(1.6rem,4vw,3rem)] font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary mb-4">第二讲 Event And Listener 游戏事件与监听器</h1>
-        <div class="w-24 h-1 bg-accent mx-auto rounded-full"></div>
+<!-- 背景装饰 -->
+<div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+    <div class="absolute -top-32 -left-32 w-96 h-96 bg-primary/10 rounded-full blur-3xl"></div>
+    <div class="absolute top-1/2 -right-32 w-80 h-80 bg-secondary/10 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-0 left-1/4 w-72 h-72 bg-accent/10 rounded-full blur-3xl"></div>
+</div>
+
+<!-- 顶部返回栏 -->
+<div class="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-gray-100 shadow-sm">
+    <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
+        <a href="../dev_contents.html" class="flex items-center gap-2 text-sm font-bold text-secondary hover:text-primary transition-colors">
+            <i class="fa fa-arrow-left"></i>
+            <span>返回日记本目录</span>
+        </a>
+        <span class="text-xs text-gray-400 font-semibold">第二讲 · Event & Listener</span>
+    </div>
+</div>
+
+<div class="container mx-auto px-4 py-12 relative z-10">
+
+    <!-- Header -->
+    <header class="text-center mb-14">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 bg-secondary/10 text-secondary rounded-full text-sm font-bold mb-4">
+            <i class="fa fa-book"></i> BukkitDiary · Lecture 02
+        </div>
+        <h1 class="text-[clamp(1.4rem,3.5vw,2.6rem)] font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary mb-2 leading-tight">
+            Event And Listener
+        </h1>
+        <p class="text-gray-400 font-semibold mb-5">游戏事件与监听器</p>
+        <div class="w-20 h-1.5 bg-gradient-to-r from-primary to-accent mx-auto rounded-full"></div>
     </header>
 
     <main class="max-w-5xl mx-auto space-y-8">
-        <section class="bg-white rounded-2xl p-6 shadow-lg card-hover">
-            <div class="flex items-center gap-3 mb-4">
-                <img src="../resources/MeT_head_icon.jpg" alt="MET_ICON" class="w-10 h-10 rounded-full object-cover">
-                <div>
-                    <h2 class="text-xl font-bold text-primary">人物：MET学长</h2>
-                    <p class="text-sm text-gray-500"><i class="fa fa-id-badge w-5"></i> 身份：初来乍到而又勤奋好学的萌新玩家</p>
-                    <p class="text-sm text-gray-500"><i class="fa fa-bullseye w-5 text-secondary"></i> 任务目标：理解 Bukkit Event 事件系统的运作逻辑</p>
-                    <p class="text-sm text-gray-500"><i class="fa fa-star w-5 text-accent"></i> 难度：★★☆☆☆</p>
+
+        <!-- 人物卡片 -->
+        <section class="bg-white rounded-2xl p-6 shadow-lg card-hover border border-gray-50">
+            <div class="flex items-start gap-4">
+                <div class="relative shrink-0">
+                    <img src="../resources/MeT_head_icon.jpg" alt="MET_ICON" class="w-14 h-14 rounded-2xl object-cover shadow-md">
+                    <div class="absolute -bottom-1 -right-1 w-5 h-5 bg-green-400 rounded-full border-2 border-white"></div>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <div class="flex items-center gap-2 flex-wrap mb-2">
+                        <h2 class="text-lg font-extrabold text-primary">MET学长</h2>
+                        <span class="px-2 py-0.5 bg-secondary/10 text-secondary text-xs font-bold rounded-full">萌新玩家</span>
+                        <span class="px-2 py-0.5 bg-accent/20 text-amber-600 text-xs font-bold rounded-full">★★☆☆☆</span>
+                    </div>
+                    <div class="space-y-1 text-sm text-gray-500">
+                        <p><i class="fa fa-id-badge text-secondary w-4 mr-1"></i>初来乍到而又勤奋好学的萌新玩家</p>
+                        <p><i class="fa fa-bullseye text-primary w-4 mr-1"></i>理解 Bukkit Event 事件系统的运作逻辑</p>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <section class="bg-white rounded-2xl p-6 shadow-lg card-hover text-gray-700 leading-relaxed">
-            <p class="mb-4 indent-8">MET学长今天非常高兴，他买了一个装配了顶级配置的新的服务器。他打开Minecraft登录了某生存服务器。他在游玩的时候很快发现一个问题：为什么在这个服务器中我的客户端显示了Bossbar，显示了计分板，这些在原版MC的世界里几乎是不存在的，甚至大家的聊天信息都有各种炫酷的RGB渐变特效，他决定tpa到他的朋友那里，过去之后不小心掉进了朋友领地（Residence）中的一个2格深的坑，他凭借他的单人游戏生存经验，正试图随手搭一个方块或者挖掉一个泥土逃离此处，却又发现服务器不允许他搭建或者破坏方块。于是他决定晚上深入研究一下这一切究竟是怎么做到的，为什么原版MC没有这种功能。</p>
-            <p class="mb-4 indent-8">服务器只要开机，就算没有玩家，服务器本身也要处理基本的昼夜交替，时间变化，生物方块交互等基本事件。而有了玩家之后，抽象类PlayerEvent下管理的一系列玩家事件又要发挥更主要的作用，例如PlayerLoginEvent玩家登录事件，PlayerQuitEvent玩家退出事件，PlayerInteractEvent玩家交互事件等等，这些事件都是BukkitAPI为有关的具体插件提供的API方法，而不是硬猜NMS或者修改服务器核心逻辑实现的。</p>
-            <p class="mb-4 indent-8">在一个原版游戏中，Vanilla服务器并不会管任何东西，他只负责玩家正常的连接，提供一个游戏的平台。但是BukkitAPI提供了事件与监听器方法，允许服务器在收到玩家数据包之后进行自定修改之后返回插件希望的效果。所以出现了类似玩家试图挖掉方块（BlockBreakEvent）或者放置方块（BlockPlaceEvent）但是被监听器（Listener）发现的情况。在Bukkit中任何一个游戏事件都可以被监听器监听，而只要事件被监听，Bukkit就可以根据该事件是否继承Cancelable接口来决定有关事件取消的相关逻辑，其中最典型的方法就是通过实现@EventHandler接口获取该事件的boolean字段isCanceled(boolean)(该事件是否已经被取消)和Setter方法 setCanceled(boolean)(是否取消该事件)</p>
+        <!-- 故事段落 -->
+        <section class="bg-white rounded-2xl p-7 shadow-lg card-hover border border-gray-50 text-gray-600 leading-8 space-y-4">
+            <p class="indent-8">MET学长今天非常高兴，他买了一个装配了顶级配置的新的服务器。他打开Minecraft登录了某生存服务器。他在游玩的时候很快发现一个问题：为什么在这个服务器中我的客户端显示了Bossbar，显示了计分板，这些在原版MC的世界里几乎是不存在的，甚至大家的聊天信息都有各种炫酷的RGB渐变特效，他决定tpa到他的朋友那里，过去之后不小心掉进了朋友领地（Residence）中的一个2格深的坑，他凭借他的单人游戏生存经验，正试图随手搭一个方块或者挖掉一个泥土逃离此处，却又发现服务器不允许他搭建或者破坏方块。于是他决定晚上深入研究一下这一切究竟是怎么做到的，为什么原版MC没有这种功能。</p>
+            <p class="indent-8">服务器只要开机，就算没有玩家，服务器本身也要处理基本的昼夜交替，时间变化，生物方块交互等基本事件。而有了玩家之后，抽象类 <code class="px-1.5 py-0.5 bg-secondary/10 text-secondary rounded text-sm font-mono">PlayerEvent</code> 下管理的一系列玩家事件又要发挥更主要的作用，例如 <code class="px-1.5 py-0.5 bg-secondary/10 text-secondary rounded text-sm font-mono">PlayerLoginEvent</code>、<code class="px-1.5 py-0.5 bg-secondary/10 text-secondary rounded text-sm font-mono">PlayerQuitEvent</code>、<code class="px-1.5 py-0.5 bg-secondary/10 text-secondary rounded text-sm font-mono">PlayerInteractEvent</code> 等等，这些事件都是BukkitAPI为有关的具体插件提供的API方法，而不是硬猜NMS或者修改服务器核心逻辑实现的。</p>
+            <p class="indent-8">在一个原版游戏中，Vanilla服务器并不会管任何东西，他只负责玩家正常的连接，提供一个游戏的平台。但是BukkitAPI提供了事件与监听器方法，允许服务器在收到玩家数据包之后进行自定修改之后返回插件希望的效果。所以出现了类似玩家试图挖掉方块（<code class="px-1.5 py-0.5 bg-primary/10 text-primary rounded text-sm font-mono">BlockBreakEvent</code>）或者放置方块（<code class="px-1.5 py-0.5 bg-primary/10 text-primary rounded text-sm font-mono">BlockPlaceEvent</code>）但是被监听器（<code class="px-1.5 py-0.5 bg-primary/10 text-primary rounded text-sm font-mono">Listener</code>）发现的情况。在Bukkit中任何一个游戏事件都可以被监听器监听，而只要事件被监听，Bukkit就可以根据该事件是否继承 <code class="px-1.5 py-0.5 bg-accent/20 text-amber-600 rounded text-sm font-mono">Cancelable</code> 接口来决定有关事件取消的相关逻辑，其中最典型的方法就是通过实现 <code class="px-1.5 py-0.5 bg-accent/20 text-amber-600 rounded text-sm font-mono">@EventHandler</code> 接口获取该事件的 <code class="px-1.5 py-0.5 bg-secondary/10 text-secondary rounded text-sm font-mono">isCanceled()</code> 和 <code class="px-1.5 py-0.5 bg-secondary/10 text-secondary rounded text-sm font-mono">setCanceled(boolean)</code> 方法。</p>
         </section>
 
-        <section class="bg-white rounded-2xl p-6 shadow-lg card-hover">
-            <h3 class="text-xl font-bold text-primary mb-4">我们来看一个具体示例：</h3>
+        <!-- 示例一 -->
+        <section class="bg-white rounded-2xl p-7 shadow-lg card-hover border border-gray-50">
+            <h3 class="text-xl font-extrabold text-primary mb-5 flex items-center gap-2">
+                <i class="fa fa-code text-secondary"></i> 具体示例：阻止方块破坏
+            </h3>
             <div class="code-block">
                 <div class="code-header">
-                    <span>Java</span>
-                    <button class="copy-btn" onclick="navigator.clipboard.writeText(this.parentElement.nextElementSibling.textContent.trim())">
-                        <i class="fa fa-copy"></i> 复制
+                    <div class="flex items-center gap-2">
+                        <span class="w-3 h-3 rounded-full bg-red-500/70"></span>
+                        <span class="w-3 h-3 rounded-full bg-yellow-500/70"></span>
+                        <span class="w-3 h-3 rounded-full bg-green-500/70"></span>
+                        <span class="ml-2 text-gray-500">PMain.java</span>
+                    </div>
+                    <button class="copy-btn" onclick="copyCode(this)">
+                        <i class="fa fa-copy mr-1"></i>复制
                     </button>
                 </div>
-                <pre class="code-body"><code><span class="line">package top.brmc.bukkitplatform.practiceplugin;</span>
-<span class="line">import org.bukkit.ChatColor;</span>
-<span class="line">import org.bukkit.event.EventHandler;</span>
-<span class="line">import org.bukkit.event.Listener;</span>
-<span class="line">import org.bukkit.event.block.BlockBreakEvent;</span>
-<span class="line">import org.bukkit.plugin.java.JavaPlugin;</span>
-<span class="line">import org.jspecify.annotations.NonNull;</span>
-<span class="line">public final class PMain extends JavaPlugin implements Listener {</span>
-<span class="line">    @Override</span>
-<span class="line">    public void onEnable() {</span>
-<span class="line">        getServer().getPluginManager().registerEvents(this, this);</span>
+                <pre class="code-body"><code><span class="line"><span class="kw">package</span> top.brmc.bukkitplatform.practiceplugin;</span>
+<span class="line"><span class="kw">import</span> org.bukkit.<span class="cls">ChatColor</span>;</span>
+<span class="line"><span class="kw">import</span> org.bukkit.event.<span class="ann">EventHandler</span>;</span>
+<span class="line"><span class="kw">import</span> org.bukkit.event.<span class="cls">Listener</span>;</span>
+<span class="line"><span class="kw">import</span> org.bukkit.event.block.<span class="cls">BlockBreakEvent</span>;</span>
+<span class="line"><span class="kw">import</span> org.bukkit.plugin.java.<span class="cls">JavaPlugin</span>;</span>
+<span class="line"><span class="kw">import</span> org.jspecify.annotations.<span class="cls">NonNull</span>;</span>
+<span class="line"></span>
+<span class="line"><span class="kw">public final class</span> <span class="cls">PMain</span> <span class="kw">extends</span> <span class="cls">JavaPlugin</span> <span class="kw">implements</span> <span class="cls">Listener</span> {</span>
+<span class="line">    <span class="ann">@Override</span></span>
+<span class="line">    <span class="kw">public void</span> <span class="fn">onEnable</span>() {</span>
+<span class="line">        <span class="fn">getServer</span>().<span class="fn">getPluginManager</span>().<span class="fn">registerEvents</span>(<span class="kw">this</span>, <span class="kw">this</span>);</span>
 <span class="line">    }</span>
-<span class="line">    @Override</span>
-<span class="line">    public void onDisable() {</span>
-<span class="line">        // Plugin shutdown logic</span>
+<span class="line">    <span class="ann">@Override</span></span>
+<span class="line">    <span class="kw">public void</span> <span class="fn">onDisable</span>() {</span>
+<span class="line">        <span class="cmt">// Plugin shutdown logic</span></span>
 <span class="line">    }</span>
-<span class="line">    // 监听玩家破坏方块的事件</span>
-<span class="line">    @EventHandler</span>
-<span class="line">    public void onBlockBreak(@NonNull BlockBreakEvent event) {</span>
-<span class="line">        event.setCancelled(true); // 取消破坏行为</span>
-<span class="line">        event.getPlayer().sendMessage(ChatColor.GOLD + "破坏方块事件被取消.");</span>
+<span class="line">    <span class="cmt">// 监听玩家破坏方块的事件</span></span>
+<span class="line">    <span class="ann">@EventHandler</span></span>
+<span class="line">    <span class="kw">public void</span> <span class="fn">onBlockBreak</span>(<span class="ann">@NonNull</span> <span class="cls">BlockBreakEvent</span> event) {</span>
+<span class="line">        event.<span class="fn">setCancelled</span>(<span class="num">true</span>); <span class="cmt">// 取消破坏行为</span></span>
+<span class="line">        event.<span class="fn">getPlayer</span>().<span class="fn">sendMessage</span>(<span class="cls">ChatColor</span>.GOLD + <span class="str">"破坏方块事件被取消."</span>);</span>
 <span class="line">    }</span>
 <span class="line">}</span></code></pre>
             </div>
-            <div class="mt-4">
-                <img src="../img/02_BreakBlockEvent.png" alt="破坏方块事件效果" class="w-full rounded-lg shadow-md">
+            <div class="mt-5">
+                <img src="../img/Chapter02/BreakBlockEvent.png" alt="破坏方块事件效果" class="w-full rounded-xl shadow-md">
             </div>
-            <div class="mt-4 space-y-2 text-sm text-gray-600">
-                <p>由于插件比较简单，故不设置复杂文件结构，直接在主类中编写。以破坏方块为例，本功能主要有以下要点：</p>
-                <ol class="list-decimal list-inside space-y-1">
-                    <li>插件主类PMain按照Bukkit规范都要继承JavaPlugin类</li>
-                    <li>由于本插件监听了玩家破坏方块事件，需要实现Listener监听器，所以对Listener进行extends接口拓展</li>
-                    <li>BukkitAPI使用接口@EventHandler对该事件进行接管，判定破坏方块事件不为空并且为该事件创建构造函数BlockBreakEvent和方法签名event</li>
-                    <li>设置该破坏方块事件为取消,还原方块为没有被破坏的状态并且向玩家发送自定义文本信息</li>
+            <div class="mt-5 p-4 bg-secondary/5 rounded-xl border border-secondary/10">
+                <p class="text-sm font-bold text-secondary mb-2"><i class="fa fa-lightbulb-o mr-1"></i>要点说明</p>
+                <ol class="list-decimal list-inside space-y-1.5 text-sm text-gray-600">
+                    <li>插件主类 <code class="px-1 bg-secondary/10 text-secondary rounded font-mono text-xs">PMain</code> 按照Bukkit规范继承 <code class="px-1 bg-secondary/10 text-secondary rounded font-mono text-xs">JavaPlugin</code> 类</li>
+                    <li>监听事件需要实现 <code class="px-1 bg-secondary/10 text-secondary rounded font-mono text-xs">Listener</code> 接口</li>
+                    <li><code class="px-1 bg-primary/10 text-primary rounded font-mono text-xs">@EventHandler</code> 注解标记事件处理方法，参数即为要监听的事件类型</li>
+                    <li>调用 <code class="px-1 bg-primary/10 text-primary rounded font-mono text-xs">setCancelled(true)</code> 还原方块状态并向玩家发送提示信息</li>
                 </ol>
             </div>
         </section>
 
-        <section class="bg-white rounded-2xl p-6 shadow-lg card-hover">
-            <h3 class="text-xl font-bold text-primary mb-4">自定义事件</h3>
-            <p class="mb-4 indent-8">明白了Bukkit事件原生实现逻辑之后，又有一个问题摆在眼前，对于一些大型插件，其复杂的玩法和逻辑肯定不是多套几个Bukkit事件就能实现的，一定有作者自己设计的自定义事件和方法，那又是如何实现的呢？这就要涉及到事件系统的重要逻辑：自定义事件。</p>
-            <div class="space-y-4">
+        <!-- 自定义事件 -->
+        <section class="bg-white rounded-2xl p-7 shadow-lg card-hover border border-gray-50">
+            <h3 class="text-xl font-extrabold text-primary mb-2 flex items-center gap-2">
+                <i class="fa fa-magic text-secondary"></i> 自定义事件
+            </h3>
+            <p class="text-gray-600 leading-8 mb-6 indent-8">明白了Bukkit事件原生实现逻辑之后，又有一个问题摆在眼前，对于一些大型插件，其复杂的玩法和逻辑肯定不是多套几个Bukkit事件就能实现的，一定有作者自己设计的自定义事件和方法，那又是如何实现的呢？这就要涉及到事件系统的重要逻辑：自定义事件。</p>
+
+            <div class="space-y-6">
+                <!-- 主类 -->
                 <div>
-                    <h4 class="font-bold text-secondary mb-2">主类部分：</h4>
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="w-2 h-2 rounded-full bg-primary"></span>
+                        <h4 class="font-bold text-secondary text-sm">主类部分</h4>
+                    </div>
                     <div class="code-block">
                         <div class="code-header">
-                            <span>Java</span>
-                            <button class="copy-btn" onclick="navigator.clipboard.writeText(this.parentElement.nextElementSibling.textContent.trim())">
-                                <i class="fa fa-copy"></i> 复制
-                            </button>
+                            <div class="flex items-center gap-2">
+                                <span class="w-3 h-3 rounded-full bg-red-500/70"></span>
+                                <span class="w-3 h-3 rounded-full bg-yellow-500/70"></span>
+                                <span class="w-3 h-3 rounded-full bg-green-500/70"></span>
+                                <span class="ml-2 text-gray-500">PMain.java</span>
+                            </div>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="fa fa-copy mr-1"></i>复制</button>
                         </div>
-                        <pre class="code-body"><code><span class="line">public final class PMain extends JavaPlugin implements Listener {</span>
-<span class="line">    @Override</span>
-<span class="line">    public void onEnable() {</span>
-<span class="line">        // Plugin startup logic</span>
-<span class="line">        getServer().getPluginManager().registerEvents(this, this);</span>
+                        <pre class="code-body"><code><span class="line"><span class="kw">public final class</span> <span class="cls">PMain</span> <span class="kw">extends</span> <span class="cls">JavaPlugin</span> <span class="kw">implements</span> <span class="cls">Listener</span> {</span>
+<span class="line">    <span class="ann">@Override</span></span>
+<span class="line">    <span class="kw">public void</span> <span class="fn">onEnable</span>() {</span>
+<span class="line">        getServer().<span class="fn">getPluginManager</span>().<span class="fn">registerEvents</span>(<span class="kw">this</span>, <span class="kw">this</span>);</span>
 <span class="line">    }</span>
-<span class="line">    @Override</span>
-<span class="line">    public void onDisable() {</span>
-<span class="line">        // Plugin shutdown logic</span>
+<span class="line">    <span class="ann">@Override</span></span>
+<span class="line">    <span class="kw">public void</span> <span class="fn">onDisable</span>() {}</span>
+<span class="line"></span>
+<span class="line">    <span class="ann">@EventHandler</span></span>
+<span class="line">    <span class="kw">public void</span> <span class="fn">onBlockBreak</span>(<span class="ann">@NonNull</span> <span class="cls">BlockBreakEvent</span> event) {</span>
+<span class="line">        event.<span class="fn">setCancelled</span>(<span class="num">true</span>);</span>
+<span class="line">        event.<span class="fn">getPlayer</span>().<span class="fn">sendMessage</span>(<span class="cls">ChatColor</span>.GOLD + <span class="str">"破坏方块事件被取消."</span>);</span>
 <span class="line">    }</span>
-<span class="line">    // 监听玩家破坏方块的事件</span>
-<span class="line">    @EventHandler</span>
-<span class="line">    public void onBlockBreak(@NonNull BlockBreakEvent event) {</span>
-<span class="line">        event.setCancelled(true); // 取消破坏行为</span>
-<span class="line">        event.getPlayer().sendMessage(ChatColor.GOLD + "破坏方块事件被取消.");</span>
-<span class="line">    }</span>
-<span class="line">    @EventHandler</span>
-<span class="line">    public void onBlockPlace(@NonNull BlockPlaceEvent bpe) {</span>
-<span class="line">        bpe.getPlayer().sendMessage(ChatColor.GOLD + "你触发了BlockPlaceEvent.");</span>
-<span class="line">        bpe.getPlayer().sendMessage(ChatColor.GREEN + "此外还发生了以下事情:");</span>
-<span class="line">        MyCustomEvent mce = new MyCustomEvent(bpe.getPlayer());</span>
-<span class="line">        mce.notifyPlayer();</span>
+<span class="line">    <span class="ann">@EventHandler</span></span>
+<span class="line">    <span class="kw">public void</span> <span class="fn">onBlockPlace</span>(<span class="ann">@NonNull</span> <span class="cls">BlockPlaceEvent</span> bpe) {</span>
+<span class="line">        bpe.<span class="fn">getPlayer</span>().<span class="fn">sendMessage</span>(<span class="cls">ChatColor</span>.GOLD + <span class="str">"你触发了BlockPlaceEvent."</span>);</span>
+<span class="line">        bpe.<span class="fn">getPlayer</span>().<span class="fn">sendMessage</span>(<span class="cls">ChatColor</span>.GREEN + <span class="str">"此外还发生了以下事情:"</span>);</span>
+<span class="line">        <span class="cls">MyCustomEvent</span> mce = <span class="kw">new</span> <span class="cls">MyCustomEvent</span>(bpe.<span class="fn">getPlayer</span>());</span>
+<span class="line">        mce.<span class="fn">notifyPlayer</span>();</span>
 <span class="line">    }</span>
 <span class="line">}</span></code></pre>
                     </div>
                 </div>
+
+                <!-- 事件类 -->
                 <div>
-                    <h4 class="font-bold text-secondary mb-2">事件部分：</h4>
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="w-2 h-2 rounded-full bg-secondary"></span>
+                        <h4 class="font-bold text-secondary text-sm">事件类部分</h4>
+                    </div>
                     <div class="code-block">
                         <div class="code-header">
-                            <span>Java</span>
-                            <button class="copy-btn" onclick="navigator.clipboard.writeText(this.parentElement.nextElementSibling.textContent.trim())">
-                                <i class="fa fa-copy"></i> 复制
-                            </button>
+                            <div class="flex items-center gap-2">
+                                <span class="w-3 h-3 rounded-full bg-red-500/70"></span>
+                                <span class="w-3 h-3 rounded-full bg-yellow-500/70"></span>
+                                <span class="w-3 h-3 rounded-full bg-green-500/70"></span>
+                                <span class="ml-2 text-gray-500">MyCustomEvent.java</span>
+                            </div>
+                            <button class="copy-btn" onclick="copyCode(this)"><i class="fa fa-copy mr-1"></i>复制</button>
                         </div>
-                        <pre class="code-body"><code><span class="line">public class MyCustomEvent extends Event {</span>
-<span class="line">    private static final HandlerList handlers = new HandlerList();</span>
-<span class="line">    private final Player player; // 用来存储触发事件的玩家</span>
-<span class="line">    public MyCustomEvent(Player player) {</span>
-<span class="line">        this.player = player;</span>
+                        <pre class="code-body"><code><span class="line"><span class="kw">public class</span> <span class="cls">MyCustomEvent</span> <span class="kw">extends</span> <span class="cls">Event</span> {</span>
+<span class="line">    <span class="kw">private static final</span> <span class="cls">HandlerList</span> handlers = <span class="kw">new</span> <span class="cls">HandlerList</span>();</span>
+<span class="line">    <span class="kw">private final</span> <span class="cls">Player</span> player; <span class="cmt">// 用来存储触发事件的玩家</span></span>
+<span class="line"></span>
+<span class="line">    <span class="kw">public</span> <span class="fn">MyCustomEvent</span>(<span class="cls">Player</span> player) {</span>
+<span class="line">        <span class="kw">this</span>.player = player;</span>
 <span class="line">    }</span>
-<span class="line">    public Player getPlayer() {</span>
-<span class="line">        return player;</span>
-<span class="line">    }</span>
-<span class="line">    @Override</span>
-<span class="line">    public @NonNull HandlerList getHandlers() {</span>
-<span class="line">        return handlers;</span>
-<span class="line">    }</span>
-<span class="line">    public static HandlerList getHandlerList() {</span>
-<span class="line">        return handlers;</span>
-<span class="line">    }</span>
-<span class="line">    // 事件触发时输出触发者信息</span>
-<span class="line">    public void notifyPlayer() {</span>
-<span class="line">        // 获取玩家的名字和其他信息</span>
-<span class="line">        Player p = getPlayer();</span>
-<span class="line">        if (p != null) {</span>
-<span class="line">            String playerName = p.getName();</span>
-<span class="line">            p.sendMessage(ChatColor.LIGHT_PURPLE + "[MyCustomEvent] 事件已触发.触发者: " + playerName);</span>
+<span class="line">    <span class="kw">public</span> <span class="cls">Player</span> <span class="fn">getPlayer</span>() { <span class="kw">return</span> player; }</span>
+<span class="line"></span>
+<span class="line">    <span class="ann">@Override</span></span>
+<span class="line">    <span class="kw">public</span> <span class="ann">@NonNull</span> <span class="cls">HandlerList</span> <span class="fn">getHandlers</span>() { <span class="kw">return</span> handlers; }</span>
+<span class="line">    <span class="kw">public static</span> <span class="cls">HandlerList</span> <span class="fn">getHandlerList</span>() { <span class="kw">return</span> handlers; }</span>
+<span class="line"></span>
+<span class="line">    <span class="cmt">// 事件触发时输出触发者信息</span></span>
+<span class="line">    <span class="kw">public void</span> <span class="fn">notifyPlayer</span>() {</span>
+<span class="line">        <span class="cls">Player</span> p = <span class="fn">getPlayer</span>();</span>
+<span class="line">        <span class="kw">if</span> (p != <span class="num">null</span>) {</span>
+<span class="line">            <span class="cls">String</span> playerName = p.<span class="fn">getName</span>();</span>
+<span class="line">            p.<span class="fn">sendMessage</span>(<span class="cls">ChatColor</span>.LIGHT_PURPLE + <span class="str">"[MyCustomEvent] 事件已触发.触发者: "</span> + playerName);</span>
 <span class="line">        }</span>
 <span class="line">    }</span>
 <span class="line">}</span></code></pre>
                     </div>
                 </div>
+
+                <!-- 效果图 -->
                 <div>
-                    <h4 class="font-bold text-secondary mb-2">效果：</h4>
-                    <img src="../img/02_MyCustomEvent.png" alt="自定义事件效果" class="w-full rounded-lg shadow-md">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="w-2 h-2 rounded-full bg-accent"></span>
+                        <h4 class="font-bold text-secondary text-sm">运行效果</h4>
+                    </div>
+                    <img src="../img/Chapter02/MyCustomEvent.png" alt="自定义事件效果" class="w-full rounded-xl shadow-md">
                 </div>
-                <div class="text-sm text-gray-600 space-y-1">
-                    <p>“等等等等...为什么突然写了这么多东西呢？” MET学长表示困惑。他复习了Java基础知识，结合BukkitAPI Javadoc发现原因在于：</p>
-                    <ol class="list-decimal list-inside space-y-1">
+
+                <!-- 要点 -->
+                <div class="p-4 bg-secondary/5 rounded-xl border border-secondary/10 text-sm text-gray-600 space-y-3">
+                    <p class="font-bold text-secondary"><i class="fa fa-lightbulb-o mr-1"></i>"等等等等...为什么突然写了这么多东西呢？" MET学长表示困惑。他复习了Java基础知识，结合BukkitAPI Javadoc发现原因在于：</p>
+                    <ol class="list-decimal list-inside space-y-2">
                         <li>BukkitAPI在自定义事件部分强制要求实现如下两个方法：
-                            <div class="code-block">
+                            <div class="code-block mt-2">
                                 <div class="code-header">
-                                    <span>Java</span>
-                                    <button class="copy-btn" onclick="navigator.clipboard.writeText(this.parentElement.nextElementSibling.textContent.trim())">
-                                        <i class="fa fa-copy"></i> 复制
-                                    </button>
+                                    <span class="text-gray-500">必须实现</span>
+                                    <button class="copy-btn" onclick="copyCode(this)"><i class="fa fa-copy mr-1"></i>复制</button>
                                 </div>
-                                <pre class="code-body"><code><span class="line">public HandlerList getHandlers() {</span>
-<span class="line">    return handlers;</span>
-<span class="line">}</span>
-<span class="line">public static HandlerList getHandlerList() {</span>
-<span class="line">    return handlers;</span>
-<span class="line">}</span></code></pre>
+                                <pre class="code-body"><code><span class="line"><span class="kw">public</span> <span class="cls">HandlerList</span> <span class="fn">getHandlers</span>() { <span class="kw">return</span> handlers; }</span>
+<span class="line"><span class="kw">public static</span> <span class="cls">HandlerList</span> <span class="fn">getHandlerList</span>() { <span class="kw">return</span> handlers; }</span></code></pre>
                             </div>
                         </li>
-                        <li>自定义事件注册后要想应用到服务器也必须实现Listener接口，但是由于本插件是在主类注册监听所以免去手动注册，在onEnabled中已经自动实现所有主类中的监听器。</li>
-                        <li>有关Player玩家实现只是方便调用自定义事件的便携方式，不影响对自定义事件本身的理解。</li>
-                        <li>调用自定义事件的方法如下：
-                            <div class="code-block">
+                        <li>自定义事件注册后要想应用到服务器也必须实现 <code class="px-1 bg-secondary/10 text-secondary rounded font-mono text-xs">Listener</code> 接口，但由于本插件是在主类注册监听，在 <code class="px-1 bg-secondary/10 text-secondary rounded font-mono text-xs">onEnable()</code> 中已经自动实现所有主类中的监听器。</li>
+                        <li>有关 <code class="px-1 bg-primary/10 text-primary rounded font-mono text-xs">Player</code> 玩家实现只是方便调用自定义事件的便携方式，不影响对自定义事件本身的理解。</li>
+                        <li>调用自定义事件的方式如下：
+                            <div class="code-block mt-2">
                                 <div class="code-header">
-                                    <span>Java</span>
-                                    <button class="copy-btn" onclick="navigator.clipboard.writeText(this.parentElement.nextElementSibling.textContent.trim())">
-                                        <i class="fa fa-copy"></i> 复制
-                                    </button>
+                                    <span class="text-gray-500">调用示例</span>
+                                    <button class="copy-btn" onclick="copyCode(this)"><i class="fa fa-copy mr-1"></i>复制</button>
                                 </div>
-                                <pre class="code-body"><code><span class="line">MyCustomEvent mce = new MyCustomEvent(/* 具体调用方式 */);</span></code></pre>
+                                <pre class="code-body"><code><span class="line"><span class="cls">MyCustomEvent</span> mce = <span class="kw">new</span> <span class="cls">MyCustomEvent</span>(<span class="cmt">/* 具体调用方式 */</span>);</span></code></pre>
                             </div>
                         </li>
-                        <li>各游戏事件相互独立</li>
+                        <li>各游戏事件相互独立，互不干扰。</li>
                     </ol>
                 </div>
             </div>
         </section>
 
-        <section class="bg-white rounded-2xl p-6 shadow-lg card-hover">
-            <h3 class="text-xl font-bold text-primary mb-4">事件优先级</h3>
-            <p class="mb-4 indent-8">MET学长在查阅资料的时候发现大多事件都是可撤销或者监听撤销情况的，所以他特别留意了一下关于事件优先级的实现逻辑，发现因为一个事情可能被多个监听器监听，而服务器在处理事件时会"询问"每一个插件的"意见"，各插件通过设定优先级和是否忽略或影响取消判定的方式决定本插件的处理该事件的方式</p>
-            <div class="mt-4">
-                <img src="../img/02_EventPriority.png" alt="事件优先级示意图" class="w-full rounded-lg shadow-md">
+        <!-- 事件优先级 -->
+        <section class="bg-white rounded-2xl p-7 shadow-lg card-hover border border-gray-50">
+            <h3 class="text-xl font-extrabold text-primary mb-2 flex items-center gap-2">
+                <i class="fa fa-sort-amount-desc text-secondary"></i> 事件优先级
+            </h3>
+            <p class="text-gray-600 leading-8 mb-5 indent-8">MET学长在查阅资料的时候发现大多事件都是可撤销或者监听撤销情况的，所以他特别留意了一下关于事件优先级的实现逻辑，发现因为一个事情可能被多个监听器监听，而服务器在处理事件时会"询问"每一个插件的"意见"，各插件通过设定优先级和是否忽略或影响取消判定的方式决定本插件处理该事件的方式。</p>
+            <div class="mb-5">
+                <img src="../img/Chapter02/EventPriority.png" alt="事件优先级示意图" class="w-full rounded-xl shadow-md">
             </div>
-            <p class="mt-4 indent-8">虽然事件在被排队监听的过程中不会中途消失，但是高优先级的监听器会优先监听，并且可以通过Canceled接口有关方法更改后排队的监听器收到该事件的取消状态，以此影响后续监听器的具体行为。</p>
-            <p class="mt-4 indent-8">“a...原来是这样！” MET学长恍然大悟，他终于明白了Bukkit Event如何做到搭配Listener监听器实现对原版行为的监听和修改。随后查阅了更多资料，发现了Spigot官网有对各种事件的详细介绍。</p>
-            <p class="mt-2 indent-8"><a href="https://hub.spigotmc.org/javadocs/spigot/org/bukkit/event/package-summary.html" target="_blank" class="text-accent hover:underline">https://hub.spigotmc.org/javadocs/spigot/org/bukkit/event/package-summary.html</a></p>            </p>
-            <p class="mt-4 indent-8">"原来在Bukkit中有这么多的事件呢，涉及了实体行为、配置文件、世界设定、附魔、天气等各种方面!" MET学长感叹道。</p>
-            <blockquote class="border-l-4 border-accent pl-4 italic text-gray-600 mt-4">
-                “喂？上午你怎么TP过来就掉坑里了呀，也不说一声就下线了，干什么去了呀，快来看看我的领地，新建了好多东西呢！”
+            <p class="text-gray-600 leading-8 indent-8">虽然事件在被排队监听的过程中不会中途消失，但是高优先级的监听器会优先监听，并且可以通过 <code class="px-1.5 py-0.5 bg-secondary/10 text-secondary rounded text-sm font-mono">Canceled</code> 接口有关方法更改后排队的监听器收到该事件的取消状态，以此影响后续监听器的具体行为。</p>
+            <p class="text-gray-600 leading-8 mt-4 indent-8">"a...原来是这样！" MET学长恍然大悟，他终于明白了 Bukkit Event 如何搭配 Listener 监听器实现对原版行为的监听和修改。随后查阅了更多资料，发现了Spigot官网有对各种事件的详细介绍：</p>
+            <div class="mt-3 mb-5 px-4 py-3 bg-light rounded-xl border border-secondary/10 flex items-center gap-3">
+                <i class="fa fa-link text-secondary shrink-0"></i>
+                <a href="https://hub.spigotmc.org/javadocs/spigot/org/bukkit/event/package-summary.html" target="_blank"
+                   class="text-secondary hover:text-primary transition-colors text-sm font-mono break-all">
+                    https://hub.spigotmc.org/javadocs/spigot/org/bukkit/event/package-summary.html
+                </a>
+            </div>
+            <p class="text-gray-600 leading-8 indent-8">"原来在Bukkit中有这么多的事件呢，涉及了实体行为、配置文件、世界设定、附魔、天气等各种方面！" MET学长感叹道。</p>
+            <blockquote class="mt-5 border-l-4 border-accent pl-4 py-2 bg-accent/5 rounded-r-xl italic text-gray-500 text-sm leading-7">
+                "喂？上午你怎么TP过来就掉坑里了呀，也不说一声就下线了，干什么去了呀，快来看看我的领地，新建了好多东西呢！"
             </blockquote>
         </section>
 
+        <!-- 思考题 -->
         <section class="bg-gradient-to-br from-accent/5 to-primary/5 border border-accent/20 rounded-2xl p-6 shadow-lg card-hover">
             <details class="group">
-                <summary class="flex items-center gap-3 cursor-pointer list-none font-bold text-lg text-primary outline-none">
-                    <i class="fa fa-question-circle"></i>
-                    <span>点击展开查看思考问题=w=</span>
+                <summary class="flex items-center gap-3 cursor-pointer list-none font-bold text-lg text-primary outline-none select-none">
+                    <span class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary group-open:bg-primary group-open:text-white transition-all">
+                        <i class="fa fa-question"></i>
+                    </span>
+                    <span>点击展开查看思考问题 =w=</span>
+                    <i class="fa fa-chevron-down ml-auto text-sm text-gray-400 group-open:rotate-180 transition-transform"></i>
                 </summary>
-                <div class="mt-4 space-y-4 text-sm">
-                    <ol class="list-decimal list-inside space-y-2 text-gray-700">
-                        <li class="hover:text-primary transition-all">如何编写插件实现玩家加入游戏发送自定义欢迎信息?</li>
-                        <li class="hover:text-primary transition-all">如何调用自定义事件同时触发数个原生Bukkit事件？例如玩家击杀牛后把玩家TP到5格高的地方，但是取消摔落伤害并且播放自定义音效，随后在玩家位置生成一只猪（当然你也可以通过顺序执行代码块的方式实现）</li>
-                        <li class="hover:text-primary transition-all">进阶问题：除了直接操作玩家事件(如玩家攻击、玩家方块交互)getPlayer()的方式，你能想到其他触发事件的方法吗?</li>
+                <div class="mt-5 space-y-3">
+                    <ol class="space-y-3 text-sm text-gray-700">
+                        <li class="flex gap-3 p-3 bg-white/70 rounded-xl hover:bg-white transition-all">
+                            <span class="w-6 h-6 rounded-full bg-primary/10 text-primary text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">1</span>
+                            <span>如何编写插件实现玩家加入游戏发送自定义欢迎信息？</span>
+                        </li>
+                        <li class="flex gap-3 p-3 bg-white/70 rounded-xl hover:bg-white transition-all">
+                            <span class="w-6 h-6 rounded-full bg-secondary/10 text-secondary text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">2</span>
+                            <span>如何调用自定义事件同时触发数个原生Bukkit事件？例如玩家击杀牛后把玩家TP到5格高的地方，但是取消摔落伤害并且播放自定义音效，随后在玩家位置生成一只猪（当然你也可以通过顺序执行代码块的方式实现）。</span>
+                        </li>
+                        <li class="flex gap-3 p-3 bg-white/70 rounded-xl hover:bg-white transition-all">
+                            <span class="w-6 h-6 rounded-full bg-accent/30 text-amber-600 text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">3</span>
+                            <span><span class="font-bold text-amber-600">进阶：</span>除了直接操作玩家事件（如玩家攻击、玩家方块交互）<code class="px-1 bg-gray-100 rounded font-mono text-xs">getPlayer()</code> 的方式，你能想到其他触发事件的方法吗？</span>
+                        </li>
                     </ol>
                 </div>
             </details>
         </section>
+
     </main>
 
-    <div class="text-center mt-16">
-        <a href="../dev_contents.html" class="inline-flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-primary to-secondary text-white rounded-full font-bold hover:opacity-90 transition-all shadow-md">
+    <div class="text-center mt-14">
+        <a href="../dev_contents.html" class="inline-flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-primary to-secondary text-white rounded-full font-bold hover:opacity-90 transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5">
             <i class="fa fa-home"></i>
             <span>返回日记本目录</span>
         </a>
     </div>
 
-    <footer class="mt-20 text-center text-gray-500 text-sm">
-        <p>柠萌のBukkit日记本 | 每一份热爱都值得传递</p></br>
-        <p data-i18n="designRights">本网站外观设计权利归@Kiss_light233所有。</p>
+    <footer class="mt-16 text-center text-gray-400 text-sm space-y-1">
+        <p>柠萌のBukkit日记本 | 每一份热爱都值得传递</p>
+        <p>本网站外观设计权利归 @Kiss_light233 所有。</p>
     </footer>
 </div>
+
+<script>
+    function copyCode(btn) {
+        const pre = btn.closest('.code-block').querySelector('pre');
+        const text = pre.innerText.replace(/^\d+\s/gm, ''); // 去掉行号
+        navigator.clipboard.writeText(text.trim()).then(() => {
+            const orig = btn.innerHTML;
+            btn.innerHTML = '<i class="fa fa-check mr-1"></i>已复制';
+            btn.classList.add('text-green-400');
+            setTimeout(() => { btn.innerHTML = orig; btn.classList.remove('text-green-400'); }, 1500);
+        });
+    }
+</script>
 </body>
 </html>

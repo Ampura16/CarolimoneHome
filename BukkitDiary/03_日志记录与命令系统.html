@@ -51,6 +51,8 @@
         <div class="w-24 h-1 bg-accent mx-auto rounded-full"></div>
     </header>
     <main class="max-w-5xl mx-auto space-y-8">
+
+        <!-- 人物卡片 -->
         <section class="bg-white rounded-2xl p-6 shadow-lg card-hover border-t-4 border-primary">
             <div class="flex flex-col md:flex-row items-center gap-6">
                 <img src="../resources/js_head_icon.jpg" alt="JS_ICON" class="w-20 h-20 rounded-full object-cover border-2 border-primary/20 shadow-sm">
@@ -58,156 +60,158 @@
                     <h2 class="text-xl font-bold text-primary">人物：JS学姐</h2>
                     <div class="grid grid-cols-1 gap-2 mt-2 text-sm text-gray-600">
                         <p><i class="fa fa-id-badge w-5"></i> 身份：初来乍到而又勤奋好学的萌新玩家</p>
-                        <p><i class="fa fa-bullseye w-5 text-secondary"></i> 任务目标：理解命令系统处理逻辑并制作插件</p>
+                        <p><i class="fa fa-bullseye w-5 text-secondary"></i> 任务目标：理解Bukkit命令系统处理逻辑并且制作简单的命令系统</p>
                         <p><i class="fa fa-star w-5 text-accent"></i> 难度：★★☆☆☆</p>
                     </div>
                 </div>
             </div>
         </section>
+
+        <!-- 故事引入 -->
         <section class="bg-white rounded-2xl p-8 shadow-lg card-hover leading-relaxed text-gray-700">
-            <p class="indent-8 mb-4">JS学姐今天有些困惑。她在好朋友V10的邀请下加入了某小游戏服务器，丰富的游戏玩法使她大为震惊。她尝试接受好友邀请后，发现输入了<code class="bg-light px-1 rounded text-secondary">/friend</code>之后如果忘记输入操作类型和好友ID，服务器还会提示她命令哪里出现了问题。</p>
-            <p class="indent-8">她决定专门抽出时间研究为什么命令系统可以根据玩家的输入反馈不同内容并且执行不同操作...</p>
+            <p class="indent-8 mb-4">JS学姐今天有些困惑。她在好朋友V10的邀请下加入了某小游戏服务器，丰富的游戏玩法使她大为震惊。她尝试接受好友邀请后，发现输入了<code class="bg-light px-1 rounded text-secondary">/friend</code>之后如果忘记输入操作类型和好友ID，服务器还会提示她命令哪里出现了问题。她决定专门抽出时间研究为什么命令系统可以根据玩家的输入反馈不同内容并且执行不同操作。</p>
         </section>
+
+        <!-- Logger 日志系统 -->
         <section class="bg-white rounded-2xl p-8 shadow-lg card-hover">
             <h3 class="text-2xl font-bold text-primary mb-4 flex items-center gap-2"><i class="fa fa-terminal"></i> 日志记录：从 sout 到 Logger</h3>
-            <p class="text-gray-600 mb-4">众所周知，Minecraft 客户端和服务端都是基于 Java 实现的。当我们试图调试或记录插件运行状态时，Logger 系统比简单的输出更加专业。虽然可以使用 <code class="text-secondary font-bold">System.out.println()</code>，但它缺乏等级管理且不会被持久化记录。</p>
-            <div class="code-block mb-6">
+            <p class="text-gray-600 mb-4">众所周知，Minecraft客户端和服务端都是基于Java实现的，并且要在JVM虚拟机上运行。这就决定了绝大多数情况下有关Minecraft的一切都要受到Java语言的管理控制。当我们试图发送一些消息，或者服务器处理一些事件，通常都可以被Logger日志系统控制。根据Java语法，我们可以使用System包中的"out"方法输出内容，并且使用<code class="text-secondary font-mono">println("");</code>方法将这些输出内容打印。例如：</p>
+            <div class="code-block">
+                <div class="code-header"><span>示例</span></div>
+                <pre class="code-body"><code><span class="line"><span class="type">System</span>.<span class="method">out</span>.<span class="method">println</span>(<span class="string">"Hello MeT!"</span>);</span></code></pre>
+            </div>
+            <p class="text-gray-600 mb-4">这样就可以在被调用时在控制台中打印"Hello MeT!"了！这个方法可以在IDEA中输入"sout"直接Tab补全。是不是很方便？但是不要着急，这样做有一个弊端：sout只是单纯的输出一条不能称得上日志的文本。如果服务器关闭，该方法不会留下任何执行记录，这就导致了我们在处理较复杂的Java程序或者Bukkit插件时难以掌握运行的状态。</p>
+            <p class="text-gray-600 mb-4">BukkitAPI为我们解决了这个问题！还记得我们创建主类时拓展的JavaPlugin吗？没错，Bukkit提供了一个叫做Logger的方法：</p>
+            <div class="code-block">
                 <div class="code-header"><span>JavaPlugin.java - getLogger()</span></div>
-                <pre class="code-body"><code><span class="line"><span class="annotation">@NotNull</span></span><span class="line"><span class="annotation">@Override</span></span><span class="line"><span class="keyword">public</span> <span class="type">Logger</span> <span class="method">getLogger</span>() {</span><span class="line">    <span class="keyword">return</span> logger;</span><span class="line">}</span></code></pre>
+                <pre class="code-body"><code><span class="line"><span class="annotation">@NotNull</span></span>
+<span class="line"><span class="annotation">@Override</span></span>
+<span class="line"><span class="keyword">public</span> <span class="type">Logger</span> <span class="method">getLogger</span>() {</span>
+<span class="line">    <span class="keyword">return</span> logger;</span>
+<span class="line">}</span></code></pre>
+            </div>
+            <p class="text-gray-600 mb-4">这个方法允许我们使用不同等级的日志记录，这样在关闭服务器时就会在日志文件里保存由这些日志方法输出的文本信息：</p>
+            <div class="code-block">
+                <div class="code-header"><span>日志级别对比</span></div>
+                <pre class="code-body"><code><span class="line"><span class="type">System</span>.<span class="method">out</span>.<span class="method">println</span>(<span class="string">"没有日志功能的sout输出"</span>);</span>
+<span class="line"></span>
+<span class="line"><span class="type">Bukkit</span>.<span class="method">getLogger</span>().<span class="method">info</span>(<span class="string">"调用方法"</span>);</span>
+<span class="line"><span class="method">getLogger</span>().<span class="method">info</span>(<span class="string">"INFO 信息级别日志"</span>);</span>
+<span class="line"><span class="method">getLogger</span>().<span class="method">warning</span>(<span class="string">"WARNING 警告级别日志"</span>);</span>
+<span class="line"><span class="method">getLogger</span>().<span class="method">severe</span>(<span class="string">"ERROR 错误级别日志"</span>);</span></code></pre>
             </div>
             <div class="bg-accent/10 border-l-4 border-accent p-4 text-sm mt-4"><strong>Tips:</strong> 使用 Logger 的好处在于日志会自动保存到服务器的 <code class="font-mono">logs</code> 文件夹中。通过 <code class="font-mono">severe</code> 级别输出的错误在控制台中通常会以红色显示，非常醒目。</div>
+            <p class="text-gray-600 mt-4">其实这些有关日志记录本质上是对于服务器或者玩家操作记录的保存方式，同时这也是反应命令系统有效运行的最直接方式之一。</p>
         </section>
+
+        <!-- 原版命令到插件命令 -->
         <section class="bg-white rounded-2xl p-8 shadow-lg card-hover">
             <h3 class="text-2xl font-bold text-secondary mb-4 flex items-center gap-2"><i class="fa fa-gamepad"></i> 从原版命令到插件命令</h3>
-            <p class="text-gray-600 mb-4">在原版MC中已经支持了一些简单的命令。例如<code class="text-secondary">/gamemode</code>切换游戏模式、<code class="text-secondary">/tp</code>传送玩家。但很多大型服务器都有自己的玩法和命令，插件是如何做到的？这就要提到我们本节重点：</p>
+            <p class="text-gray-600 mb-4">而对于Minecraft，在原版MC中已经支持了一些简单的原版命令。例如<code class="text-secondary">/gamemode &lt;游戏模式&gt; [玩家ID]</code>可以切换指定玩家的游戏模式；或者<code class="text-secondary">/tp 玩家</code>、<code class="text-secondary">/tp &lt;x&gt; &lt;y&gt; &lt;z&gt;</code>可以传送至指定坐标位置。亦或者在官方服务端中可以使用<code class="text-secondary">/op</code>和<code class="text-secondary">/deop</code>切换玩家的管理员状态，我们只要在聊天栏中输入"/"即可查看所有可用的命令。但是我们也很容易发现：很多大型服务器都有他们自己的玩法和命令。插件是如何做到这种事情的？这就要提到我们本节重点问题：</p>
             <div class="text-center py-4"><span class="text-lg font-bold text-secondary">如何构建命令系统</span></div>
         </section>
 
+        <!-- 回顾已学内容 -->
         <section class="bg-white rounded-2xl p-8 shadow-lg card-hover">
             <h3 class="text-2xl font-bold text-primary mb-4 flex items-center gap-2"><i class="fa fa-history"></i> 回顾：已学的事件监听</h3>
-            <p class="text-gray-600 mb-4">根据之前的学习，我们已经学会了简单的事件监听方法和如何创建自定义事件。以下是主类的结构：</p>
+            <p class="text-gray-600 mb-4">根据我们之前的学习，现在我们已经学会了简单的事件监听方法和如何创建自定义事件并且调用：</p>
             <div class="code-block">
                 <div class="code-header"><span>DiaryMain.java - 主类结构回顾</span></div>
                 <pre class="code-body"><code><span class="line"><span class="keyword">package</span> top.brmc.bukkitplatform.diaryplugin;</span>
-<span class="line"><span class="keyword">import</span> org.bukkit.ChatColor;</span>
-<span class="line"><span class="keyword">import</span> org.bukkit.event.EventHandler;</span>
-<span class="line"><span class="keyword">import</span> org.bukkit.event.Listener;</span>
-<span class="line"><span class="keyword">import</span> org.bukkit.event.block.BlockBreakEvent;</span>
-<span class="line"><span class="keyword">import</span> org.bukkit.event.block.BlockPlaceEvent;</span>
-<span class="line"><span class="keyword">import</span> org.bukkit.plugin.java.JavaPlugin;</span>
-<span class="line"><span class="keyword">import</span> org.jspecify.annotations.NonNull;</span>
+<span class="line"></span>
+<span class="line"><span class="keyword">import</span> ...;</span>
+<span class="line"></span>
 <span class="line"><span class="keyword">public final class</span> <span class="type">DiaryMain</span> <span class="keyword">extends</span> <span class="type">JavaPlugin</span> <span class="keyword">implements</span> <span class="type">Listener</span> {</span>
-<span class="line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="annotation">@Override</span></span>
-<span class="line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> <span class="method">onEnable</span>() {</span>
-<span class="line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="method">getServer</span>().<span class="method">getPluginManager</span>().<span class="method">registerEvents</span>(<span class="keyword">this</span>, <span class="keyword">this</span>);</span>
-<span class="line">&nbsp;&nbsp;&nbsp;&nbsp;}</span>
-<span class="line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="annotation">@Override</span></span>
-<span class="line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> <span class="method">onDisable</span>() {</span>
-<span class="line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Plugin shutdown logic</span></span>
-<span class="line">&nbsp;&nbsp;&nbsp;&nbsp;}</span>
-<span class="line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 监听玩家破坏方块的事件</span></span>
-<span class="line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="annotation">@EventHandler</span></span>
-<span class="line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> <span class="method">onBlockBreak</span>(<span class="annotation">@NonNull</span> <span class="type">BlockBreakEvent</span> event) {</span>
-<span class="line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;event.<span class="method">setCancelled</span>(<span class="keyword">true</span>);</span>
-<span class="line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;event.<span class="method">getPlayer</span>().<span class="method">sendMessage</span>(<span class="type">ChatColor</span>.GOLD + <span class="string">"破坏方块事件被取消."</span>);</span>
-<span class="line">&nbsp;&nbsp;&nbsp;&nbsp;}</span>
-<span class="line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="annotation">@EventHandler</span></span>
-<span class="line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> <span class="method">onBlockPlace</span>(<span class="annotation">@NonNull</span> <span class="type">BlockPlaceEvent</span> bpe) {</span>
-<span class="line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 放置方块事件逻辑...</span></span>
-<span class="line">&nbsp;&nbsp;&nbsp;&nbsp;}</span>
+<span class="line"></span>
+<span class="line">    <span class="annotation">@Override</span></span>
+<span class="line">    <span class="keyword">public void</span> <span class="method">onEnable</span>() {</span>
+<span class="line">        <span class="method">getServer</span>().<span class="method">getPluginManager</span>().<span class="method">registerEvents</span>(<span class="keyword">this</span>, <span class="keyword">this</span>);</span>
+<span class="line">    }</span>
+<span class="line"></span>
+<span class="line">    <span class="annotation">@Override</span></span>
+<span class="line">    <span class="keyword">public void</span> <span class="method">onDisable</span>() { ... }</span>
+<span class="line"></span>
+<span class="line">    <span class="annotation">@EventHandler</span></span>
+<span class="line">    <span class="keyword">public void</span> <span class="method">onBlockBreak</span>(<span class="annotation">@NonNull</span> <span class="type">BlockBreakEvent</span> event) { ... }</span>
+<span class="line"></span>
+<span class="line">    <span class="annotation">@EventHandler</span></span>
+<span class="line">    <span class="keyword">public void</span> <span class="method">onBlockPlace</span>(<span class="annotation">@NonNull</span> <span class="type">BlockPlaceEvent</span> bpe) { ... }</span>
 <span class="line">}</span></code></pre>
             </div>
-
             <div class="code-block">
                 <div class="code-header"><span>MyCustomEvent.java - 自定义事件回顾</span></div>
                 <pre class="code-body"><code><span class="line"><span class="keyword">package</span> top.brmc.bukkitplatform.diaryplugin.event;</span>
-<span class="line"><span class="keyword">import</span> org.bukkit.event.Event;</span>
-<span class="line"><span class="keyword">import</span> org.bukkit.event.HandlerList;</span>
+<span class="line"></span>
+<span class="line"><span class="keyword">import</span> ...;</span>
+<span class="line"></span>
 <span class="line"><span class="keyword">public class</span> <span class="type">MyCustomEvent</span> <span class="keyword">extends</span> <span class="type">Event</span> {</span>
-<span class="line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">private static final</span> <span class="type">HandlerList</span> handlers = <span class="keyword">new</span> <span class="type">HandlerList</span>();</span>
-<span class="line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="annotation">@Override</span></span>
-<span class="line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public</span> <span class="type">HandlerList</span> <span class="method">getHandlers</span>() {</span>
-<span class="line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> handlers;</span>
-<span class="line">&nbsp;&nbsp;&nbsp;&nbsp;}</span>
-<span class="line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public static</span> <span class="type">HandlerList</span> <span class="method">getHandlerList</span>() {</span>
-<span class="line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">return</span> handlers;</span>
-<span class="line">&nbsp;&nbsp;&nbsp;&nbsp;}</span>
-<span class="line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 自定义事件属性与方法...</span></span>
+<span class="line"></span>
+<span class="line">    <span class="annotation">@Override</span></span>
+<span class="line">    <span class="keyword">public</span> <span class="type">HandlerList</span> <span class="method">getHandlers</span>() {</span>
+<span class="line">        <span class="keyword">return</span> handlers;</span>
+<span class="line">    }</span>
+<span class="line"></span>
+<span class="line">    <span class="keyword">public static</span> <span class="type">HandlerList</span> <span class="method">getHandlerList</span>() {</span>
+<span class="line">        <span class="keyword">return</span> handlers;</span>
+<span class="line">    }</span>
+<span class="line"></span>
+<span class="line">    <span class="comment">// 自定义事件属性与方法...</span></span>
 <span class="line">}</span></code></pre>
             </div>
-
         </section>
+
+        <!-- plugin.yml -->
         <section class="bg-white rounded-2xl p-8 shadow-lg card-hover">
             <h3 class="text-2xl font-bold text-secondary mb-4 flex items-center gap-2"><i class="fa fa-file-code-o"></i> 插件的"身份证"：plugin.yml</h3>
-            <p class="text-gray-600 mb-4">要想学习创建命令系统，必须了解Bukkit服务器文件架构中的 <a href="https://www.spigotmc.org/wiki/plugin-yml/" class="text-secondary underline hover:text-primary" target="_blank">plugin.yml</a>。基于正确的项目创建方法，IDEA已经为我们自动创建了<code class="text-secondary">src/main/resources</code>文件夹，其中包括plugin.yml：</p>
-            <div class="code-block"> <div class="code-header"><span>plugin.yml - 基础配置</span></div> <pre class="code-body"><code><span class="line"><span class="type">name</span>: DiaryPlugin</span><span class="line"><span class="type">version</span>: <span class="string">'1.0-SNAPSHOT'</span></span><span class="line"><span class="type">main</span>: top.brmc.bukkitplatform.diaryplugin.DiaryMain</span><span class="line"><span class="type">api-version</span>: <span class="string">'1.21'</span></span><span class="line"><span class="type">authors</span>:</span><span class="line"> - JS <span class="comment"># 你亲爱的JS学姐不是JavaScript啊喂...</span></span><span class="line"><span class="type">description</span>: 我的插件</span></code></pre> </div>
-            <div class="bg-accent/10 border-l-4 border-accent p-4 text-sm mt-4"><strong>Tips:</strong> 非常不建议修改此文件名，因为Bukkit/Paper服务器核心会在源码层面获取这个插件"身份证"，只有检测到存在此名称的插件信息文件，插件才会被服务器识别，否则插件无法加载。</div>
-            <p class="text-gray-600 mt-6 mb-4">在现有配置下方添加命令注册：</p>
-            <p class="text-gray-600 mt-6 mb-4">什么？你不知道什么是YAML文件？呃...先这样Copy进去，听话awa~在后续处理自定义config.yml和自定义配置文件的时候我们会详细说明的~</p>
+            <p class="text-gray-600 mb-4">要想学习创建命令系统，我们必须了解Bukkit服务器文件架构中的 <a href="https://www.spigotmc.org/wiki/plugin-yml/" class="text-secondary underline hover:text-primary" target="_blank">plugin.yml</a>。</p>
+            <p class="text-gray-600 mb-4">在项目中我们可以发现：基于正确的项目创建方法，IDEA已经为我们自动创建了<code class="text-secondary font-mono">src/main/resources</code>文件夹，其中包括了一个叫做<code class="text-secondary font-mono">plugin.yml</code>或者<code class="text-secondary font-mono">paper-plugin.yml</code>的YAML格式的文件：</p>
+            <p class="text-gray-500 italic text-sm mb-4">什么？你不知道什么是YAML文件？呃...先这样Copy进去，听话awa~在后续处理自定义config.yml和自定义配置文件的时候我们会详细说明的~</p>
+            <div class="code-block">
+                <div class="code-header"><span>plugin.yml - 基础配置</span></div>
+                <pre class="code-body"><code><span class="line"><span class="type">name</span>: DiaryPlugin</span>
+<span class="line"><span class="type">version</span>: <span class="string">'1.0-SNAPSHOT'</span></span>
+<span class="line"><span class="type">main</span>: top.brmc.bukkitplatform.diaryplugin.DiaryMain</span>
+<span class="line"><span class="type">api-version</span>: <span class="string">'1.21'</span></span>
+<span class="line"><span class="type">authors</span>:</span>
+<span class="line">  - JS <span class="comment"># 你亲爱的JS学姐不是JavaScript啊喂...</span></span>
+<span class="line"><span class="type">description</span>: 我的插件</span></code></pre>
+            </div>
+            <div class="bg-accent/10 border-l-4 border-accent p-4 text-sm mt-4"><strong>Tips:</strong> 虽然IDEA支持我们在构建中自定义资源文件名称，例如：<code class="font-mono">filesMatching('paper-plugin.yml') &#123;expand props&#125;</code>，但是非常不建议修改此文件名，因为Bukkit/Paper服务器核心会在源码层面获取这个插件"身份证"，只有检测到存在此名称的插件信息文件，插件才会被服务器识别，否则插件无法加载。</div>
+            <p class="text-gray-600 mt-6 mb-4">嗯...做点什么好呢？我们来试试生成实体吧！在<code class="text-secondary font-mono">(paper-)plugin.yml</code>现有配置下方添加命令：</p>
             <div class="code-block">
                 <div class="code-header"><span>plugin.yml - 添加命令</span></div>
-                <pre class="code-body"><code><span class="line"><span class="type">name</span>: DiaryPlugin</span><span class="line"><span class="type">version</span>: <span class="string">'1.0-SNAPSHOT'</span></span><span class="line"><span class="type">main</span>: top.brmc.bukkitplatform.diaryplugin.DiaryMain</span><span class="line"><span class="type">api-version</span>: <span class="string">'1.21'</span></span><span class="line"><span class="type">commands</span>:</span><span class="line">  <span class="type">spawnentity</span>:</span><span class="line">    <span class="type">description</span>: 生成一只怪物</span><span class="line">    <span class="type">usage</span>: /spawnentity &lt;实体名&gt; &lt;玩家|x y z&gt;</span></code></pre>
+                <pre class="code-body"><code><span class="line"><span class="type">commands</span>:</span>
+<span class="line">  <span class="type">spawnentity</span>:</span>
+<span class="line">    <span class="type">description</span>: 生成一只怪物</span></code></pre>
             </div>
-            <p class="text-gray-500 text-sm mt-2 italic">只要添加commands根键名以及一级子键命令名称就足以让插件识别命令，暂时不需要添加更多内容，后续我们可以自己实现更智能的提示！</p>
+            <p class="text-gray-500 text-sm mt-2 italic">只要添加commands根键名以及一级子键命令名称就足以让插件识别命令，暂时不需要添加更多内容啦，我们可以在后续自己实现更加智能的提示和执行方法！</p>
         </section>
+
+        <!-- 创建命令类 -->
         <section class="bg-white rounded-2xl p-8 shadow-lg card-hover">
             <h3 class="text-2xl font-bold text-primary mb-4 flex items-center gap-2"><i class="fa fa-cogs"></i> 创建命令类与注册</h3>
-            <p class="text-gray-600 mb-4">新建命令类软件包并且新建<code class="text-secondary">SpawnEntityCommand</code>类：</p>
+            <p class="text-gray-600 mb-4">处理完配置部分，现在在插件中添加识别自定义命令的逻辑。嗯...使用<code class="text-secondary">sendMessage()</code>发送文本太简单啦，我们来试试使用命令生成生物吧！新建命令类软件包并且新建<code class="text-secondary">SpawnEntityCommand</code>类：</p>
             <div class="my-4">
-                <img src="../img/03_新建命令类.png" alt="新建命令类" class="rounded-lg shadow border max-w-full">
+                <img src="../img/Chapter03/新建命令类.png" alt="新建命令类" class="rounded-lg shadow border max-w-full">
             </div>
-            <p class="text-gray-600 mb-4">在插件初始化时注册命令执行器。注意<code class="text-secondary">getCommand("spawnentity")</code>要与plugin.yml中设置的命令名称一致：</p>
-            <div class="code-block">
-                <div class="code-header"><span>DiaryMain.java - 注册命令</span></div>
-                <pre class="code-body"><code><span class="line"><span class="keyword">package</span> top.brmc.bukkitplatform.diaryplugin;</span>
-<span class="line"></span>
-<span class="line"><span class="keyword">import</span> org.bukkit.ChatColor;</span>
-<span class="line"><span class="keyword">import</span> org.bukkit.event.EventHandler;</span>
-<span class="line"><span class="keyword">import</span> org.bukkit.event.Listener;</span>
-<span class="line"><span class="keyword">import</span> org.bukkit.event.block.BlockBreakEvent;</span>
-<span class="line"><span class="keyword">import</span> org.bukkit.plugin.java.JavaPlugin;</span>
-<span class="line"><span class="keyword">import</span> org.jspecify.annotations.NonNull;</span>
-<span class="line"><span class="keyword">import</span> top.brmc.bukkitplatform.diaryplugin.command.SpawnEntityCommand;</span>
-<span class="line"></span>
-<span class="line"><span class="keyword">public final class</span> <span class="type">DiaryMain</span> <span class="keyword">extends</span> <span class="type">JavaPlugin</span> <span class="keyword">implements</span> <span class="type">Listener</span> {</span>
-<span class="line"></span>
-<span class="line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="annotation">@Override</span></span>
-<span class="line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> <span class="method">onEnable</span>() {</span>
-<span class="line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="method">getServer</span>().<span class="method">getPluginManager</span>().<span class="method">registerEvents</span>(<span class="keyword">this</span>, <span class="keyword">this</span>);</span>
-<span class="line"></span>
-<span class="line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// 注册命令执行器与Tab补全</span></span>
-<span class="line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="type">SpawnEntityCommand</span> spawnCmd = <span class="keyword">new</span> <span class="type">SpawnEntityCommand</span>();</span>
-<span class="line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="method">getCommand</span>(<span class="string">"spawnentity"</span>).<span class="method">setExecutor</span>(spawnCmd);</span>
-<span class="line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="method">getCommand</span>(<span class="string">"spawnentity"</span>).<span class="method">setTabCompleter</span>(spawnCmd);</span>
-<span class="line">&nbsp;&nbsp;&nbsp;&nbsp;}</span>
-<span class="line"></span>
-<span class="line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="annotation">@Override</span></span>
-<span class="line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> <span class="method">onDisable</span>() {</span>
-<span class="line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="comment">// Plugin shutdown logic</span></span>
-<span class="line">&nbsp;&nbsp;&nbsp;&nbsp;}</span>
-<span class="line"></span>
-<span class="line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="annotation">@EventHandler</span></span>
-<span class="line">&nbsp;&nbsp;&nbsp;&nbsp;<span class="keyword">public void</span> <span class="method">onBlockBreak</span>(<span class="annotation">@NonNull</span> <span class="type">BlockBreakEvent</span> event) {</span>
-<span class="line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;event.<span class="method">setCancelled</span>(<span class="keyword">true</span>);</span>
-<span class="line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;event.<span class="method">getPlayer</span>().<span class="method">sendMessage</span>(<span class="type">ChatColor</span>.GOLD + <span class="string">"破坏方块事件被取消."</span>);</span>
-<span class="line">&nbsp;&nbsp;&nbsp;&nbsp;}</span>
-<span class="line">}</span></code></pre>
-            </div>
-
+            <p class="text-gray-600 mb-4">在插件初始化时调用：<code class="text-secondary font-mono">getCommand("spawnmob").setExecutor(new SpawnEntityCommand());</code>，注意<code class="text-secondary">getCommand("xxx")</code>要与你在plugin.yml中commands下设置的命令名称一致。这里在后续示例图片为spawnentity，没有影响，主要是与配置文件对应即可。另外记得正确添加import导入：</p>
             <div class="my-4">
-                <img src="../img/03_主类导入命令类.png" alt="主类导入命令类" class="rounded-lg shadow border max-w-full">
+                <img src="../img/Chapter03/主类导入命令类.png" alt="主类导入命令类" class="rounded-lg shadow border max-w-full">
             </div>
-            <p class="text-gray-600 mt-4 mb-2">根据Bukkit设计原理，Command实例必须实现<code class="text-secondary">CommandExecutor</code>和<code class="text-secondary">TabCompleter</code>接口。IDEA会自动提示需要实现的方法：</p>
+            <p class="text-gray-600 mt-4 mb-2">根据Bukkit设计原理，Command实例必须实现<code class="text-secondary">CommandExecutor</code>执行者以及<code class="text-secondary">TabCompleter</code>补全实现。IDEA已经自动理解了BukkitAPI，已经知道如何正确实现有关的方法，按照提示补全缺失的方法吧~</p>
             <div class="my-4">
-                <img src="../img/03_命令类初始化.png" alt="命令类初始化" class="rounded-lg shadow border max-w-full">
+                <img src="../img/Chapter03/命令类初始化.png" alt="命令类初始化" class="rounded-lg shadow border max-w-full">
             </div>
         </section>
+
+        <!-- 完整命令类代码 + QA -->
         <section class="bg-white rounded-2xl p-8 shadow-lg card-hover">
             <h3 class="text-2xl font-bold text-primary mb-6 flex items-center gap-2"><i class="fa fa-code"></i> 实战：生成实体命令 (SpawnEntityCommand)</h3>
-            <p class="text-sm text-gray-500 mb-4 italic">我们应当在onCommand方法中设计此命令执行的具体逻辑，在onTabComplete方法中设计Tab补全逻辑。由于命令的处理是一套系统逻辑，如果单独拆分分析，结论会是Java基本原理，相对不符合我们掌握命令系统的具体需求。所以我们直接给出成品并在下文以Q/A的方式进行分析：</p>
+            <p class="text-gray-600 mb-4">我们应当在<code class="text-secondary">onCommand</code>方法中设计此命令执行的具体逻辑，在<code class="text-secondary">onTabComplete</code>方法中设计Tab补全逻辑。由于命令的处理是一套系统逻辑，如果单独拆分分析，结论会是Java基本原理，相对不符合我们掌握命令系统的具体需求。所以我们直接给出成品并在下文以Q/A的方式进行分析：</p>
             <div class="code-block">
                 <div class="code-header"><span>SpawnEntityCommand.java</span></div>
                 <pre class="code-body"><code><span class="line"><span class="keyword">package</span> top.brmc.bukkitplatform.diaryplugin.command;</span>
+<span class="line"></span>
 <span class="line"><span class="keyword">import</span> org.bukkit.Bukkit;</span>
 <span class="line"><span class="keyword">import</span> org.bukkit.ChatColor;</span>
 <span class="line"><span class="keyword">import</span> org.bukkit.Location;</span>
@@ -218,49 +222,65 @@
 <span class="line"><span class="keyword">import</span> org.bukkit.entity.EntityType;</span>
 <span class="line"><span class="keyword">import</span> org.bukkit.entity.Player;</span>
 <span class="line"><span class="keyword">import</span> org.jspecify.annotations.NonNull;</span>
+<span class="line"></span>
 <span class="line"><span class="keyword">import</span> java.util.ArrayList;</span>
 <span class="line"><span class="keyword">import</span> java.util.List;</span>
+<span class="line"></span>
 <span class="line"><span class="keyword">public class</span> <span class="type">SpawnEntityCommand</span> <span class="keyword">implements</span> <span class="type">CommandExecutor</span>, <span class="type">TabCompleter</span> {</span>
+<span class="line"></span>
 <span class="line">    <span class="annotation">@Override</span></span>
 <span class="line">    <span class="keyword">public boolean</span> <span class="method">onCommand</span>(<span class="annotation">@NonNull</span> <span class="type">CommandSender</span> sender, <span class="annotation">@NonNull</span> <span class="type">Command</span> command, <span class="annotation">@NonNull</span> <span class="type">String</span> label, <span class="type">String</span>[] args) {</span>
+<span class="line"></span>
 <span class="line">        <span class="keyword">if</span> (!(sender <span class="keyword">instanceof</span> <span class="type">Player</span>)) {</span>
 <span class="line">            sender.<span class="method">sendMessage</span>(<span class="string">"只有玩家可以执行此命令!"</span>);</span>
 <span class="line">            <span class="keyword">return true</span>;</span>
 <span class="line">        }</span>
+<span class="line"></span>
 <span class="line">        <span class="keyword">if</span> (args.length &lt; <span class="number">2</span>)</span>
 <span class="line">            <span class="keyword">return false</span>;</span>
+<span class="line"></span>
 <span class="line">        <span class="type">Player</span> player = (<span class="type">Player</span>) sender;</span>
 <span class="line">        <span class="type">EntityType</span> entityType;</span>
+<span class="line"></span>
 <span class="line">        <span class="keyword">try</span> {</span>
 <span class="line">            entityType = <span class="type">EntityType</span>.<span class="method">valueOf</span>(args[<span class="number">0</span>].<span class="method">toUpperCase</span>());</span>
 <span class="line">        } <span class="keyword">catch</span> (<span class="type">Throwable</span> t) {</span>
 <span class="line">            sender.<span class="method">sendMessage</span>(<span class="type">ChatColor</span>.RED + <span class="string">"没有这种实体 '"</span> + args[<span class="number">0</span>] + <span class="string">"'!"</span>);</span>
 <span class="line">            <span class="keyword">return true</span>;</span>
 <span class="line">        }</span>
+<span class="line"></span>
 <span class="line">        <span class="keyword">if</span> (!entityType.<span class="method">isAlive</span>() || !entityType.<span class="method">isSpawnable</span>()) {</span>
 <span class="line">            sender.<span class="method">sendMessage</span>(<span class="type">ChatColor</span>.RED + entityType.<span class="method">getName</span>() + <span class="string">" 这个实体无法生成!"</span>);</span>
 <span class="line">            <span class="keyword">return true</span>;</span>
 <span class="line">        }</span>
+<span class="line"></span>
 <span class="line">        <span class="keyword">if</span> (args.length == <span class="number">4</span>) {</span>
 <span class="line">            <span class="keyword">int</span> x = <span class="keyword">this</span>.<span class="method">parseNumber</span>(args, <span class="number">1</span>);</span>
 <span class="line">            <span class="keyword">int</span> y = <span class="keyword">this</span>.<span class="method">parseNumber</span>(args, <span class="number">2</span>);</span>
-<span class="line">            <span class="keyword">int</span> z = <span class="keyword">this</span>.<span class="method">parseNumber</span>(args, <span class="number">3</span>);</span>
+<span class="line">            <span class="keyword">int</span> z = <span class="keyword">this</span>.<span class="method">parseNumber</span>(args,<span class="number">3</span>);</span>
+<span class="line"></span>
 <span class="line">            <span class="keyword">if</span> (x == -<span class="number">1</span> || y == -<span class="number">1</span> || z == -<span class="number">1</span>) {</span>
 <span class="line">                sender.<span class="method">sendMessage</span>(<span class="type">ChatColor</span>.RED + <span class="string">"请检查你输入的坐标, XYZ 必须是数字类型! 例如: "</span> + <span class="type">String</span>.<span class="method">join</span>(<span class="string">" "</span>, args));</span>
 <span class="line">                <span class="keyword">return true</span>;</span>
 <span class="line">            }</span>
+<span class="line"></span>
 <span class="line">            <span class="type">Location</span> location = <span class="keyword">new</span> <span class="type">Location</span>(player.<span class="method">getWorld</span>(), x, y, z);</span>
 <span class="line">            player.<span class="method">getWorld</span>().<span class="method">spawnEntity</span>(location, entityType);</span>
+<span class="line"></span>
 <span class="line">        } <span class="keyword">else if</span> (args.length == <span class="number">2</span>) {</span>
 <span class="line">            <span class="type">Player</span> targetPlayer = <span class="type">Bukkit</span>.<span class="method">getPlayer</span>(args[<span class="number">1</span>]);</span>
+<span class="line"></span>
 <span class="line">            <span class="keyword">if</span> (targetPlayer == <span class="keyword">null</span>) {</span>
 <span class="line">                sender.<span class="method">sendMessage</span>(<span class="type">ChatColor</span>.RED + <span class="string">"玩家 '"</span> + args[<span class="number">1</span>] + <span class="string">"' 不在线!"</span>);</span>
 <span class="line">                <span class="keyword">return true</span>;</span>
 <span class="line">            }</span>
+<span class="line"></span>
 <span class="line">            targetPlayer.<span class="method">getWorld</span>().<span class="method">spawnEntity</span>(targetPlayer.<span class="method">getLocation</span>(), entityType);</span>
 <span class="line">        }</span>
+<span class="line"></span>
 <span class="line">        <span class="keyword">return false</span>; <span class="comment">// false = 玩家需要查看Usage用法</span></span>
 <span class="line">    }</span>
+<span class="line"></span>
 <span class="line">    <span class="keyword">private int</span> <span class="method">parseNumber</span>(<span class="type">String</span>[] args, <span class="keyword">int</span> index) {</span>
 <span class="line">        <span class="keyword">try</span> {</span>
 <span class="line">            <span class="keyword">return</span> <span class="type">Integer</span>.<span class="method">parseInt</span>(args[index]);</span>
@@ -268,12 +288,16 @@
 <span class="line">            <span class="keyword">return</span> -<span class="number">1</span>;</span>
 <span class="line">        }</span>
 <span class="line">    }</span>
+<span class="line"></span>
 <span class="line">    <span class="annotation">@Override</span></span>
 <span class="line">    <span class="keyword">public</span> <span class="type">List</span>&lt;<span class="type">String</span>&gt; <span class="method">onTabComplete</span>(<span class="annotation">@NonNull</span> <span class="type">CommandSender</span> sender, <span class="annotation">@NonNull</span> <span class="type">Command</span> command, <span class="annotation">@NonNull</span> <span class="type">String</span> alias, <span class="type">String</span>[] args) {</span>
+<span class="line"></span>
 <span class="line">        <span class="keyword">if</span> (!(sender <span class="keyword">instanceof</span> <span class="type">Player</span>))</span>
 <span class="line">            <span class="keyword">return new</span> <span class="type">ArrayList</span>&lt;&gt;();</span>
+<span class="line"></span>
 <span class="line">        <span class="type">List</span>&lt;<span class="type">String</span>&gt; completions = <span class="keyword">new</span> <span class="type">ArrayList</span>&lt;&gt;();</span>
 <span class="line">        <span class="type">Player</span> player = (<span class="type">Player</span>) sender;</span>
+<span class="line"></span>
 <span class="line">        <span class="keyword">switch</span> (args.length) {</span>
 <span class="line">            <span class="keyword">case</span> <span class="number">1</span>:</span>
 <span class="line">                <span class="keyword">for</span> (<span class="type">EntityType</span> entityType : <span class="type">EntityType</span>.<span class="method">values</span>())</span>
@@ -283,6 +307,7 @@
 <span class="line">                            completions.<span class="method">add</span>(name);</span>
 <span class="line">                    }</span>
 <span class="line">                <span class="keyword">break</span>;</span>
+<span class="line"></span>
 <span class="line">            <span class="keyword">case</span> <span class="number">2</span>:</span>
 <span class="line">                <span class="keyword">for</span> (<span class="type">Player</span> onlinePlayer : <span class="type">Bukkit</span>.<span class="method">getOnlinePlayers</span>()) {</span>
 <span class="line">                    <span class="type">String</span> name = onlinePlayer.<span class="method">getName</span>();</span>
@@ -291,274 +316,218 @@
 <span class="line">                }</span>
 <span class="line">                completions.<span class="method">add</span>(<span class="type">String</span>.<span class="method">valueOf</span>(player.<span class="method">getLocation</span>().<span class="method">getBlockX</span>()));</span>
 <span class="line">                <span class="keyword">break</span>;</span>
+<span class="line"></span>
 <span class="line">            <span class="keyword">case</span> <span class="number">3</span>:</span>
 <span class="line">                completions.<span class="method">add</span>(<span class="type">String</span>.<span class="method">valueOf</span>(player.<span class="method">getLocation</span>().<span class="method">getBlockY</span>()));</span>
 <span class="line">                <span class="keyword">break</span>;</span>
+<span class="line"></span>
 <span class="line">            <span class="keyword">case</span> <span class="number">4</span>:</span>
 <span class="line">                completions.<span class="method">add</span>(<span class="type">String</span>.<span class="method">valueOf</span>(player.<span class="method">getLocation</span>().<span class="method">getBlockZ</span>()));</span>
 <span class="line">                <span class="keyword">break</span>;</span>
 <span class="line">        }</span>
+<span class="line"></span>
 <span class="line">        <span class="keyword">return</span> completions;</span>
-<span class="line">        <span class="comment">// 如果 return null; 等同于设置返回在线玩家列表为空</span></span>
-<span class="line">        <span class="comment">// 等于返回空集合，也就是等同于 new ArrayList&lt;&gt;()</span></span>
+<span class="line">        <span class="comment">// 如果 return null; 等同于设置返回在线玩家列表为空，等于返回空集合，也就是等同于 new ArrayList&lt;&gt;()</span></span>
 <span class="line">    }</span>
 <span class="line">}</span></code></pre>
             </div>
-            <h3 class="text-2xl font-bold text-primary mb-4 w-full text-center inline-flex items-center justify-center" aria-label="日志标题：JS学姐的一些QA互动"><i class="fa fa-comments" aria-hidden="true"></i><span class="ml-2">JS学姐的一些QA互动</span></h3>
-            <section class="qa-block">
-                <details class="group">
-                    <summary class="flex items-center gap-3 cursor-pointer list-none font-bold text-lg text-primary outline-none">
-                        <i class="fa fa-question-circle"></i>
-                        <span>Q1: 为什么要 implements CommandExecutor, TabCompleter？</span>
-                    </summary>
-                    <div class="mt-4 text-sm text-gray-700">
-                        <p>A: 这两个接口是 Bukkit 插件开发标准接口。CommandExecutor 负责处理命令执行逻辑（onCommand），TabCompleter 负责命令输入补全（onTabComplete）。Java 用 implements 表示类实现接口。</p>
-                    </div>
-                </details>
+        </section>
 
-                <details class="group mt-4">
-                    <summary class="flex items-center gap-3 cursor-pointer list-none font-bold text-lg text-primary outline-none">
-                        <i class="fa fa-question-circle"></i>
-                        <span>Q2: 为什么要写 @Override 注解？</span>
-                    </summary>
-                    <div class="mt-4 text-sm text-gray-700">
-                        <p>A: @Override 告诉编译器该方法是重写接口或父类方法。当方法签名写错时，编译器会直接警告，避免逻辑错误。</p>
-                    </div>
-                </details>
+        <!-- Q&A -->
+        <section class="bg-white rounded-2xl p-8 shadow-lg card-hover">
+            <h3 class="text-2xl font-bold text-secondary mb-6 flex items-center gap-2"><i class="fa fa-question-circle"></i> Q &amp; A 解析</h3>
+            <div class="space-y-4">
 
-                <details class="group mt-4">
-                    <summary class="flex items-center gap-3 cursor-pointer list-none font-bold text-lg text-primary outline-none">
-                        <i class="fa fa-question-circle"></i>
-                        <span>Q3: @NonNull 是什么？</span>
-                    </summary>
-                    <div class="mt-4 text-sm text-gray-700">
-                        <p>A: @NonNull 表示参数或返回值不允许为空。来自 org.jspecify.annotations，用于编译期空指针检测。</p>
-                    </div>
-                </details>
+                <div class="qa-card">
+                    <p class="font-bold text-secondary mb-1">Q1：这个类为什么要 implements CommandExecutor, TabCompleter？</p>
+                    <p class="text-gray-600 text-sm">这两个接口是 Bukkit 插件开发中的标准接口。<br>
+                        <code class="text-secondary">CommandExecutor</code>：表示该类能处理命令执行逻辑，通过实现 <code class="text-secondary">onCommand()</code> 方法。<br>
+                        <code class="text-secondary">TabCompleter</code>：用于提供命令的输入自动补全，通过实现 <code class="text-secondary">onTabComplete()</code> 方法。<br>
+                        Java 中用 <code class="text-secondary">implements</code> 表示一个类去实现接口中定义的抽象方法。</p>
+                </div>
 
-                <details class="group mt-4">
-                    <summary class="flex items-center gap-3 cursor-pointer list-none font-bold text-lg text-primary outline-none">
-                        <i class="fa fa-question-circle"></i>
-                        <span>Q4: instanceof Player 有什么作用？</span>
-                    </summary>
-                    <div class="mt-4 text-sm text-gray-700">
-                        <p>A: instanceof 是类型检查关键字。用于判断命令发送者是否是玩家对象，防止控制台执行仅供玩家使用的逻辑（如坐标读取）。</p>
-                    </div>
-                </details>
+                <div class="qa-card">
+                    <p class="font-bold text-secondary mb-1">Q2：为什么 @Override 注解要写在方法上？</p>
+                    <p class="text-gray-600 text-sm"><code class="text-secondary">@Override</code> 告诉编译器这个方法是对接口中方法的重写（override）。这样当方法签名写错时，编译器会报错，能提前发现逻辑错误。</p>
+                </div>
 
-                <details class="group mt-4">
-                    <summary class="flex items-center gap-3 cursor-pointer list-none font-bold text-lg text-primary outline-none">
-                        <i class="fa fa-question-circle"></i>
-                        <span>Q5: 为什么可以强制转换为 Player？</span>
-                    </summary>
-                    <div class="mt-4 text-sm text-gray-700">
-                        <p>A: 因为之前用 instanceof 检查过，sender 一定是 Player 类型，强转安全。</p>
-                    </div>
-                </details>
+                <div class="qa-card">
+                    <p class="font-bold text-secondary mb-1">Q3：@NonNull 是什么？</p>
+                    <p class="text-gray-600 text-sm"><code class="text-secondary">@NonNull</code> 来自 <code class="text-secondary">org.jspecify.annotations</code> 库，表示参数或返回值不允许为 null，这是一个静态分析注解，用来防止空指针错误。</p>
+                </div>
 
-                <details class="group mt-4">
-                    <summary class="flex items-center gap-3 cursor-pointer list-none font-bold text-lg text-primary outline-none">
-                        <i class="fa fa-question-circle"></i>
-                        <span>Q6: if (args.length < n) 检查什么？</span>
-                    </summary>
-                    <div class="mt-4 text-sm text-gray-700">
-                        <p>A: 检查命令参数是否足够。如果不足返回 false，Bukkit 会自动显示命令帮助信息。</p>
-                    </div>
-                </details>
+                <div class="qa-card">
+                    <p class="font-bold text-secondary mb-1">Q4：if (!(sender instanceof Player)) 作用是什么？</p>
+                    <p class="text-gray-600 text-sm"><code class="text-secondary">instanceof</code> 是 Java 的类型检查关键字，判断对象是否某个类型的实例。<br>
+                        这里是判断命令发送者是不是玩家（Player），以防止控制台执行玩家命令。如果不是玩家，就直接返回提示。</p>
+                </div>
 
-                <details class="group mt-4">
-                    <summary class="flex items-center gap-3 cursor-pointer list-none font-bold text-lg text-primary outline-none">
-                        <i class="fa fa-question-circle"></i>
-                        <span>Q7: 为什么检测 !entityType.isSpawnable() ？</span>
-                    </summary>
-                    <div class="mt-4 text-sm text-gray-700">
-                        <p>A: 某些 Minecraft 实体无法生成（如粒子或天气），检测可防止程序创建非法对象导致运行异常。</p>
-                    </div>
-                </details>
+                <div class="qa-card">
+                    <p class="font-bold text-secondary mb-1">Q5：Player player = (Player) sender; 为什么可以强制转换？</p>
+                    <p class="text-gray-600 text-sm">因为上面用 <code class="text-secondary">instanceof</code> 检查过，当条件成立时 sender 一定是 Player 对象，因此强转安全。</p>
+                </div>
 
-                <details class="group mt-4">
-                    <summary class="flex items-center gap-3 cursor-pointer list-none font-bold text-lg text-primary outline-none">
-                        <i class="fa fa-question-circle"></i>
-                        <span>Q8: 为什么用 .equals() 或 .startsWith() 比较字符串？</span>
-                    </summary>
-                    <div class="mt-4 text-sm text-gray-700">
-                        <p>A: equals 判断内容是否相同，startsWith 做前缀匹配用于自动补全。不用 == 因为 == 比较对象引用。</p>
-                    </div>
-                </details>
+                <div class="qa-card">
+                    <p class="font-bold text-secondary mb-1">Q6：if (args.length &lt; n) 检查什么？</p>
+                    <p class="text-gray-600 text-sm">检查命令参数数量是否足够。如果参数不符合要求，会返回 <code class="text-secondary">false</code>，Bukkit 会自动显示命令的帮助信息（Usage）。</p>
+                </div>
 
-                <details class="group mt-4">
-                    <summary class="flex items-center gap-3 cursor-pointer list-none font-bold text-lg text-primary outline-none">
-                        <i class="fa fa-question-circle"></i>
-                        <span>Q9: try...catch 的意义？</span>
-                    </summary>
-                    <div class="mt-4 text-sm text-gray-700">
-                        <p>A: 捕捉用户输入异常，如输入不存在实体时不会崩溃，而是给出合理错误提示。</p>
-                    </div>
-                </details>
+                <div class="qa-card">
+                    <p class="font-bold text-secondary mb-1">Q7：为什么要检测 !entityType.isSpawnable() 和 !entityType.isAlive()？</p>
+                    <p class="text-gray-600 text-sm">Minecraft 中有些实体（如粒子、天气、方块）无法生成到世界，这样的实体类型虽然存在，但不应创建。此检查属于有效性验证，防止运行错误或游戏崩溃。</p>
+                </div>
 
-                <details class="group mt-4">
-                    <summary class="flex items-center gap-3 cursor-pointer list-none font-bold text-lg text-primary outline-none">
-                        <i class="fa fa-question-circle"></i>
-                        <span>Q10: parseNumber() 为什么要用 try-catch？</span>
-                    </summary>
-                    <div class="mt-4 text-sm text-gray-700">
-                        <p>A: Integer.parseInt 转换无效数字会抛出异常。捕获异常并返回 -1 实现容错处理。</p>
-                    </div>
-                </details>
+                <div class="qa-card">
+                    <p class="font-bold text-secondary mb-1">Q8：命令中为什么要用 .equals() 或 .startsWith() 来匹配字符串？</p>
+                    <p class="text-gray-600 text-sm">
+                        <code class="text-secondary">.equals()</code> 比较两个字符串是否完全相同。<br>
+                        <code class="text-secondary">.startsWith(prefix)</code> 用于前缀匹配，比如输入部分字符串时可以匹配所有以该字符串开头的项（用于 tab 自动补全）。<br>
+                        Java 不用 <code class="text-secondary">==</code> 比较字符串内容，因为 <code class="text-secondary">==</code> 比较的是对象引用。</p>
+                </div>
 
-                <details class="group mt-4">
-                    <summary class="flex items-center gap-3 cursor-pointer list-none font-bold text-lg text-primary outline-none">
-                        <i class="fa fa-question-circle"></i>
-                        <span>Q11: new Location(...) 做了什么？</span>
-                    </summary>
-                    <div class="mt-4 text-sm text-gray-700">
-                        <p>A: 创建一个坐标对象 Location，包含世界和三维坐标，用于指定实体生成位置。</p>
-                    </div>
-                </details>
+                <div class="qa-card">
+                    <p class="font-bold text-secondary mb-1">Q9：try...catch (Throwable t) 有什么作用？</p>
+                    <p class="text-gray-600 text-sm">捕获可能的异常。如果用户输入了不存在的实体名，<code class="text-secondary">EntityType.valueOf()</code> 会抛出异常，这里捕获后提示玩家"没有这种实体"。Java 异常机制能防止程序在错误输入时崩溃。</p>
+                </div>
 
-                <details class="group mt-4">
-                    <summary class="flex items-center gap-3 cursor-pointer list-none font-bold text-lg text-primary outline-none">
-                        <i class="fa fa-question-circle"></i>
-                        <span>Q12: player.getWorld().spawnEntity(...) 是什么？</span>
-                    </summary>
-                    <div class="mt-4 text-sm text-gray-700">
-                        <p>A: 在给定位置生成指定实体，是 Bukkit 插件命令核心执行逻辑。</p>
-                    </div>
-                </details>
+                <div class="qa-card">
+                    <p class="font-bold text-secondary mb-1">Q10：私有方法 parseNumber() 为什么用 try-catch？</p>
+                    <p class="text-gray-600 text-sm"><code class="text-secondary">Integer.parseInt()</code> 转换非数字时会抛出 <code class="text-secondary">NumberFormatException</code>。catch 块中返回 <code class="text-secondary">-1</code> 表示非法值。这是一种容错处理方式，把异常输入转为可控制的数值，用于后续判断。</p>
+                </div>
 
-                <details class="group mt-4">
-                    <summary class="flex items-center gap-3 cursor-pointer list-none font-bold text-lg text-primary outline-none">
-                        <i class="fa fa-question-circle"></i>
-                        <span>Q13: 返回 true 和 false 的区别？</span>
-                    </summary>
-                    <div class="mt-4 text-sm text-gray-700">
-                        <p>A: true 表示执行成功，不显示帮助；false 表示格式错误，Bukkit 自动显示 usage 提示。</p>
-                    </div>
-                </details>
+                <div class="qa-card">
+                    <p class="font-bold text-secondary mb-1">Q11：new Location(player.getWorld(), x, y, z) 做了什么？</p>
+                    <p class="text-gray-600 text-sm"><code class="text-secondary">Location</code> 是 Bukkit 中的坐标对象，包含世界（World）和三维位置 (X, Y, Z)。这里创建了一个三维坐标，用于在特定位置生成实体。</p>
+                </div>
 
-                <details class="group mt-4">
-                    <summary class="flex items-center gap-3 cursor-pointer list-none font-bold text-lg text-primary outline-none">
-                        <i class="fa fa-question-circle"></i>
-                        <span>Q14: onTabComplete 为什么要返回 List？</span>
-                    </summary>
-                    <div class="mt-4 text-sm text-gray-700">
-                        <p>A: Bukkit 使用该列表作为命令补全建议，在输入时显示候选项。</p>
-                    </div>
-                </details>
+                <div class="qa-card">
+                    <p class="font-bold text-secondary mb-1">Q12：player.getWorld().spawnEntity(location, entityType) 是什么？</p>
+                    <p class="text-gray-600 text-sm">调用 Bukkit API，在指定位置创建某种实体对象。这是命令的核心功能，也就是定义了具体生成实体的方法。</p>
+                </div>
 
-                <details class="group mt-4">
-                    <summary class="flex items-center gap-3 cursor-pointer list-none font-bold text-lg text-primary outline-none">
-                        <i class="fa fa-question-circle"></i>
-                        <span>Q15: switch (args.length) 用来干什么？</span>
-                    </summary>
-                    <div class="mt-4 text-sm text-gray-700">
-                        <p>A: 根据参数数量执行不同分支，例如参数 1 时给实体补全，参数 2 时提供坐标或目标玩家名。</p>
-                    </div>
-                </details>
+                <div class="qa-card">
+                    <p class="font-bold text-secondary mb-1">Q13：为什么有时返回 true，有时 false？</p>
+                    <p class="text-gray-600 text-sm">在 Bukkit 命令系统中：<br>
+                        <code class="text-secondary">true</code> = 命令执行完毕，不显示帮助提示。<br>
+                        <code class="text-secondary">false</code> = 命令格式错误，Bukkit 自动显示 /命令 使用方式 (Usage)。<br>
+                        这是接口 CommandExecutor 的协议要求。</p>
+                </div>
 
-                <details class="group mt-4">
-                    <summary class="flex items-center gap-3 cursor-pointer list-none font-bold text-lg text-primary outline-none">
-                        <i class="fa fa-question-circle"></i>
-                        <span>Q16: 为什么要对 EntityType.values() 使用循环？</span>
-                    </summary>
-                    <div class="mt-4 text-sm text-gray-700">
-                        <p>A: EntityType 是枚举类型，values() 返回所有实体枚举。通过循环可筛出可生成且存活的实体，用于补全提示。</p>
-                    </div>
-                </details>
+                <div class="qa-card">
+                    <p class="font-bold text-secondary mb-1">Q14：为什么 onTabComplete 要返回 List&lt;String&gt;？</p>
+                    <p class="text-gray-600 text-sm">Bukkit 会使用这个返回列表作为命令补全选项列表，用户在输入命令时看到。</p>
+                </div>
 
-                <details class="group mt-4">
-                    <summary class="flex items-center gap-3 cursor-pointer list-none font-bold text-lg text-primary outline-none">
-                        <i class="fa fa-question-circle"></i>
-                        <span>Q17: new ArrayList() 与 Collections.emptyList() 有什么区别？</span>
-                    </summary>
-                    <div class="mt-4 text-sm text-gray-700">
-                        <p>A: 前者可修改，后者不可修改且共享空列表，更高效、适合返回只读结果。</p>
-                    </div>
-                </details>
+                <div class="qa-card">
+                    <p class="font-bold text-secondary mb-1">Q15：switch (args.length) 是什么结构？</p>
+                    <p class="text-gray-600 text-sm">Java 的多分支控制结构，用来根据不同的参数数量执行不同提示逻辑。<br>
+                        <code class="text-secondary">case 1:</code> 表示用户输入第一个参数时进入实体补全；<br>
+                        <code class="text-secondary">case 2:</code> 表示第二个参数时提供玩家名或坐标选项。以此类推...</p>
+                </div>
 
-                <details class="group mt-4">
-                    <summary class="flex items-center gap-3 cursor-pointer list-none font-bold text-lg text-primary outline-none">
-                        <i class="fa fa-question-circle"></i>
-                        <span>Q18: toLowerCase 与 toUpperCase 有什么用途？</span>
-                    </summary>
-                    <div class="mt-4 text-sm text-gray-700">
-                        <p>A: 用于统一大小写。EntityType 为全大写，通过 toUpperCase 可使输入如 zOmbIE 转换为 ZOMBIE，避免匹配错误。</p>
-                    </div>
-                </details>
+                <div class="qa-card">
+                    <p class="font-bold text-secondary mb-1">Q16：为什么对 EntityType.values() 使用循环？</p>
+                    <p class="text-gray-600 text-sm"><code class="text-secondary">EntityType</code> 是一种枚举类型（Enum），我们在输入"EntityType."之后会提示我们其内部定义的所有实体类型，例如 COW、PIG、ZOMBIE、CREEPER 等除玩家外所有具体实体，而 <code class="text-secondary">values()</code> 返回枚举中所有常量（所有实体类型）。循环中筛选出可生成（isSpawnable）、可存活（isAlive）的实体，再匹配开头添加进候选结果。</p>
+                </div>
 
-                <details class="group mt-4">
-                    <summary class="flex items-center gap-3 cursor-pointer list-none font-bold text-lg text-primary outline-none">
-                        <i class="fa fa-question-circle"></i>
-                        <span>Q19: 为什么命令逻辑和补全逻辑在同一个类里？</span>
-                    </summary>
-                    <div class="mt-4 text-sm text-gray-700">
-                        <p>A: 方便维护，让执行和补全逻辑一致，也可在大型项目中拆分为独立类提高模块化。</p>
-                    </div>
-                </details>
+                <div class="qa-card">
+                    <p class="font-bold text-secondary mb-1">Q17：new ArrayList&lt;&gt;() 和 Collections.emptyList() 的区别？</p>
+                    <p class="text-gray-600 text-sm">两者都是返回一个列表对象：<br>
+                        <code class="text-secondary">new ArrayList&lt;&gt;()</code> 可修改；<br>
+                        <code class="text-secondary">Collections.emptyList()</code> 是一个不可修改、共享的空集合。<br>
+                        后者更高效，适合只读结果。</p>
+                </div>
 
-                <details class="group mt-4">
-                    <summary class="flex items-center gap-3 cursor-pointer list-none font-bold text-lg text-primary outline-none">
-                        <i class="fa fa-question-circle"></i>
-                        <span>Q20: 返回 false 时提示从哪里来？</span>
-                    </summary>
-                    <div class="mt-4 text-sm text-gray-700">
-                        <p>A: 来自 plugin.yml 中命令配置的 usage 字段，例如 /spawnentity &lt;实体名&gt;、&lt;坐标&gt;，失败后 Bukkit 自动显示。</p>
-                    </div>
-                </details>
+                <div class="qa-card">
+                    <p class="font-bold text-secondary mb-1">Q18：toLowerCase 和 toUpperCase 是什么？</p>
+                    <p class="text-gray-600 text-sm">这是 Java 中 String 字符串的 2 种处理方法。我们很容易理解我们输入的指令被当作字符串（String）处理，包括但不限于文本解析、文本提取。而在 Bukkit 的 EntityType 中所有的实体枚举都是大写，进行自动转换可以正确获取枚举，并且自动将我们不严格的输入处理成正确的全大写格式。例如我们输入 <code class="text-secondary">/spawnentity zOmbIE</code>，此转换可以正确理解为生成 ZOMBIE，避免出现内部错误。</p>
+                </div>
 
-                <details class="group mt-4">
-                    <summary class="flex items-center gap-3 cursor-pointer list-none font-bold text-lg text-primary outline-none">
-                        <i class="fa fa-question-circle"></i>
-                        <span>Q21: 这种结构体现了哪些编程理念？</span>
-                    </summary>
-                    <div class="mt-4 text-sm text-gray-700">
-                        <p>A: 封装、健壮性、可扩展性。逻辑集中、异常处理完善、后续扩展方便，体现良好的代码设计思想。</p>
-                    </div>
-                </details>
-            </section>
+                <div class="qa-card">
+                    <p class="font-bold text-secondary mb-1">Q19：为什么类中既有命令逻辑又有补全逻辑而不分开？</p>
+                    <p class="text-gray-600 text-sm">这样设计方便管理，一个命令的执行与补全放在同一个类中，实现一致性和可维护性。不过在大型项目中，也可拆为 Executor 与 Completer 独立类。</p>
+                </div>
 
-            <p class="text-gray-600 mt-6 mb-4">进入游戏可以发现已经可以正确识别命令并补全实体类型：</p>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
-                <img src="../img/03_命令识别.png" alt="命令识别" class="rounded-lg shadow border">
-                <img src="../img/03_命令补全01.png" alt="命令补全1" class="rounded-lg shadow border">
-                <img src="../img/03_命令补全02.png" alt="命令补全2" class="rounded-lg shadow border">
+                <div class="qa-card">
+                    <p class="font-bold text-secondary mb-1">Q20：返回 false 时提示信息从哪里来？</p>
+                    <p class="text-gray-600 text-sm">plugin.yml 文件中命令配置的 <code class="text-secondary">usage</code> 字段定义了帮助提示内容。例如：</p>
+                    <div class="code-block mt-2">
+                        <div class="code-header"><span>plugin.yml</span></div>
+                        <pre class="code-body"><code><span class="line"><span class="type">commands</span>:</span>
+<span class="line">  <span class="type">spawnentity</span>:</span>
+<span class="line">    <span class="type">description</span>: 生成一个实体</span>
+<span class="line">    <span class="type">usage</span>: /spawnentity &lt;实体名&gt; &lt;玩家|x y z&gt;</span></code></pre>
+                    </div>
+                    <p class="text-gray-600 text-sm mt-2">因此在没有额外设计的情况下 <code class="text-secondary">return false</code> 会让 Bukkit 返回这行信息提示我们。</p>
+                </div>
+
+                <div class="qa-card">
+                    <p class="font-bold text-secondary mb-1">Q21：这种多层逻辑结构体现了哪些编程理念？</p>
+                    <p class="text-gray-600 text-sm">
+                        封装 (Encapsulation)：所有命令逻辑集中在类内部。<br>
+                        健壮性 (Robustness)：各种输入错误均通过异常捕获或条件检查处理。<br>
+                        可扩展性 (Extensibility)：新实体或命令参数可以轻松加入无需修改核心框架。</p>
+                </div>
+
             </div>
         </section>
-        <section class="bg-white rounded-2xl p-8 shadow-lg card-hover leading-relaxed text-gray-700">
-            <p class="indent-8 mb-4">"哦，原来如此！" JS学姐十分高兴，她终于学会了Bukkit Command命令类的实现原理和创建方式。"看起来命令系统可以做很多事情呢！"</p>
-            <p class="indent-8">随后JS学姐查阅了SpigotMC官网有关命令类的更多用法，发现命令不仅可以简单的处理实体生成、显示文本，还可以使用命令的方法结合配置类方法处理文件的CRUD操作，甚至为后续的GUI管理操作或者实现更多高级功能提供便捷处理方式。一套规范的命令管理系统可以为后续制作更加专业的插件奠定良好的基础。</p>
+
+        <!-- 效果截图 -->
+        <section class="bg-white rounded-2xl p-8 shadow-lg card-hover">
+            <h3 class="text-2xl font-bold text-primary mb-4 flex items-center gap-2"><i class="fa fa-gamepad"></i> 效果展示</h3>
+            <p class="text-gray-600 mb-4">我们进入游戏可以发现已经可以正确识别我们的命令 <code class="text-secondary">/spawnentity</code> 并且可以在其后补全实体类型：</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <img src="../img/Chapter03/命令识别.png" alt="命令识别" class="rounded-lg shadow border w-full">
+                <img src="../img/Chapter03/命令补全01.png" alt="命令补全01" class="rounded-lg shadow border w-full">
+                <img src="../img/Chapter03/命令补全02.png" alt="命令补全02" class="rounded-lg shadow border w-full">
+            </div>
         </section>
+
+        <!-- 结尾故事 -->
+        <section class="bg-white rounded-2xl p-8 shadow-lg card-hover leading-relaxed text-gray-700">
+            <p class="indent-8">"哦，原来如此！" JS学姐十分高兴，她终于学会了 Bukkit Command 命令类的实现原理和创建方式。"看起来命令系统可以做很多事情呢！" 随后 JS 学姐查阅了 SpigotMC 官网有关命令类的更多用法，发现命令不仅可以简单的处理实体生成、显示文本，还可以使用命令的方法结合配置类方法处理文件的 CRUD 操作，甚至为后续的 GUI 管理操作或者为实现更多高级功能提供便捷处理方式，一套规范的命令管理系统可以为后续制作更加专业的插件奠定良好的基础。</p>
+        </section>
+
+        <!-- 思考题 -->
         <section class="bg-gradient-to-br from-accent/5 to-primary/5 border border-accent/20 rounded-2xl p-6 shadow-lg card-hover">
             <details class="group">
-                <summary class="flex items-center gap-3 cursor-pointer list-none font-bold text-lg text-primary outline-none">
-                    <i class="fa fa-question-circle"></i>
-                    <span>点击展开查看思考问题=w=</span>
+                <summary class="flex items-center gap-3 cursor-pointer list-none font-bold text-lg text-primary outline-none select-none">
+                    <span class="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center text-primary group-open:bg-primary group-open:text-white transition-all">
+                        <i class="fa fa-question"></i>
+                    </span>
+                    <span>点击展开查看思考问题 =w=</span>
+                    <i class="fa fa-chevron-down ml-auto text-sm text-gray-400 group-open:rotate-180 transition-transform"></i>
                 </summary>
-                <div class="mt-4 space-y-4 text-sm">
-                    <ol class="list-decimal list-inside space-y-2 text-gray-700">
-                        <li class="hover:text-primary transition-all">spawnentity命令支持2种接受参数的方式，但Tab的命令引导尚不充分。如何在参数不足或错误的情况下向玩家发送<strong>自定义用法提示</strong>？</li>
-                        <li class="flex items-center justify-center my-2">
-                            <img src="../img/03_命令用法提示.png" alt="命令用法提示" class="rounded-lg shadow border max-w-md w-full">
+                <div class="mt-5 space-y-3">
+                    <ol class="space-y-3 text-sm text-gray-700">
+                        <li class="flex gap-3 p-3 bg-white/70 rounded-xl hover:bg-white transition-all">
+                            <span class="w-6 h-6 rounded-full bg-primary/10 text-primary text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">1</span>
+                            <span><code class="text-secondary">spawnentity</code> 命令支持 2 种接受参数的方式，但对于 Tab 的命令引导尚不充分，如何在参数不足或者错误的情况下向玩家发送自定义用法提示？<br><img src="../img/Chapter03/命令用法提示.png" alt="命令用法提示示例" class="rounded-lg shadow border mt-2 max-w-full"></span>
                         </li>
-                        <li class="hover:text-primary transition-all">如何在现有命令的基础上添加指定生成实体的世界？例如<code class="text-secondary">/spawnentity ZOMBIE world 0 64 0</code>在名为"world"的世界中生成僵尸。</li>
-                        <li class="hover:text-primary transition-all">进阶问题：如何支持生成自定义数量的实体？例如<code class="text-secondary">/spawnentity PIG 0 64 0 5</code>在坐标0 64 0生成5只猪。</li>
+                        <li class="flex gap-3 p-3 bg-white/70 rounded-xl hover:bg-white transition-all">
+                            <span class="w-6 h-6 rounded-full bg-secondary/10 text-secondary text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">2</span>
+                            <span>如何在现有命令的基础上添加指定生成实体的世界？例如 <code class="px-1 bg-gray-100 rounded font-mono text-xs text-secondary">/spawnentity ZOMBIE world 0 64 0</code> 在名为 "world" 的世界中的 0 64 0 位置生成僵尸。</span>
+                        </li>
+                        <li class="flex gap-3 p-3 bg-white/70 rounded-xl hover:bg-white transition-all">
+                            <span class="w-6 h-6 rounded-full bg-accent/30 text-amber-600 text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">3</span>
+                            <span><span class="font-bold text-amber-600">进阶：</span>如何支持生成自定义数量的实体？例如 <code class="px-1 bg-gray-100 rounded font-mono text-xs text-secondary">/spawnentity PIG 0 64 0 5</code> 在坐标 0 64 0 的位置只输入一次指令生成 5 只猪。</span>
+                        </li>
                     </ol>
                 </div>
             </details>
         </section>
+
     </main>
 
-    <div class="text-center mt-16">
-        <a href="../dev_contents.html" class="inline-flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-primary to-secondary text-white rounded-full font-bold hover:opacity-90 transition-all shadow-md">
+    <div class="text-center mt-14">
+        <a href="../dev_contents.html" class="inline-flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-primary to-secondary text-white rounded-full font-bold hover:opacity-90 transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5">
             <i class="fa fa-home"></i>
             <span>返回日记本目录</span>
         </a>
     </div>
 
-    <footer class="mt-20 text-center text-gray-500 text-sm">
-        <p>柠萌のBukkit日记本 | 每一份热爱都值得传递</p></br>
-        <p data-i18n="designRights">本网站外观设计权利归@Kiss_light233所有。</p>
+    <footer class="mt-16 text-center text-gray-400 text-sm space-y-1">
+        <p>柠萌のBukkit日记本 | 每一份热爱都值得传递</p>
+        <p>本网站外观设计权利归 @Kiss_light233 所有。</p>
     </footer>
 </div>
-</body>
-</html>
