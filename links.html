@@ -27,6 +27,32 @@
         @layer utilities {
             .card-hover { transition: all .3s ease; }
             .card-hover:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(123,97,255,.12); }
+            .btn-gradient { @apply inline-flex items-center gap-1.5 px-4 py-1.5 bg-gradient-to-r from-primary to-secondary text-white rounded-full text-xs font-bold hover:opacity-90 transition-all shadow-sm hover:-translate-y-0.5; }
+            .link-card { @apply bg-white rounded-2xl p-6 shadow-lg card-hover border border-gray-50 flex flex-col items-center text-center gap-3; }
+            .avatar-wrapper { @apply w-16 h-16 rounded-full flex items-center justify-center shadow-sm overflow-hidden; }
+        }
+    </style>
+    <style>
+        .corner-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.6;
+            -webkit-mask-image: linear-gradient(to top left,
+            rgba(0,0,0,1) 100%,
+            rgba(0,0,0,0.8) 30%,
+            rgba(0,0,0,0.3) 60%,
+            rgba(0,0,0,0) 100%);
+            mask-image: linear-gradient(to top left,
+            rgba(0,0,0,1) 100%,
+            rgba(0,0,0,0.8) 30%,
+            rgba(0,0,0,0.3) 60%,
+            rgba(0,0,0,0) 100%);
         }
     </style>
 </head>
@@ -36,11 +62,9 @@
 <!-- Creeper Button -->
 <div class="fixed top-5 right-5 z-50">
     <button id="creeperBtn" class="w-12 h-12 rounded-full overflow-hidden shadow-lg hover:scale-110 transition-transform focus:outline-none border-2 border-white">
-        <img src="https://mc-heads.net/avatar/MHF_Creeper/48" alt="苦力怕" class="w-full h-full object-cover">
+        <img src="resources/headicon_pkg/ybh.jpg" alt="苦力怕" class="w-full h-full object-cover">
     </button>
-    <!-- 对话框 -->
     <div id="creeperDialog" class="hidden absolute right-0 top-14 w-64 bg-white rounded-2xl shadow-2xl border border-gray-100 p-4 z-50">
-        <!-- 小三角 -->
         <div class="absolute -top-2 right-4 w-4 h-4 bg-white border-l border-t border-gray-100 rotate-45"></div>
         <div class="flex items-center gap-2 mb-3">
             <span class="text-lg">💚</span>
@@ -58,67 +82,39 @@
     <div class="absolute bottom-0 left-1/3 w-72 h-72 bg-accent/10 rounded-full blur-3xl"></div>
 </div>
 
+<img src="resources/background/mc.jpg" alt="" class="corner-image">
 <div class="container mx-auto px-4 py-14 relative z-10">
 
     <!-- Header -->
-    <header class="text-center mb-16">
-        <h1 class="text-[clamp(1.6rem,4vw,3rem)] font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-primary to-secondary mb-4">友情链接</h1>
-        <div class="w-20 h-1.5 bg-gradient-to-r from-primary to-accent mx-auto rounded-full"></div>
-        <p class="text-gray-400 text-sm mt-4">认识一些有趣的人 ✨</p>
+    <header class="text-center mb-16 bg-white/80 backdrop-blur-sm rounded-3xl p-10 shadow-2xl border-2 border-primary/20 relative overflow-hidden">
+        <!-- 装饰性背景 -->
+        <div class="absolute inset-0 bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5 pointer-events-none"></div>
+        <div class="absolute -top-10 -right-10 w-40 h-40 bg-primary/10 rounded-full blur-2xl"></div>
+        <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-secondary/10 rounded-full blur-2xl"></div>
+
+        <div class="relative z-10">
+            <div class="inline-block mb-4">
+                <div class="flex items-center justify-center gap-3 mb-2">
+                    <div class="w-8 h-0.5 bg-gradient-to-r from-transparent to-primary rounded-full"></div>
+                    <i class="fa fa-link text-3xl text-primary"></i>
+                    <div class="w-8 h-0.5 bg-gradient-to-l from-transparent to-secondary rounded-full"></div>
+                </div>
+            </div>
+            <h1 class="text-[clamp(2rem,5vw,3.5rem)] font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-accent mb-5 drop-shadow-sm">友情链接</h1>
+            <div class="flex items-center justify-center gap-2 mb-5">
+                <div class="w-24 h-1.5 bg-gradient-to-r from-primary to-secondary rounded-full shadow-lg"></div>
+                <div class="w-2 h-2 bg-accent rounded-full animate-pulse"></div>
+                <div class="w-24 h-1.5 bg-gradient-to-l from-secondary to-accent rounded-full shadow-lg"></div>
+            </div>
+            <p class="text-gray-600 text-base font-semibold">认识一些有趣的人 ✨</p>
+        </div>
     </header>
 
     <main class="max-w-5xl mx-auto">
 
-        <!-- 占位提示 -->
+        <!-- 友链列表 -->
         <section class="mb-16">
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-
-                <!-- MeT-Home -->
-                <div class="bg-white rounded-2xl p-6 shadow-lg card-hover border border-gray-50 flex flex-col items-center text-center gap-3">
-                    <div class="w-16 h-16 rounded-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center shadow-sm overflow-hidden">
-                        <img src="resources/MeT_head_icon.jpg" alt="柠萌" class="w-full h-full object-cover">
-                    </div>
-                    <div>
-                        <h3 class="font-extrabold text-base text-dark mb-1">MeT-Home</h3>
-                        <p class="text-gray-400 text-xs mb-3">Stay Hungry,<br>Stay Foolish.</p>
-                        <a href="https://met6.top" class="inline-flex items-center gap-1.5 px-4 py-1.5 bg-gradient-to-r from-primary to-secondary text-white rounded-full text-xs font-bold hover:opacity-90 transition-all shadow-sm hover:-translate-y-0.5">
-                            <i class="fa fa-home"></i>
-                            <span>串门一下 :p</span>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Waiting Friends ... -->
-                <div class="bg-white rounded-2xl p-6 shadow-lg card-hover border border-gray-50 flex flex-col items-center text-center gap-3">
-                    <div class="w-16 h-16 rounded-full bg-gradient-to-br from-secondary/20 to-accent/20 flex items-center justify-center text-2xl text-secondary shadow-sm">
-                        <i class="fa fa-user"></i>
-                    </div>
-                    <div>
-                        <h3 class="font-extrabold text-base text-dark mb-1">虚位以待</h3>
-                        <p class="text-gray-400 text-xs mb-3">Waiting Friends ...</p>
-                        <a href="#" class="inline-flex items-center gap-1.5 px-4 py-1.5 bg-gradient-to-r from-primary to-secondary text-white rounded-full text-xs font-bold hover:opacity-90 transition-all shadow-sm hover:-translate-y-0.5">
-                            <i class="fa fa-external-link"></i>
-                            <span>访问</span>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Waiting Friends ... -->
-                <div class="bg-white rounded-2xl p-6 shadow-lg card-hover border border-gray-50 flex flex-col items-center text-center gap-3">
-                    <div class="w-16 h-16 rounded-full bg-gradient-to-br from-accent/20 to-primary/20 flex items-center justify-center text-2xl text-amber-500 shadow-sm">
-                        <i class="fa fa-user"></i>
-                    </div>
-                    <div>
-                        <h3 class="font-extrabold text-base text-dark mb-1">虚位以待</h3>
-                        <p class="text-gray-400 text-xs mb-3">Waiting Friends ...</p>
-                        <a href="#" class="inline-flex items-center gap-1.5 px-4 py-1.5 bg-gradient-to-r from-primary to-secondary text-white rounded-full text-xs font-bold hover:opacity-90 transition-all shadow-sm hover:-translate-y-0.5">
-                            <i class="fa fa-external-link"></i>
-                            <span>访问</span>
-                        </a>
-                    </div>
-                </div>
-
-            </div>
+            <div id="linksContainer" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
         </section>
 
         <!-- 申请友链 -->
@@ -128,10 +124,9 @@
             </div>
             <h2 class="text-xl font-extrabold mb-2">申请友链</h2>
             <p class="text-gray-400 text-sm mb-5">主包水平有限不知道怎么写自助添加QWQ...</p>
-            <a href="mailto:1849879526@qq.com"
-               class="inline-flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-primary to-secondary text-white rounded-full font-bold text-sm hover:opacity-90 transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5">
-                <i class="fa fa-envelope"></i>
-                <span>通过QQ联系我</span>
+            <a href="tencent://AddContact/?fromId=45&fromSubId=1&subcmd=all&uin=1849879526" class="inline-flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-primary to-secondary text-white rounded-full font-bold text-sm hover:opacity-90 transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5">
+                <i class="fa fa-comment"></i>
+                <span>通过QQ联系我:p</span>
             </a>
         </section>
 
@@ -145,20 +140,106 @@
         </a>
     </div>
 
-    <footer class="mt-16 text-center text-gray-400 text-sm space-y-1">
-        <p>柠萌の神秘空间 | 每一份热爱都值得传递</p>
-        <p>本网站外观设计权利归 @Kiss_light233 所有。</p>
+    <!-- Footer -->
+    <footer class="mt-16 bg-white/90 backdrop-blur-sm rounded-3xl p-8 shadow-2xl border-2 border-secondary/20 relative overflow-hidden">
+        <!-- 装饰性背景 -->
+        <div class="absolute inset-0 bg-gradient-to-t from-secondary/5 to-primary/5 pointer-events-none"></div>
+        <div class="absolute -top-10 left-1/4 w-32 h-32 bg-accent/10 rounded-full blur-2xl"></div>
+        <div class="absolute -bottom-10 right-1/4 w-32 h-32 bg-primary/10 rounded-full blur-2xl"></div>
+
+        <div class="relative z-10 text-center space-y-4">
+            <div class="flex items-center justify-center gap-3 mb-3">
+                <div class="w-16 h-0.5 bg-gradient-to-r from-transparent to-primary/50 rounded-full"></div>
+                <i class="fa fa-heart text-primary text-xl animate-pulse"></i>
+                <div class="w-16 h-0.5 bg-gradient-to-l from-transparent to-secondary/50 rounded-full"></div>
+            </div>
+            <p class="text-gray-700 text-base font-bold">柠萌の神秘空间 | 每一份热爱都值得传递</p>
+            <div class="w-32 h-0.5 bg-gradient-to-r from-primary via-secondary to-accent mx-auto rounded-full"></div>
+            <p class="text-gray-500 text-sm font-semibold">本网站外观设计权利归 @Kiss_light233 所有。</p>
+        </div>
     </footer>
 </div>
 
 <script>
-    const btn = document.getElementById('creeperBtn');
-    const dialog = document.getElementById('creeperDialog');
-    btn.addEventListener('click', () => dialog.classList.toggle('hidden'));
-    document.addEventListener('click', e => {
-        if (!btn.contains(e.target) && !dialog.contains(e.target)) {
-            dialog.classList.add('hidden');
-        }
+    // 友链数据配置
+    let blankSlot = 4; // 空位数量
+    const linksData = [
+        {
+            name: 'MeT-Home',
+            avatar: 'resources/headicon_pkg/MeT.jpg',
+            description: 'Stay Hungry,<br>Stay Foolish.',
+            url: 'https://met6.top',
+            gradient: 'from-primary/20 to-secondary/20',
+            icon: 'fa-home',
+            buttonText: '串门一下 :p'
+        },
+        {
+            name: "UpXuu's blog",
+            avatar: 'https://upxuu.com/images/20260214145619.jpg',
+            description: '逐光而上',
+            url: 'https://upxuu.com',
+            gradient: 'from-secondary/20 to-accent/20',
+            icon: 'fa-external-link',
+            buttonText: '串门一下 :p'
+        },
+        ...Array(blankSlot).fill({
+            name: '虚位以待',
+            avatar: null,
+            description: 'Waiting Friends ...',
+            url: '#',
+            gradient: 'from-accent/20 to-primary/20',
+            icon: 'fa-external-link',
+            buttonText: '访问',
+            placeholder: true
+        })
+    ];
+
+    // 创建友链卡片
+    function createLinkCard(link) {
+        const avatarContent = link.placeholder
+            ? `<i class="fa fa-user text-2xl text-amber-500"></i>`
+            : `<img src="${link.avatar}" alt="${link.name}" class="w-full h-full object-cover">`;
+
+        return `
+            <div class="link-card">
+                <div class="avatar-wrapper bg-gradient-to-br ${link.gradient}">
+                    ${avatarContent}
+                </div>
+                <div>
+                    <h3 class="font-extrabold text-base text-dark mb-1">${link.name}</h3>
+                    <p class="text-gray-400 text-xs mb-3">${link.description}</p>
+                    <a href="${link.url}" class="btn-gradient">
+                        <i class="fa ${link.icon}"></i>
+                        <span>${link.buttonText}</span>
+                    </a>
+                </div>
+            </div>
+        `;
+    }
+
+    // 渲染友链列表
+    function renderLinks() {
+        const container = document.getElementById('linksContainer');
+        container.innerHTML = linksData.map(createLinkCard).join('');
+    }
+
+    // Creeper 对话框交互
+    function initCreeperDialog() {
+        const btn = document.getElementById('creeperBtn');
+        const dialog = document.getElementById('creeperDialog');
+
+        btn.addEventListener('click', () => dialog.classList.toggle('hidden'));
+        document.addEventListener('click', e => {
+            if (!btn.contains(e.target) && !dialog.contains(e.target)) {
+                dialog.classList.add('hidden');
+            }
+        });
+    }
+
+    // 初始化
+    document.addEventListener('DOMContentLoaded', () => {
+        renderLinks();
+        initCreeperDialog();
     });
 </script>
 
