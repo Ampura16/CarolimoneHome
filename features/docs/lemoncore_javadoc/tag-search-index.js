@@ -1,0 +1,1 @@
+tagSearchIndex = [{"l":"Paper API 中文参考文档","h":"概览","d":"节","u":"index.html#paper-api--heading"},{"l":"常量字段值","h":"","u":"constant-values.html"},{"l":"翻译范围与使用许可","h":"概览","d":"节","u":"index.html#--heading"},{"l":"序列化表格","h":"","u":"serialized-form.html"}];updateSearchResults();

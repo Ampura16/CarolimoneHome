@@ -1,0 +1,145 @@
+/* Paper API Javadoc theme inspired by the ui.png reference. */
+:root {
+    --body-font-family: "Consolas", "Microsoft YaHei", "Noto Sans CJK SC", monospace;
+    --block-font-family: "Consolas", "Microsoft YaHei", "Noto Sans CJK SC", monospace;
+    --code-font-family: "Consolas", "Cascadia Mono", "DejaVu Sans Mono", monospace;
+    --body-font-size: 16px;
+    --code-font-size: 14px;
+
+    --body-text-color: #e2e2e2;
+    --block-text-color: #e2e2e2;
+    --body-background-color: #101112;
+    --section-background-color: #191b1d;
+    --detail-background-color: #131516;
+
+    --navbar-background-color: #202326;
+    --navbar-text-color: #d7dadd;
+    --subnav-background-color: #292c30;
+    --selected-background-color: #ff9900;
+    --selected-text-color: #171717;
+    --selected-link-color: #18385c;
+
+    --even-row-color: #111315;
+    --odd-row-color: #1c1f22;
+    --title-color: #80b4fa;
+    --link-color: #79a9ee;
+    --link-color-active: #ffb33c;
+
+    --snippet-background-color: #1a1d20;
+    --snippet-text-color: #e2e2e2;
+    --snippet-highlight-color: #4c3a20;
+    --border-color: #3a3d40;
+    --table-border-color: #414447;
+
+    --search-input-background-color: #17191c;
+    --search-input-text-color: #e2e2e2;
+    --search-input-placeholder-color: #a4a7aa;
+    --search-tag-highlight-color: #6d5300;
+    --copy-button-background-color-active: rgba(255, 153, 0, 0.2);
+    --invalid-tag-background-color: #532a2a;
+    --invalid-tag-text-color: #f2e8e8;
+}
+
+body {
+    min-width: 320px;
+    line-height: 1.55;
+}
+
+main {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 18px 20px 40px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--code-font-family);
+}
+
+.title {
+    letter-spacing: 0.01em;
+}
+
+.top-nav {
+    min-height: 2.8em;
+    padding-top: 8px;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 0.95em;
+}
+
+.sub-nav {
+    border-bottom: 1px solid var(--border-color);
+}
+
+ul.nav-list li {
+    padding: 5px 8px;
+}
+
+ul.nav-list li.nav-bar-cell1-rev {
+    background-color: transparent;
+    color: var(--selected-background-color);
+    font-weight: bold;
+}
+
+#search-input,
+#reset-button {
+    color: var(--search-input-text-color);
+    background-color: var(--search-input-background-color);
+    border: 1px solid var(--border-color);
+    border-radius: 2px;
+}
+
+#search-input:focus,
+#reset-button:focus-visible {
+    outline: 1px solid var(--selected-background-color);
+    outline-offset: 1px;
+}
+
+.table-header {
+    color: var(--body-text-color);
+    background-color: #24272a;
+}
+
+.summary-table,
+.details-table {
+    border-color: var(--border-color);
+}
+
+.member-signature {
+    border-left: 3px solid var(--selected-background-color);
+    background-color: var(--section-background-color);
+    padding: 8px 12px;
+}
+
+pre {
+    overflow-x: auto;
+    border: 1px solid var(--border-color);
+    border-radius: 2px;
+    padding: 10px 12px;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid var(--border-color);
+}
+
+a:hover {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+::selection {
+    color: #171717;
+    background-color: #ff9900;
+}
+
+@media screen and (max-width: 760px) {
+    main {
+        padding: 14px 14px 28px;
+    }
+
+    .two-column-search-results {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
