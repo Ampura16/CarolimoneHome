@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Javadoc 文档 | Javadocs</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#FF6B9B',
+                        secondary: '#7B61FF',
+                        accent: '#FFC857',
+                        dark: '#2A2A48',
+                        light: '#F9F5FF'
+                    },
+                    fontFamily: { nunito: ['Nunito', 'sans-serif'] },
+                },
+            },
+        };
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .card-hover { transition: all .3s ease; }
+            .card-hover:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(123,97,255,.12); }
+            .btn-gradient { @apply inline-flex items-center gap-1.5 px-4 py-1.5 bg-gradient-to-r from-primary to-secondary text-white rounded-full text-xs font-bold hover:opacity-90 transition-all shadow-sm hover:-translate-y-0.5; }
+            .link-card { @apply bg-white rounded-2xl p-6 shadow-lg card-hover border border-gray-50 flex flex-col items-center text-center gap-3; }
+            .avatar-wrapper { @apply w-16 h-16 rounded-full flex items-center justify-center shadow-sm overflow-hidden; }
+        }
+    </style>
+</head>
+
+<body class="font-nunito bg-light text-dark min-h-screen overflow-x-hidden">
+
+<!-- 语言切换 -->
+<div class="fixed top-5 right-5 z-50 flex gap-2">
+    <button class="lang-btn px-4 py-1.5 rounded-full bg-primary text-white text-sm font-bold shadow-md hover:opacity-90 transition-all" data-lang="zh">中文</button>
+    <button class="lang-btn px-4 py-1.5 rounded-full bg-white text-primary text-sm font-bold shadow-md hover:bg-gray-50 transition-all" data-lang="en">EN</button>
+</div>
+
+<!-- 背景装饰 -->
+<div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+    <div class="absolute -top-32 -left-32 w-96 h-96 bg-primary/10 rounded-full blur-3xl"></div>
+    <div class="absolute top-1/3 -right-32 w-80 h-80 bg-secondary/10 rounded-full blur-3xl"></div>
+    <div class="absolute bottom-0 left-1/3 w-72 h-72 bg-accent/10 rounded-full blur-3xl"></div>
+</div>
+
+<div class="container mx-auto px-4 py-14 relative z-10">
+
+    <!-- Header -->
+    <header class="text-center mb-16 bg-white/80 backdrop-blur-sm rounded-3xl p-10 shadow-2xl border-2 border-primary/20 relative overflow-hidden">
+        <!-- 装饰性背景 -->
+        <div class="absolute inset-0 bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5 pointer-events-none"></div>
+        <div class="absolute -top-10 -right-10 w-40 h-40 bg-primary/10 rounded-full blur-2xl"></div>
+        <div class="absolute -bottom-10 -left-10 w-40 h-40 bg-secondary/10 rounded-full blur-2xl"></div>
+
+        <div class="relative z-10">
+            <div class="inline-block mb-4">
+                <div class="flex items-center justify-center gap-3 mb-2">
+                    <div class="w-8 h-0.5 bg-gradient-to-r from-transparent to-primary rounded-full"></div>
+                    <i class="fa fa-book text-3xl text-primary"></i>
+                    <div class="w-8 h-0.5 bg-gradient-to-l from-transparent to-secondary rounded-full"></div>
+                </div>
+            </div>
+            <h1 class="text-[clamp(2rem,5vw,3.5rem)] font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-primary via-secondary to-accent mb-5 drop-shadow-sm" data-i18n="pageTitle">Javadoc 文档</h1>
+            <div class="flex items-center justify-center gap-2 mb-5">
+                <div class="w-24 h-1.5 bg-gradient-to-r from-primary to-secondary rounded-full shadow-lg"></div>
+                <div class="w-2 h-2 bg-accent rounded-full animate-pulse"></div>
+                <div class="w-24 h-1.5 bg-gradient-to-l from-secondary to-accent rounded-full shadow-lg"></div>
+            </div>
+            <p class="text-gray-600 text-base font-semibold" data-i18n="pageSubtitle">项目 API 文档集合 ✨</p>
+        </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto">
+
+        <!-- Javadoc 列表 -->
+        <section class="mb-16">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+
+                <div class="link-card">
+                    <div class="avatar-wrapper bg-gradient-to-br from-primary/20 to-secondary/20">
+                        <i class="fa fa-lemon-o text-2xl text-primary"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-extrabold text-base text-dark mb-1" data-i18n="paperApiDocs">LemonCore API 中文文档</h3>
+                        <p class="text-gray-400 text-xs mb-3" data-i18n="paperApiDesc">自研核心库 LemonCore 的 API 文档（中文）。</p>
+                        <a href="../docs/javadocs/lemoncore/index.html" class="btn-gradient">
+                            <i class="fa fa-book"></i>
+                            <span data-i18n="visitDoc">查看文档</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="link-card">
+                    <div class="avatar-wrapper bg-gradient-to-br from-secondary/20 to-accent/20">
+                        <i class="fa fa-cube text-2xl text-secondary"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-extrabold text-base text-dark mb-1" data-i18n="foundationJavadoc">Foundation API 中文文档</h3>
+                        <p class="text-gray-400 text-xs mb-3" data-i18n="foundationJavadocDesc">Minecraft Paper 插件开发框架 Foundation 的 API 文档（中文）。</p>
+                        <a href="../docs/javadocs/foundation/index.html" class="btn-gradient">
+                            <i class="fa fa-book"></i>
+                            <span data-i18n="visitDoc">查看文档</span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 返回按钮 -->
+    <div class="text-center mt-6">
+        <a href="../index.html" class="inline-flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-primary to-secondary text-white rounded-full font-bold hover:opacity-90 transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5">
+            <i class="fa fa-home"></i>
+            <span data-i18n="backHome">返回主页</span>
+        </a>
+    </div>
+
+    <!-- Footer -->
+    <footer class="mt-16 bg-white/90 backdrop-blur-sm rounded-3xl p-8 shadow-2xl border-2 border-secondary/20 relative overflow-hidden">
+        <!-- 装饰性背景 -->
+        <div class="absolute inset-0 bg-gradient-to-t from-secondary/5 to-primary/5 pointer-events-none"></div>
+        <div class="absolute -top-10 left-1/4 w-32 h-32 bg-accent/10 rounded-full blur-2xl"></div>
+        <div class="absolute -bottom-10 right-1/4 w-32 h-32 bg-primary/10 rounded-full blur-2xl"></div>
+
+        <div class="relative z-10 text-center space-y-4">
+            <div class="flex items-center justify-center gap-3 mb-3">
+                <div class="w-16 h-0.5 bg-gradient-to-r from-transparent to-primary/50 rounded-full"></div>
+                <i class="fa fa-heart text-primary text-xl animate-pulse"></i>
+                <div class="w-16 h-0.5 bg-gradient-to-l from-transparent to-secondary/50 rounded-full"></div>
+            </div>
+            <p class="text-gray-700 text-base font-bold" data-i18n="footerRights">柠萌の神秘空间 | 每一份热爱都值得传递</p>
+            <div class="w-32 h-0.5 bg-gradient-to-r from-primary via-secondary to-accent mx-auto rounded-full"></div>
+            <p class="text-gray-500 text-sm font-semibold" data-i18n="footerWebRights">本网站外观设计权利归 @Kiss_light233 所有。</p>
+        </div>
+    </footer>
+</div>
+
+<script>
+    const T = {
+        zh: {
+            pageTitle: 'Javadoc 文档', pageSubtitle: '项目 API 文档集合 ✨',
+            paperApiDocs: 'LemonCore API 中文文档', paperApiDesc: '自研核心库 LemonCore 的 API 文档（中文）。',
+            foundationJavadoc: 'Foundation API 中文文档', foundationJavadocDesc: 'Minecraft Paper 插件开发框架 Foundation 的 API 文档（中文）。',
+            visitDoc: '查看文档', backHome: '返回主页',
+            footerRights: '柠萌の神秘空间 | 每一份热爱都值得传递',
+            footerWebRights: '本网站外观设计权利归 @Kiss_light233 所有。'
+        },
+        en: {
+            pageTitle: 'Javadocs', pageSubtitle: 'Project API documentation ✨',
+            paperApiDocs: 'LemonCore API Javadoc', paperApiDesc: 'API docs for the self-made LemonCore library (Chinese).',
+            foundationJavadoc: 'Foundation API Javadoc', foundationJavadocDesc: 'API docs for Foundation, a Minecraft Paper plugin framework (Chinese).',
+            visitDoc: 'View Docs', backHome: 'Back to Home',
+            footerRights: "CaroLimone's Space | Share the Love",
+            footerWebRights: 'All visual design rights of this website are owned by @Kiss_light233.'
+        }
+    };
+
+    function setLanguage(lang) {
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+            const v = T[lang][el.dataset.i18n];
+            if (v) el.textContent = v;
+        });
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            const active = btn.dataset.lang === lang;
+            btn.className = `lang-btn px-4 py-1.5 rounded-full text-sm font-bold shadow-md transition-all ${active ? 'bg-primary text-white' : 'bg-white text-primary hover:bg-gray-50'}`;
+        });
+    }
+
+    document.querySelectorAll('.lang-btn').forEach(btn => btn.addEventListener('click', () => setLanguage(btn.dataset.lang)));
+</script>
+
+</body>
+</html>
