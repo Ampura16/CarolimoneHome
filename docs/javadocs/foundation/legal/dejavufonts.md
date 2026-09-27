@@ -47,9 +47,9 @@ THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM OTHER DEALINGS IN THE
 FONT SOFTWARE.
 
 Except as contained in this notice, the names of Gnome, the Gnome
-Foundation, and Bitstream Inc., shall not be used in advertising or
+Plugin DevLib, and Bitstream Inc., shall not be used in advertising or
 otherwise to promote the sale, use or other dealings in this Font Software
-without prior written authorization from the Gnome Foundation or Bitstream
+without prior written authorization from the Gnome Plugin DevLib or Bitstream
 Inc., respectively. For further information, contact: fonts at gnome dot
 org.
 
@@ -156,10 +156,10 @@ OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF THE USE OR
 INABILITY TO USE
 THE FONT SOFTWARE OR FROM OTHER DEALINGS IN THE FONT SOFTWARE.
 Except as contained in this notice, the names of GNOME, the GNOME
-Foundation,
+Plugin DevLib,
 and Bitstream Inc., shall not be used in advertising or otherwise to promote
 the sale, use or other dealings in this Font Software without prior written
-authorization from the GNOME Foundation or Bitstream Inc., respectively.
+authorization from the GNOME Plugin DevLib or Bitstream Inc., respectively.
 For further information, contact: fonts at gnome dot org.
 
 AMSFonts (v. 2.2) copyright
