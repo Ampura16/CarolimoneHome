@@ -79,7 +79,7 @@
 <!-- 顶部返回栏 -->
 <div class="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-gray-100 shadow-sm">
     <div class="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between">
-        <a href="../../dev_contents.html" class="flex items-center gap-2 text-sm font-bold text-secondary hover:text-primary transition-colors">
+        <a href="../../pages/dev-contents.html" class="flex items-center gap-2 text-sm font-bold text-secondary hover:text-primary transition-colors">
             <i class="fa fa-arrow-left"></i>
             <span>返回日记本目录</span>
         </a>
@@ -107,7 +107,7 @@
         <section class="bg-white rounded-2xl p-6 shadow-lg card-hover border border-gray-50">
             <div class="flex items-start gap-4">
                 <div class="relative shrink-0">
-                    <img src="../../resources/headicon_pkg/MeT.jpg" alt="MET_ICON" class="w-14 h-14 rounded-2xl object-cover shadow-md">
+                    <img src="../../assets/images/avatars/MeT.jpg" alt="MET_ICON" class="w-14 h-14 rounded-2xl object-cover shadow-md">
                     <div class="absolute -bottom-1 -right-1 w-5 h-5 bg-green-400 rounded-full border-2 border-white"></div>
                 </div>
                 <div class="flex-1 min-w-0">
@@ -174,7 +174,7 @@
 <span class="line">}</span></code></pre>
             </div>
             <div class="mt-5">
-                <img src="../../img/Chapter02/BreakBlockEvent.png" alt="破坏方块事件效果" class="w-full rounded-xl shadow-md">
+                <img src="../../assets/images/tutorials/chapter-02/BreakBlockEvent.png" alt="破坏方块事件效果" class="w-full rounded-xl shadow-md">
             </div>
             <div class="mt-5 p-4 bg-secondary/5 rounded-xl border border-secondary/10">
                 <p class="text-sm font-bold text-secondary mb-2"><i class="fa fa-lightbulb-o mr-1"></i>要点说明</p>
@@ -282,7 +282,7 @@
                         <span class="w-2 h-2 rounded-full bg-accent"></span>
                         <h4 class="font-bold text-secondary text-sm">运行效果</h4>
                     </div>
-                    <img src="../../img/Chapter02/MyCustomEvent.png" alt="自定义事件效果" class="w-full rounded-xl shadow-md">
+                    <img src="../../assets/images/tutorials/chapter-02/MyCustomEvent.png" alt="自定义事件效果" class="w-full rounded-xl shadow-md">
                 </div>
 
                 <!-- 要点 -->
@@ -323,7 +323,7 @@
             </h3>
             <p class="text-gray-600 leading-8 mb-5 indent-8">MET学长在查阅资料的时候发现大多事件都是可撤销或者监听撤销情况的，所以他特别留意了一下关于事件优先级的实现逻辑，发现因为一个事情可能被多个监听器监听，而服务器在处理事件时会"询问"每一个插件的"意见"，各插件通过设定优先级和是否忽略或影响取消判定的方式决定本插件处理该事件的方式。</p>
             <div class="mb-5">
-                <img src="../../img/Chapter02/EventPriority.png" alt="事件优先级示意图" class="w-full rounded-xl shadow-md">
+                <img src="../../assets/images/tutorials/chapter-02/EventPriority.png" alt="事件优先级示意图" class="w-full rounded-xl shadow-md">
             </div>
             <p class="text-gray-600 leading-8 indent-8">虽然事件在被排队监听的过程中不会中途消失，但是高优先级的监听器会优先监听，并且可以通过 <code class="px-1.5 py-0.5 bg-secondary/10 text-secondary rounded text-sm font-mono">Canceled</code> 接口有关方法更改后排队的监听器收到该事件的取消状态，以此影响后续监听器的具体行为。</p>
             <p class="text-gray-600 leading-8 mt-4 indent-8">"a...原来是这样！" MET学长恍然大悟，他终于明白了 Bukkit Event 如何搭配 Listener 监听器实现对原版行为的监听和修改。随后查阅了更多资料，发现了Spigot官网有对各种事件的详细介绍：</p>
@@ -372,7 +372,7 @@
     </main>
 
     <div class="text-center mt-14">
-        <a href="../../dev_contents.html" class="inline-flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-primary to-secondary text-white rounded-full font-bold hover:opacity-90 transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5">
+        <a href="../../pages/dev-contents.html" class="inline-flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-primary to-secondary text-white rounded-full font-bold hover:opacity-90 transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5">
             <i class="fa fa-home"></i>
             <span>返回日记本目录</span>
         </a>

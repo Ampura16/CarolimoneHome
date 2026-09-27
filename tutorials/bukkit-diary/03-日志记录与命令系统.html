@@ -55,7 +55,7 @@
         <!-- 人物卡片 -->
         <section class="bg-white rounded-2xl p-6 shadow-lg card-hover border-t-4 border-primary">
             <div class="flex flex-col md:flex-row items-center gap-6">
-                <img src="../../resources/headicon_pkg/js.jpg" alt="JS_ICON" class="w-20 h-20 rounded-full object-cover border-2 border-primary/20 shadow-sm">
+                <img src="../../assets/images/avatars/js.jpg" alt="JS_ICON" class="w-20 h-20 rounded-full object-cover border-2 border-primary/20 shadow-sm">
                 <div class="flex-1 text-center md:text-left">
                     <h2 class="text-xl font-bold text-primary">人物：JS学姐</h2>
                     <div class="grid grid-cols-1 gap-2 mt-2 text-sm text-gray-600">
@@ -192,15 +192,15 @@
             <h3 class="text-2xl font-bold text-primary mb-4 flex items-center gap-2"><i class="fa fa-cogs"></i> 创建命令类与注册</h3>
             <p class="text-gray-600 mb-4">处理完配置部分，现在在插件中添加识别自定义命令的逻辑。嗯...使用<code class="text-secondary">sendMessage()</code>发送文本太简单啦，我们来试试使用命令生成生物吧！新建命令类软件包并且新建<code class="text-secondary">SpawnEntityCommand</code>类：</p>
             <div class="my-4">
-                <img src="../../img/Chapter03/新建命令类.png" alt="新建命令类" class="rounded-lg shadow border max-w-full">
+                <img src="../../assets/images/tutorials/chapter-03/新建命令类.png" alt="新建命令类" class="rounded-lg shadow border max-w-full">
             </div>
             <p class="text-gray-600 mb-4">在插件初始化时调用：<code class="text-secondary font-mono">getCommand("spawnmob").setExecutor(new SpawnEntityCommand());</code>，注意<code class="text-secondary">getCommand("xxx")</code>要与你在plugin.yml中commands下设置的命令名称一致。这里在后续示例图片为spawnentity，没有影响，主要是与配置文件对应即可。另外记得正确添加import导入：</p>
             <div class="my-4">
-                <img src="../../img/Chapter03/主类导入命令类.png" alt="主类导入命令类" class="rounded-lg shadow border max-w-full">
+                <img src="../../assets/images/tutorials/chapter-03/主类导入命令类.png" alt="主类导入命令类" class="rounded-lg shadow border max-w-full">
             </div>
             <p class="text-gray-600 mt-4 mb-2">根据Bukkit设计原理，Command实例必须实现<code class="text-secondary">CommandExecutor</code>执行者以及<code class="text-secondary">TabCompleter</code>补全实现。IDEA已经自动理解了BukkitAPI，已经知道如何正确实现有关的方法，按照提示补全缺失的方法吧~</p>
             <div class="my-4">
-                <img src="../../img/Chapter03/命令类初始化.png" alt="命令类初始化" class="rounded-lg shadow border max-w-full">
+                <img src="../../assets/images/tutorials/chapter-03/命令类初始化.png" alt="命令类初始化" class="rounded-lg shadow border max-w-full">
             </div>
         </section>
 
@@ -477,9 +477,9 @@
             <h3 class="text-2xl font-bold text-primary mb-4 flex items-center gap-2"><i class="fa fa-gamepad"></i> 效果展示</h3>
             <p class="text-gray-600 mb-4">我们进入游戏可以发现已经可以正确识别我们的命令 <code class="text-secondary">/spawnentity</code> 并且可以在其后补全实体类型：</p>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <img src="../../img/Chapter03/命令识别.png" alt="命令识别" class="rounded-lg shadow border w-full">
-                <img src="../../img/Chapter03/命令补全01.png" alt="命令补全01" class="rounded-lg shadow border w-full">
-                <img src="../../img/Chapter03/命令补全02.png" alt="命令补全02" class="rounded-lg shadow border w-full">
+                <img src="../../assets/images/tutorials/chapter-03/命令识别.png" alt="命令识别" class="rounded-lg shadow border w-full">
+                <img src="../../assets/images/tutorials/chapter-03/命令补全01.png" alt="命令补全01" class="rounded-lg shadow border w-full">
+                <img src="../../assets/images/tutorials/chapter-03/命令补全02.png" alt="命令补全02" class="rounded-lg shadow border w-full">
             </div>
         </section>
 
@@ -502,7 +502,7 @@
                     <ol class="space-y-3 text-sm text-gray-700">
                         <li class="flex gap-3 p-3 bg-white/70 rounded-xl hover:bg-white transition-all">
                             <span class="w-6 h-6 rounded-full bg-primary/10 text-primary text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">1</span>
-                            <span><code class="text-secondary">spawnentity</code> 命令支持 2 种接受参数的方式，但对于 Tab 的命令引导尚不充分，如何在参数不足或者错误的情况下向玩家发送自定义用法提示？<br><img src="../../img/Chapter03/命令用法提示.png" alt="命令用法提示示例" class="rounded-lg shadow border mt-2 max-w-full"></span>
+                            <span><code class="text-secondary">spawnentity</code> 命令支持 2 种接受参数的方式，但对于 Tab 的命令引导尚不充分，如何在参数不足或者错误的情况下向玩家发送自定义用法提示？<br><img src="../../assets/images/tutorials/chapter-03/命令用法提示.png" alt="命令用法提示示例" class="rounded-lg shadow border mt-2 max-w-full"></span>
                         </li>
                         <li class="flex gap-3 p-3 bg-white/70 rounded-xl hover:bg-white transition-all">
                             <span class="w-6 h-6 rounded-full bg-secondary/10 text-secondary text-xs font-bold flex items-center justify-center shrink-0 mt-0.5">2</span>
@@ -520,7 +520,7 @@
     </main>
 
     <div class="text-center mt-14">
-        <a href="../../dev_contents.html" class="inline-flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-primary to-secondary text-white rounded-full font-bold hover:opacity-90 transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5">
+        <a href="../../pages/dev-contents.html" class="inline-flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-primary to-secondary text-white rounded-full font-bold hover:opacity-90 transition-all shadow-md hover:shadow-lg hover:-translate-y-0.5">
             <i class="fa fa-home"></i>
             <span>返回日记本目录</span>
         </a>
