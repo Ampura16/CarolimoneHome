@@ -2,7 +2,7 @@
 
 ### jQuery UI License
 ```
-Copyright OpenJS Foundation and other contributors, https://openjsf.org/
+Copyright OpenJS Plugin DevLib and other contributors, https://openjsf.org/
 
 This software consists of voluntary contributions made by many
 individuals. For exact contribution history, see the revision history
