@@ -1,0 +1,64 @@
+name: ScrapBukkit
+main: com.dinnerbone.bukkit.scrap.ScrapBukkit
+version: 1.0.0
+website: http://www.bukkit.org
+author: The Bukkit Team
+description: >
+             Miscellaneous administrative commands for Bukkit.（Bukkit 的杂项管理命令。）
+             This plugin is one of the default plugins shipped with Bukkit.（此插件是 Bukkit 附带的默认插件之一。）
+# commands: snipped（命令部分已裁剪）
+
+permissions:
+  scrapbukkit.*:
+    description: Gives all permissions for Scrapbukkit # 授予 ScrapBukkit 的所有权限
+    default: op
+    children:
+      scrapbukkit.remove:
+        description: Allows the player to remove items from anyones inventory # 允许玩家从任何人的物品栏中移除物品
+        children:
+          scrapbukkit.remove.self:
+            description: Allows the player to remove items from their own inventory # 允许玩家从自己的物品栏中移除物品
+          scrapbukkit.remove.other:
+            description: Allows the player to remove items from other peoples inventory # 允许玩家从其他人的物品栏中移除物品
+
+      scrapbukkit.time:
+        description: Allows the player to view and change the time # 允许玩家查看并更改时间
+        children:
+          scrapbukkit.time.view:
+            description: Allows the player to view the time # 允许玩家查看时间
+            default: true
+          scrapbukkit.time.change:
+            description: Allows the player to change the time # 允许玩家更改时间
+
+      scrapbukkit.tp:
+        description: Allows the player to teleport anyone to anyone else # 允许玩家将任意人传送到任意其他人
+        children:
+          scrapbukkit.tp.here:
+            description: Allows the player to teleport other players to themselves # 允许玩家将其他玩家传送到自己身边
+          scrapbukkit.tp.self:
+            description: Allows the player to teleport themselves to another player # 允许玩家将自己传送到另一名玩家
+          scrapbukkit.tp.other:
+            description: Allows the player to teleport anyone to another player # 允许玩家将任意人传送到另一名玩家
+
+      scrapbukkit.give:
+        description: Allows the player to give items # 允许玩家给予物品
+        children:
+          scrapbukkit.give.self:
+            description: Allows the player to give themselves items # 允许玩家给自己物品
+          scrapbukkit.give.other:
+            description: Allows the player to give other players items # 允许玩家给其他玩家物品
+
+      scrapbukkit.clear:
+        description: Allows the player to clear inventories # 允许玩家清空物品栏
+        children:
+          scrapbukkit.clear.self:
+            description: Allows the player to clear their own inventory # 允许玩家清空自己的物品栏
+          scrapbukkit.clear.other:
+            description: Allows the player to clear other players inventory # 允许玩家清空其他玩家的物品栏
+
+      scrapbukkit.some.standard.perm: {}
+      scrapbukkit.some.other.perm: true
+      scrapbukkit.some.bad.perm: false
+  # This is defined here individually, as simply giving it an association will not cause it to exist at runtime # 此权限在此单独定义，因为仅在别处关联它并不会使其在运行时存在
+  scrapbukkit.some.bad.perm: {}
+  scrapbukkit.some.other.perm: {}
