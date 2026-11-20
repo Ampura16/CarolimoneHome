@@ -32,6 +32,8 @@
             .hobby-card { transition: all .25s ease; }
             .hobby-card:hover { transform: scale(1.06); background: linear-gradient(135deg, #fff0f6, #f0edff); }
             .skill-bar { width: 0; transition: width 1.2s cubic-bezier(.4,0,.2,1); }
+            .site-toast { position: fixed; left: 50%; bottom: 2rem; z-index: 60; max-width: calc(100vw - 2rem); opacity: 0; visibility: hidden; transform: translate(-50%, 1.5rem); pointer-events: none; transition: opacity .25s ease, transform .25s ease, visibility 0s linear .25s; }
+            .site-toast.is-visible { opacity: 1; visibility: visible; transform: translate(-50%, 0); transition-delay: 0s; }
         }
         @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
     </style>
@@ -164,6 +166,11 @@
                                class="inline-flex items-center gap-2 px-4 py-2 bg-secondary/10 text-secondary rounded-full text-sm font-bold hover:bg-secondary hover:text-white transition-all shadow-sm hover:-translate-y-0.5">
                                 <i class="fa fa-file-code-o"></i>
                                 <span data-i18n="visitDevDiary">Dev 日记本</span>
+                            </a>
+                            <a id="blocklandEntry" href="mineplex/index.html"
+                               class="inline-flex items-center gap-2 px-4 py-2 bg-accent/15 text-amber-600 rounded-full text-sm font-bold hover:bg-accent hover:text-white transition-all shadow-sm hover:-translate-y-0.5">
+                                <i class="fa fa-gamepad"></i>
+                                <span data-i18n="blocklandEntry">小游戏群组</span>
                             </a>
                         </div>
                     </div>
@@ -300,6 +307,16 @@
     </footer>
 </div>
 
+<!-- 提示浮层（复刻站入口 / 敬请期待） -->
+<div id="siteToast" class="site-toast" role="status" aria-live="polite">
+    <div class="flex items-center gap-3 bg-white/95 backdrop-blur-sm border-2 border-primary/20 rounded-2xl px-5 py-3.5 shadow-2xl">
+        <span class="w-9 h-9 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0">
+            <i class="fa fa-hourglass-half"></i>
+        </span>
+        <span class="text-sm font-bold text-dark" data-i18n="blocklandSoon">小游戏群组官网正在筹备中，敬请期待 ✨</span>
+    </div>
+</div>
+
 <script>
     const T = {
         zh: {
@@ -316,6 +333,7 @@
             bohriumLinks: '玻尔科研站',
             mySkills: '我的技能', skillSecret: '某神秘领域', hobbies: '兴趣爱好',
             hobby1: '下午茶', hobby2: '旅游', hobby3: '游戏', hobby4: '音乐', hobby5: '漫画', hobby6: '宠物',
+            blocklandEntry: 'BlockLand Minigames', blocklandSoon: '小游戏群组官网筹备中,敬请期待 ✨',
             footerRights: '柠萌の神秘空间 | 每一份热爱都值得传递',
             footerWebRights: '本网站外观设计权利归 @Kiss_light233 所有。'
         },
@@ -333,6 +351,7 @@
             bohriumLinks: 'Bohrium Access',
             mySkills: 'My Skills', skillSecret: 'Secret Field', hobbies: 'Hobbies',
             hobby1: 'Tea Break', hobby2: 'Travel', hobby3: 'Gaming', hobby4: 'Music', hobby5: 'Manga', hobby6: 'Pets',
+            blocklandEntry: 'BlockLand Minigames', blocklandSoon: 'The fan site is coming soon. Stay tuned ✨',
             footerRights: "CaroLimone's Space | Share the Love",
             footerWebRights: 'All visual design rights of this website are owned by @Kiss_light233.'
         }
@@ -366,6 +385,23 @@
     document.getElementById('mainAvatar').src = 'assets/images/avatars/qq.jpg';
     document.getElementById('coffeeAvatar').src = 'assets/images/avatars/github.jpg';
     document.getElementById('toolAvatar').src = 'assets/images/avatars/MeT_2.jpg';
+
+    // 复刻站入口暂未开放：点击弹出「敬请期待」提示，不跳转（mineplex/ 页面保留）
+    function showToast() {
+        const toast = document.getElementById('siteToast');
+        if (!toast) return;
+        toast.classList.add('is-visible');
+        clearTimeout(showToast.timer);
+        showToast.timer = setTimeout(() => toast.classList.remove('is-visible'), 2600);
+    }
+
+    const blocklandEntry = document.getElementById('blocklandEntry');
+    if (blocklandEntry) {
+        blocklandEntry.addEventListener('click', e => {
+            e.preventDefault();
+            showToast();
+        });
+    }
 
     document.querySelectorAll('.lang-btn').forEach(btn => btn.addEventListener('click', () => setLanguage(btn.dataset.lang)));
 </script>

@@ -1,0 +1,15 @@
+me.carolimone.bukkitplatform.ybedwars
+me.carolimone.bukkitplatform.ybedwars.api
+me.carolimone.bukkitplatform.ybedwars.command
+me.carolimone.bukkitplatform.ybedwars.config
+me.carolimone.bukkitplatform.ybedwars.event
+me.carolimone.bukkitplatform.ybedwars.game
+me.carolimone.bukkitplatform.ybedwars.game.specialprops
+me.carolimone.bukkitplatform.ybedwars.listener
+me.carolimone.bukkitplatform.ybedwars.menu
+me.carolimone.bukkitplatform.ybedwars.menu.arenamenu
+me.carolimone.bukkitplatform.ybedwars.menu.managemenu
+me.carolimone.bukkitplatform.ybedwars.menu.teammenu
+me.carolimone.bukkitplatform.ybedwars.menu.tools
+me.carolimone.bukkitplatform.ybedwars.utils
+me.carolimone.bukkitplatform.ybedwars.velocity

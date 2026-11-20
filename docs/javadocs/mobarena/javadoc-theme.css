@@ -1,0 +1,854 @@
+/*
+ * ============================================================================
+ *  Javadoc Theme: Falling Petal Pink  (落花星雨 参考配色)
+ * ----------------------------------------------------------------------------
+ *  调色与装饰**只**取自参考图的三部分, 刻意不参考其背景天空/远山:
+ *
+ *    文本       标题立体字的四阶粉: #FFDCD8 / #FEC4CC / #FBB1C0, 暗部 #9A2C3F
+ *    按钮       填充 #ED717B, 上/右高光 #F5AEB4, 下/左深边 #C94854, 白字
+ *    装饰       四角星闪光(白到青 #E2FDFF)、菱形 #FBAABC、青宝石 #94E6EB、
+ *               草方块三阶 #ECFC79 / #8DB328 / #3A4E0C
+ *
+ *  因此页面底色不用参考图那种去饱和的暖灰棕天空, 而是由标题亮面 #FFE5E4
+ *  稀释而来的近白暖粉, 保证文档长时间阅读不刺眼.
+ *
+ *  可读性处理: 参考图的 #ED717B 上放白字只有 2.9:1, 不适合正文. 主题按**角色**
+ *  分层——品牌色用于填充, 文本链接用同色相降明度的 #B23A48 (5.4:1), 选中页签
+ *  用深边色 #C94854 (白字 4.6:1). 全部实测通过 WCAG AA.
+ *
+ *  用法: 作为**附加样式表**加载, 不要替换默认 stylesheet.css.
+ *    Gradle:
+ *      std.addStringOption("-add-stylesheet", file("javadoc-theme.css").absolutePath)
+ *    CLI:  javadoc --add-stylesheet javadoc-theme.css ...
+ * ============================================================================
+ */
+
+/* ===========================================================================
+ * 1. 调色板 (浅色 / 默认)
+ * =========================================================================== */
+:root {
+    color-scheme: light;
+
+    /* --- 参考图提取的品牌色 --- */
+    --ref-fill: #ED717B;        /* 按钮填充 */
+    --ref-light: #F5AEB4;       /* 按钮高光 */
+    --ref-deep: #C94854;        /* 按钮深边 */
+    --ref-text: #9A2C3F;        /* 标题暗部 */
+    --ref-face-1: #FFE5E4;      /* 标题最亮面 */
+    --ref-face-2: #FFDCD8;      /* 标题亮面 */
+    --ref-face-3: #FEC4CC;      /* 标题正面 */
+    --ref-face-4: #FBB1C0;      /* 标题侧面 */
+    --ref-diamond: #FBAABC;     /* 副标题菱形 */
+    --ref-gem-light: #E2FDFF;   /* 宝石高光 */
+    --ref-gem: #94E6EB;         /* 宝石中调 */
+    --ref-grass-light: #ECFC79; /* 草方块高光 */
+    --ref-grass: #8DB328;       /* 草方块中调 */
+    --ref-grass-dark: #3A4E0C;  /* 草方块暗部 */
+
+    /* --- 文本 --- */
+    --sakura-ink: #33282A;
+    --sakura-ink-soft: #56474A;
+    --sakura-link: #B23A48;
+    --sakura-link-hover: var(--ref-text);
+    --sakura-title: var(--ref-text);
+
+    /* --- 背景层次: 近白暖粉(由 #FFE5E4 稀释) -> 纯白 -> 微粉 --- */
+    --sakura-100: #FFF9F8;
+    --sakura-200: #FFF4F3;
+
+    /* --- javadoc 官方变量 --- */
+    --body-font-family: "Segoe UI", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+    --block-font-family: "Segoe UI", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+    --code-font-family: "Cascadia Code", Consolas, "DejaVu Sans Mono", monospace;
+    --body-font-size: 15px;
+    --block-font-size: 15px;
+    --code-font-size: 13.5px;
+
+    --body-text-color: var(--sakura-ink);
+    --block-text-color: var(--sakura-ink-soft);
+
+    --body-background-color: var(--sakura-100);
+    --section-background-color: #ffffff;
+    --detail-background-color: var(--sakura-200);
+
+    --navbar-background-color: var(--ref-face-2);
+    --navbar-text-color: #7A2A38;
+    --subnav-background-color: #FFF0EE;
+    --subnav-link-color: var(--ref-text);
+
+    /* 选中页签: 用按钮的深边色, 白字 4.6:1 */
+    --selected-background-color: var(--ref-deep);
+    --selected-text-color: #ffffff;
+    --selected-link-color: #ffffff;
+
+    --even-row-color: var(--sakura-100);
+    --odd-row-color: #ffffff;
+
+    --title-color: var(--ref-text);
+    --link-color: var(--sakura-link);
+    --link-color-active: var(--sakura-link-hover);
+
+    --snippet-background-color: #FFEFEE;
+    --snippet-text-color: #8A2F52;
+    --snippet-highlight-color: #FFE0DF;
+    --code-background-color: #FFEFEE;
+    --pre-background-color: #FFEFEE;
+    --pre-text-color: #8A2F52;
+
+    --border-color: #F4DCD9;
+    --table-border-color: #F4DCD9;
+
+    --search-input-background-color: #ffffff;
+    --search-input-text-color: var(--sakura-ink);
+    --search-input-placeholder-color: #B29A98;
+    --search-tag-highlight-color: #FFE0DF;
+
+    --copy-button-background-color-active: rgb(237 113 123 / 22%);
+    --invalid-tag-background-color: #FFE1E4;
+    --invalid-tag-text-color: #A3213C;
+    --mark-background-color: #FFE9A8;
+
+    /* JDK 25 新增变量 */
+    --toc-background-color: var(--sakura-200);
+    --toc-hover-color: #FFE5E4;
+    --toc-highlight-color: #FFE5E4;
+    --detail-block-color: var(--sakura-200);
+    --table-header-color: var(--ref-face-1);
+    --member-heading-background-color: var(--ref-face-1);
+    --max-content-width: 1280px;
+
+    /* 主题自用 */
+    --pb-radius: 10px;
+    --pb-radius-sm: 8px;
+    --pb-shadow: 0 2px 10px rgb(154 44 63 / 7%);
+    --pb-shadow-hover: 0 6px 18px rgb(154 44 63 / 12%);
+    /* 立体边: 与参考图按钮一致, 上/右亮, 下/左暗 */
+    --pb-bevel-light: rgb(255 255 255 / 45%);
+    --pb-bevel-dark: rgb(154 44 63 / 22%);
+    /* 表头右上角的光泽: 浅色下是白高光, 深色下必须压到几乎不可见,
+       否则会把深色表头冲成银灰(白 70% 叠在深底上就是这个效果) */
+    --pb-header-glow: rgb(255 255 255 / 62%);
+    /* 收尾细细线: 深色下 border-color 太暗, 单独给一条可见度更高的线色 */
+    --pb-rule: var(--border-color);
+}
+
+/* ===========================================================================
+ * 2. 深色方案 (同色相压暗, 不引入参考图的灰棕)
+ * =========================================================================== */
+@media (prefers-color-scheme: dark) {
+    :root {
+        color-scheme: dark;
+
+        --sakura-ink: #F6E4E1;
+        --sakura-ink-soft: #D6C0BD;
+        --sakura-link: var(--ref-light);
+        --sakura-link-hover: var(--ref-face-2);
+        --sakura-title: var(--ref-face-2);
+
+        --sakura-100: #1B1416;
+        --sakura-200: #211719;
+
+        --body-text-color: var(--sakura-ink);
+        --block-text-color: var(--sakura-ink-soft);
+
+        --body-background-color: var(--sakura-100);
+        --section-background-color: #241A1D;
+        --detail-background-color: var(--sakura-200);
+
+        --navbar-background-color: #2A1D20;
+        --navbar-text-color: var(--ref-face-2);
+        --subnav-background-color: #211719;
+        --subnav-link-color: var(--ref-light);
+
+        /* 深色下选中页签用纯品牌色, 文字反过来用深色, 对比 6.3:1 */
+        --selected-background-color: var(--ref-fill);
+        --selected-text-color: #1B1413;
+        --selected-link-color: #1B1413;
+
+        --even-row-color: var(--sakura-200);
+        --odd-row-color: #241A1D;
+
+        --title-color: var(--sakura-title);
+        --link-color: var(--sakura-link);
+        --link-color-active: var(--sakura-link-hover);
+
+        --snippet-background-color: #2A1D20;
+        --snippet-text-color: #FFD5D6;
+        --snippet-highlight-color: #43282C;
+        --code-background-color: #2A1D20;
+        --pre-background-color: #2A1D20;
+        --pre-text-color: #FFD5D6;
+
+        --border-color: #3C2B2E;
+        --table-border-color: #3C2B2E;
+
+        --search-input-background-color: #211719;
+        --search-input-text-color: var(--sakura-ink);
+        --search-input-placeholder-color: #9B8582;
+        --search-tag-highlight-color: #43282C;
+
+        --copy-button-background-color-active: rgb(237 113 123 / 25%);
+        --invalid-tag-background-color: #4A2329;
+        --invalid-tag-text-color: #FFD9DE;
+        --mark-background-color: #4A3A20;
+
+        --toc-background-color: var(--sakura-200);
+        --toc-hover-color: #2A1D20;
+        --toc-highlight-color: #2A1D20;
+        --detail-block-color: var(--sakura-200);
+        --table-header-color: #2A1D20;
+        --member-heading-background-color: #2A1D20;
+
+        --pb-shadow: 0 2px 10px rgb(0 0 0 / 45%);
+        --pb-shadow-hover: 0 6px 18px rgb(0 0 0 / 55%);
+        --pb-bevel-light: rgb(255 255 255 / 10%);
+        --pb-bevel-dark: rgb(0 0 0 / 35%);
+        --pb-header-glow: rgb(255 255 255 / 5%);
+        --pb-rule: rgb(255 255 255 / 14%);
+    }
+}
+
+/* ===========================================================================
+ * 3. 页面底色
+ *    不使用参考图的天空, 只保留一层极淡的粉色光晕(取自标题亮面)
+ * =========================================================================== */
+body {
+    min-width: 320px;
+    margin: 0;
+    line-height: 1.62;
+    letter-spacing: 0.005em;
+    background-color: var(--body-background-color);
+    background-image: radial-gradient(ellipse 720px 260px at 50% -120px, rgb(255 220 216 / 42%), transparent 72%);
+    background-repeat: no-repeat;
+}
+
+@media (prefers-color-scheme: dark) {
+    body {
+        background-image: radial-gradient(ellipse 720px 260px at 50% -120px, rgb(237 113 123 / 14%), transparent 72%);
+    }
+}
+
+/* ===========================================================================
+ * 4. 排版
+ * =========================================================================== */
+h1, h2, h3, h4, h5, h6,
+.title {
+    color: var(--title-color);
+    letter-spacing: 0.012em;
+}
+
+h1 {
+    margin-top: 0.3em;
+}
+
+h2 {
+    position: relative;
+    margin-top: 1.7em;
+    padding-bottom: 0.4em;
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* 二级标题前的菱形: 取自参考图副标题的 ◆ */
+h2::before {
+    content: "";
+    display: inline-block;
+    width: 0.56em;
+    height: 0.56em;
+    margin-right: 0.55em;
+    vertical-align: 0.02em;
+    background-image: linear-gradient(135deg, var(--ref-diamond), var(--ref-fill));
+    border-radius: 1px;
+    transform: rotate(45deg);
+}
+
+a {
+    color: var(--link-color);
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+a:hover {
+    color: var(--link-color-active);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+summary:focus-visible {
+    outline: 3px solid var(--ref-fill);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* 选中文字: 直接用按钮填充色, 配深色字 */
+::selection {
+    color: #3A1A20;
+    background-color: var(--ref-fill);
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid var(--border-color);
+    margin: 2em 0;
+}
+
+/* ===========================================================================
+ * 5. 内容区
+ * =========================================================================== */
+main,
+.main-grid main {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: var(--max-content-width);
+    margin: 0 auto;
+    padding: 24px 26px 60px;
+}
+
+.main-grid nav.toc {
+    border-right: 1px solid var(--border-color);
+    background-color: var(--toc-background-color);
+}
+
+/* ===========================================================================
+ * 6. 导航: 标题亮面的粉色渐变 + 按钮式立体下边 + 四角星闪光
+ * =========================================================================== */
+.top-nav {
+    position: relative;
+    min-height: 3em;
+    color: var(--navbar-text-color);
+    background: linear-gradient(120deg, var(--ref-face-2) 0%, var(--ref-face-4) 100%);
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: 0 4px 14px rgb(237 113 123 / 18%);
+    overflow: hidden;
+}
+
+/* 立体下边: 上亮下暗, 与参考图按钮的边框同构 */
+.top-nav::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 3px;
+    pointer-events: none;
+    background-image: linear-gradient(to bottom, var(--ref-light) 0 1.5px, var(--ref-deep) 1.5px 3px);
+}
+
+/* 四角星闪光: 取自参考图标题四周的十字星, 用青宝石高光着色 */
+.top-nav::before {
+    content: "";
+    position: absolute;
+    right: 18px;
+    top: 9px;
+    width: 16px;
+    height: 16px;
+    pointer-events: none;
+    background-image: radial-gradient(circle, var(--ref-gem-light) 0 42%, transparent 72%);
+    clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%);
+    opacity: 0.95;
+}
+
+.top-nav a,
+.top-nav .nav-list a {
+    color: var(--navbar-text-color);
+}
+
+.nav-list li a {
+    display: inline-block;
+    padding: 6px 11px;
+    border-radius: var(--pb-radius-sm);
+    transition: background-color 0.18s ease, transform 0.18s ease;
+}
+
+.nav-list li a:hover {
+    background: rgb(255 255 255 / 62%);
+    text-decoration: none;
+    transform: translateY(-1px);
+}
+
+/* 当前页签: 参考图按钮的实心填充 + 立体边 */
+.nav-bar-cell1-rev,
+.nav-bar-cell1-rev a {
+    color: var(--selected-text-color);
+    background-color: var(--selected-background-color);
+    border-radius: var(--pb-radius-sm);
+    box-shadow:
+        inset 0 2px 0 rgba(255 255 255 / 40%),
+        inset 0 -2px 0 rgba(0, 0, 0 / 16%);
+}
+
+.sub-nav {
+    position: relative;
+    border-bottom: 1px solid var(--border-color);
+    background-color: var(--subnav-background-color);
+}
+
+.sub-nav a {
+    color: var(--subnav-link-color);
+}
+
+/* 二级导航右端的两个小方块: 呼应参考图里飘落的小粉块 */
+.sub-nav::after {
+    content: "";
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    width: 18px;
+    height: 8px;
+    margin-top: -4px;
+    pointer-events: none;
+    background-image:
+        radial-gradient(circle at 3px 3px, var(--ref-fill) 3px, transparent 3.4px),
+        radial-gradient(circle at 14px 6px, var(--ref-diamond) 2.2px, transparent 2.6px);
+    background-repeat: no-repeat;
+    opacity: 0.65;
+}
+
+#search-input,
+#reset-search,
+#reset-button {
+    color: var(--search-input-text-color);
+    background-color: var(--search-input-background-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--pb-radius-sm);
+}
+
+#search-input {
+    padding-left: 12px;
+}
+
+#search-input::placeholder {
+    color: var(--search-input-placeholder-color);
+}
+
+#search-input:focus,
+#reset-search:focus-visible,
+#reset-button:focus-visible {
+    outline: 2px solid var(--ref-fill);
+    outline-offset: 1px;
+}
+
+@media (prefers-color-scheme: dark) {
+    .top-nav {
+        background: linear-gradient(120deg, #2A1D20 0%, #332427 100%);
+        box-shadow: none;
+    }
+
+    .top-nav::before {
+        opacity: 0.55;
+    }
+
+    .sub-nav::after {
+        opacity: 0.4;
+    }
+}
+
+/* ===========================================================================
+ * 7. 表格: 圆角卡片 + 参考图亮面表头 + 立体边
+ * =========================================================================== */
+.summary-table,
+.inheritance,
+.three-column-summary {
+    width: 100%;
+    margin: 14px 0 26px;
+    border-collapse: separate;
+    border-spacing: 0;
+    background-color: var(--section-background-color);
+    border: 1px solid var(--table-border-color);
+    border-radius: var(--pb-radius);
+    box-shadow: var(--pb-shadow);
+    overflow: hidden;
+}
+
+.summary-table .table-header,
+.summary-table th {
+    padding: 11px 14px;
+    color: var(--title-color);
+    background-color: var(--table-header-color);
+    background-image: radial-gradient(circle at 100% 0, var(--pb-header-glow), transparent 42%);
+    font-weight: 600;
+    text-align: left;
+    box-shadow:
+        inset 0 2px 0 var(--pb-bevel-light),
+        inset 0 -2px 0 var(--pb-bevel-dark);
+}
+
+.summary-table td,
+.summary-table .col-first,
+.summary-table .col-second,
+.summary-table .col-last,
+.summary-table .col-constructor-name {
+    padding: 10px 14px;
+    border-top: 1px solid var(--table-border-color);
+    vertical-align: top;
+}
+
+.summary-table tr:last-child td {
+    border-bottom: 0;
+}
+
+.summary-table .even-row-color {
+    background-color: var(--even-row-color);
+}
+
+.summary-table .odd-row-color {
+    background-color: var(--odd-row-color);
+}
+
+.summary-table .even-row-color:hover,
+.summary-table .odd-row-color:hover {
+    background-color: var(--snippet-highlight-color);
+}
+
+.horizontal-scroll {
+    overflow-x: auto;
+    border-radius: var(--pb-radius);
+}
+
+.table-tabs {
+    margin-bottom: -1px;
+}
+
+.table-tab {
+    border-radius: var(--pb-radius-sm) var(--pb-radius-sm) 0 0;
+    transition: background-color 0.15s ease;
+}
+
+.table-tab:hover {
+    background-color: var(--ref-face-1);
+}
+
+.table-tab.active-table-tab {
+    background-color: var(--section-background-color);
+    border-bottom-color: transparent;
+    font-weight: 600;
+    box-shadow: inset 0 3px 0 var(--ref-fill);
+}
+
+/* ===========================================================================
+ * 8. 成员签名: 左侧渐变竖条(高光 -> 深边), 呼应按钮边框
+ * =========================================================================== */
+.member-signature {
+    position: relative;
+    padding: 11px 14px 11px 18px;
+    background-color: var(--snippet-background-color);
+    border-radius: var(--pb-radius-sm);
+    font-family: var(--code-font-family);
+    font-size: var(--code-font-size);
+    line-height: 1.7;
+    overflow-x: auto;
+}
+
+.member-signature::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    pointer-events: none;
+    background-image: linear-gradient(180deg, var(--ref-light), var(--ref-deep));
+}
+
+.member-signature a {
+    font-weight: 600;
+}
+
+.member-list > li {
+    padding: 15px 0;
+    border-bottom: 1px dashed var(--border-color);
+}
+
+.member-list > li:last-child {
+    border-bottom: 0;
+}
+
+.class-declaration-page .type-signature,
+.extends-implements,
+.inheritance {
+    color: var(--block-text-color);
+}
+
+.tag-list dt,
+.notes dt {
+    color: var(--title-color);
+    font-weight: 600;
+}
+
+.tag-list dd,
+.notes dd {
+    margin: 0 0 0.6em 0;
+}
+
+/* ===========================================================================
+ * 9. 代码
+ * =========================================================================== */
+code,
+tt,
+kbd,
+samp {
+    padding: 2px 6px;
+    color: var(--snippet-text-color);
+    background-color: var(--snippet-background-color);
+    border-radius: 5px;
+    font-family: var(--code-font-family);
+    font-size: var(--code-font-size);
+}
+
+pre {
+    overflow-x: auto;
+    padding: 12px 14px;
+    color: var(--pre-text-color);
+    background-color: var(--pre-background-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--pb-radius-sm);
+    font-family: var(--code-font-family);
+    font-size: var(--code-font-size);
+    line-height: 1.6;
+}
+
+pre code,
+pre tt {
+    padding: 0;
+    background: none;
+    border-radius: 0;
+}
+
+mark {
+    padding: 0 3px;
+    color: inherit;
+    background-color: var(--mark-background-color);
+    border-radius: 3px;
+}
+
+/* ===========================================================================
+ * 10. 说明区块与弃用标记
+ * =========================================================================== */
+.block,
+.class-description,
+.notes {
+    color: var(--block-text-color);
+}
+
+.deprecated-label,
+.deprecation-block,
+.invalid-tag {
+    padding: 3px 9px;
+    border-radius: 999px;
+}
+
+.deprecated-label,
+.deprecation-block {
+    color: #8A2F52;
+    background-color: var(--ref-face-1);
+}
+
+@media (prefers-color-scheme: dark) {
+    .deprecated-label,
+    .deprecation-block {
+        color: var(--ref-face-2);
+        background-color: #3C2B2E;
+    }
+}
+
+/* ===========================================================================
+ * 11. 正文收尾: 细线 + 菱形 + 两侧星光
+ *      JDK 17+ 输出没有 footer, 装饰挂在 main 末尾伪元素上
+ * =========================================================================== */
+main::after {
+    content: "";
+    display: block;
+    height: 18px;
+    margin: 44px auto 0;
+    max-width: 460px;
+    /* 两端淡出的细线, 中间留空放一个菱形色小点 */
+    background-image:
+        linear-gradient(90deg, transparent, var(--pb-rule) 12%, var(--pb-rule) 41%, transparent 44.5%),
+        linear-gradient(90deg, transparent 55.5%, var(--pb-rule) 59%, var(--pb-rule) 88%, transparent),
+        radial-gradient(circle at 50% 1px, var(--ref-diamond) 4px, transparent 4.4px);
+    background-repeat: no-repeat;
+    background-size: 100% 1px, 100% 1px, 100% 9px;
+    background-position: center top, center top, center top;
+    pointer-events: none;
+}
+
+/* ===========================================================================
+ * 12. 滚动条
+ * =========================================================================== */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--ref-fill) transparent;
+}
+
+*::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-image: linear-gradient(180deg, var(--ref-light), var(--ref-fill));
+    border-radius: 10px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+    background-image: linear-gradient(180deg, var(--ref-fill), var(--ref-deep));
+}
+
+/* ===========================================================================
+ * 13. 旧版 Javadoc(8/11)兜底
+ * =========================================================================== */
+#navbar,
+.topNav {
+    color: var(--navbar-text-color);
+    background: linear-gradient(120deg, var(--ref-face-2), var(--ref-face-4));
+}
+
+#navbar a,
+.topNav a {
+    color: var(--navbar-text-color);
+}
+
+.navList a {
+    display: inline-block;
+    padding: 6px 11px;
+    border-radius: var(--pb-radius-sm);
+}
+
+.navList a:hover {
+    background: rgb(255 255 255 / 62%);
+    text-decoration: none;
+}
+
+.subNav {
+    background-color: var(--subnav-background-color);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.subNav a {
+    color: var(--subnav-link-color);
+}
+
+.header {
+    padding: 20px 24px;
+    background-color: var(--section-background-color);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.contentContainer {
+    max-width: var(--max-content-width);
+    margin: 0 auto;
+    padding: 22px 26px 60px;
+}
+
+.memberDetails,
+.details section {
+    margin: 16px 0;
+    padding: 16px 20px;
+    background-color: var(--detail-background-color);
+    border: 1px solid var(--border-color);
+    border-left: 4px solid var(--ref-fill);
+    border-radius: var(--pb-radius);
+}
+
+.evenRowColor {
+    background-color: var(--even-row-color);
+}
+
+.oddRowColor {
+    background-color: var(--odd-row-color);
+}
+
+.bottomNav,
+#footer {
+    padding: 18px 24px;
+    background-color: var(--subnav-background-color);
+    border-top: 1px solid var(--border-color);
+}
+
+/* ===========================================================================
+ * 14. 响应式
+ * =========================================================================== */
+@media screen and (max-width: 760px) {
+    main,
+    .main-grid main {
+        padding: 16px 14px 44px;
+    }
+
+    .summary-table {
+        display: block;
+        overflow-x: auto;
+    }
+
+    .two-column-search-results {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    /* 窄屏收起装饰, 避免遮挡导航与内容 */
+    h2::before,
+    .top-nav::before,
+    .sub-nav::after {
+        display: none;
+    }
+}
+
+/* ===========================================================================
+ * 15. 打印: 去装饰, 保可读
+ * =========================================================================== */
+@media print {
+    body {
+        background-image: none;
+        background-color: #ffffff;
+    }
+
+    .top-nav,
+    .sub-nav,
+    .bottomNav,
+    #footer {
+        display: none;
+    }
+
+    .top-nav::before,
+    .top-nav::after,
+    .sub-nav::after,
+    main::after,
+    h2::before {
+        display: none;
+    }
+
+    main,
+    .main-grid main {
+        max-width: none;
+        padding: 0;
+    }
+
+    .summary-table,
+    .member-signature,
+    pre,
+    code {
+        background: transparent !important;
+        background-image: none !important;
+        box-shadow: none !important;
+        border-color: #999;
+    }
+}
+
+/* ===========================================================================
+ * 16. 降低动效
+ * =========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+    a,
+    .nav-list li a,
+    .table-tab {
+        transition: none;
+    }
+
+    .nav-list li a:hover {
+        transform: none;
+    }
+}

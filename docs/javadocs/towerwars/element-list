@@ -1,0 +1,16 @@
+top.brmc.bukkitplatform.towerwars
+top.brmc.bukkitplatform.towerwars.api
+top.brmc.bukkitplatform.towerwars.api.model
+top.brmc.bukkitplatform.towerwars.arena
+top.brmc.bukkitplatform.towerwars.bungee
+top.brmc.bukkitplatform.towerwars.command
+top.brmc.bukkitplatform.towerwars.event
+top.brmc.bukkitplatform.towerwars.gui
+top.brmc.bukkitplatform.towerwars.listener
+top.brmc.bukkitplatform.towerwars.mob
+top.brmc.bukkitplatform.towerwars.tower
+top.brmc.bukkitplatform.towerwars.tower.entity
+top.brmc.bukkitplatform.towerwars.tower.instance
+top.brmc.bukkitplatform.towerwars.tower.model
+top.brmc.bukkitplatform.towerwars.tower.target
+top.brmc.bukkitplatform.towerwars.util
