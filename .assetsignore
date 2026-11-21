@@ -13,8 +13,6 @@ node_modules
 node_modules/
 wrangler.jsonc
 README.md
-docs/mcp-*.md
 mineplex/README.md
 mineplex/tools/
-docs/steampp-*.md
 
