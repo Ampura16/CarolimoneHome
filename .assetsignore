@@ -15,4 +15,5 @@ wrangler.jsonc
 README.md
 mineplex/README.md
 mineplex/tools/
+docs/*.md
 
