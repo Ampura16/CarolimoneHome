@@ -1,4 +1,4 @@
-# Cloudflare Workers 静态资源忽略清单
+﻿# Cloudflare Workers 静态资源忽略清单
 # assets.directory 为仓库根目录，wrangler 会把目录内所有文件当作静态资源上传。
 # .git 中的 pack 文件会超过 25 MiB 单文件上限导致部署失败，因此以下内容不部署。
 .git
@@ -16,3 +16,6 @@ README.md
 docs/mcp-*.md
 mineplex/README.md
 mineplex/tools/
+docs/steampp-*.md
+tools/
+
