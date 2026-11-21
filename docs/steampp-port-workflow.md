@@ -29,22 +29,16 @@ Steam++ 的「网络加速」不是 VPN，它做两件事：
 | `SEC_E_NO_CREDENTIALS`（schannel） | Windows TLS 后端（schannel）在受限环境不可用，和端口无关 |
 | 只有大文件 push 报 `Connection reset` | 代理缓冲/超时，或代理进程在传输中退出 |
 
-## 2. 步骤一：一键摸清现状
+## 2. 步骤一：摸清现状
 
-直接运行仓库脚本：
-
-```powershell
-powershell -ExecutionPolicy Bypass -File .\tools\steampp-port-check.ps1
-```
-
-它会输出四块信息，并给出结论建议：
+需要看四类信息：
 
 1. hosts 里 `# Steam++ Start` ~ `# Steam++ End` 段的域名列表；
 2. `github.com` 当前解析结果（是否 `127.0.0.1`）；
 3. 80 / 443 / 7890 / 1080 / 8080 的监听地址 + 占用进程（PID、进程名、路径）；
-4. 各本地代理端口的连通性，以及推荐动作。
+4. 各本地代理端口的连通性。
 
-手动排查时对应的原生命令：
+对应的原生命令：
 
 ```powershell
 # 1) hosts 是否被改
@@ -206,7 +200,6 @@ git -c http.sslBackend=openssl -c "http.sslCAInfo=$bundle" -c credential.helper=
 
 ## 10. 维护说明（本仓库）
 
-- 一键诊断脚本：`tools/steampp-port-check.ps1`，可选参数 `-Ports`、`-HostsPath`、`-Targets`、`-Json`。
-- 脚本兼容 Windows PowerShell 5.1（不需要 PowerShell 7）；因含中文，`.ps1` 必须保存为 **UTF-8 with BOM**，否则 5.1 会按 ANSI 解析并报语法/引号错误。
-- 该排查只影响**推送与访问**，不影响 Cloudflare 部署；`.assetsignore` 已把 `.git`、`tools/`、`docs/steampp-*.md` 等排除在静态资源之外。
+- 本文是纯命令手册，不附带脚本；需要自动化时可按第 2 节的命令自行封装。
+- 该排查只影响**推送与访问**，不影响 Cloudflare 部署；`.assetsignore` 已把 `.git`、`mineplex/tools/`、`docs/steampp-*.md` 等排除在静态资源之外。
 - 任何代理地址里的访问令牌都不写入仓库、日志或提交信息。
